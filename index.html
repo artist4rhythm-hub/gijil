@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F3F3F0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#141618" media="(prefers-color-scheme: dark)">
-<meta name="description" content="하나님이 빚으신 나 — 『성령과 기질』로 함께 보는 셀 기질 전시관">
+<meta name="description" content="하나님이 빚으신 나 — 토기장이와 네 그릇, 성경으로 읽는 네 가지 기질">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -14,7 +14,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="빚으신 나">
 <meta property="og:title" content="빚으신 나 기질검사">
-<meta property="og:description" content="하나님이 빚으신 나, 어떤 기질일까? 36문항 검사와 기질 전시관">
+<meta property="og:description" content="나는 어떤 그릇일까? 36문항 검사와 토기장이의 집">
 <meta property="og:image" content="https://artist4rhythm-hub.github.io/gijil/img/og_share.jpg">
 <title>빚으신 나 기질검사</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -368,6 +368,35 @@ details.work.dim p{color:var(--ink)}
 .resvase>img{object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.3))}
 .resvase .fb svg{filter:drop-shadow(0 8px 8px rgba(0,0,0,.25))}
 @media (max-width:380px){.rhin{grid-template-columns:1fr 110px}.rvase{width:110px}}
+/* ===== v12 · 토기장이와 네 그릇 ===== */
+.heroSub{font-family:var(--display);font-size:15px;opacity:.85;margin-top:6px}
+.vcards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vcards a{position:relative;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:12px 8px 12px;border-radius:14px;background:radial-gradient(circle at 50% 36%,var(--rs) 0 34%,transparent 35%),var(--frame);border:1px solid var(--line);border-top:4px solid var(--rc)}
+.vcards b{font-family:var(--display);font-size:15.5px;color:var(--rc);text-align:center;word-break:keep-all}
+.vcards i{font-style:normal;font-size:12px;color:var(--muted)}
+.vcards .vrpic{width:62%}
+.vcards .lock{right:8px;top:8px;font-size:12px}
+.mirror{padding:16px 18px;display:flex;flex-direction:column;gap:6px;border-left:4px solid var(--clay)}
+.mirror p:not(.eyebrow){font-family:var(--display);font-size:16px;line-height:1.7}
+.mirror a{font-size:14px;font-weight:600;color:var(--clay);text-decoration:none}
+.orig{font-family:"Noto Serif","Noto Serif Hebrew",serif;font-weight:600;line-height:1.2}
+.orig.heb{font-family:"Noto Serif Hebrew","Noto Serif",serif;direction:rtl}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cblock{position:relative;overflow:hidden;min-height:196px;border-radius:18px;padding:14px;text-decoration:none;color:#fff;background:var(--rc);display:flex;flex-direction:column;gap:2px;box-shadow:var(--shadow)}
+.cblock .n{font-size:11.5px;opacity:.85;letter-spacing:.04em}
+.cblock b{font-family:var(--display);font-size:20px;line-height:1.25;word-break:keep-all;max-width:85%}
+.cblock i{font-style:normal;font-size:12.5px;opacity:.9;max-width:70%;line-height:1.45}
+.cblock .orig{position:absolute;left:14px;bottom:12px;font-size:20px;opacity:.75}
+.cpic{position:absolute;right:-14px;bottom:-12px;width:58%;aspect-ratio:1;overflow:visible}
+.cpic>img{object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.3))}
+.wordcard{padding:16px 18px;display:flex;flex-direction:column;gap:6px;border-top:4px solid var(--rc);margin-bottom:6px}
+.wordcard .orig{font-size:34px;color:var(--rc)}
+.wordcard b{font-size:15px}
+.wordcard q{font-family:var(--display);font-size:16px;line-height:1.7;color:var(--ink);quotes:"“" "”"}
+.wordcard cite{font-style:normal;font-size:12.5px;color:var(--muted)}
+.prayer{margin-top:14px;padding:18px;border-left:4px solid var(--rc);background:var(--frame)}
+.prayer p:not(.eyebrow){font-family:var(--display);font-size:16.5px;line-height:1.8;margin-top:6px}
+@media (min-width:640px){.vcards{grid-template-columns:repeat(4,1fr)}.cgrid{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 <body>
@@ -376,7 +405,7 @@ details.work.dim p{color:var(--ink)}
 <nav class="tabs" aria-label="화면"><div class="wrap">
   <a href="#" id="tab-home">홈</a>
   <a href="#story" id="tab-story">소개</a>
-  <a href="#types" id="tab-types">전시관</a>
+  <a href="#types" id="tab-types">그릇</a>
   <a href="#test" id="tab-test">검사</a>
 </div></nav>
 
@@ -384,26 +413,26 @@ details.work.dim p{color:var(--ink)}
 <main id="v-story" hidden></main>
 <main id="v-about" hidden></main>
 <main id="v-gate" hidden></main>
-<main id="v-loading" hidden><div class="wrap view" style="align-items:center;padding-top:30vh"><div class="spin" aria-hidden="true"></div><p class="mut">전시관 문을 여는 중…</p></div></main>
+<main id="v-loading" hidden><div class="wrap view" style="align-items:center;padding-top:30vh"><div class="spin" aria-hidden="true"></div><p class="mut">토기장이의 집 문을 여는 중…</p></div></main>
 
 <!-- 검사 시작 -->
 <main id="v-intro" hidden><div class="wrap view">
   <div class="hero stack">
     <p class="eyebrow">기질 검사 · 36문항</p>
-    <h1>하나님이 빚으신 나,<br>어떤 기질일까?</h1>
-    <p class="verse">내가 주께 감사하옴은 나를 지으심이 심히 기묘하심이라 — 시편 139:14</p>
-    <p>일터, 가정, 친구 사이에서 나는 어떤 사람일까요? 36개 질문에 답하면 네 가지 기질 가운데 나의 주 기질과 보조 기질을 알려 줍니다. 약 7분 걸립니다.</p>
+    <h1>나는 어떤<br>그릇일까?</h1>
+    <p class="verse">내가 주께 감사하옴은 나를 지으심이 신묘막측하심이라 — 시편 139:14</p>
+    <p>일터, 가정, 친구 사이에서 나는 어떤 사람일까요? 36개 질문에 답하면 네 그릇 가운데 나의 주 그릇과 보조 그릇을 알려 줍니다. 약 7분 걸립니다. 결과는 나를 정하는 틀이 아니라, 나를 비추어 보는 거울입니다.</p>
   </div>
-  <div class="glazes" aria-label="네 가지 기질">
-    <div class="glaze" style="background:var(--s)"><b>다혈질</b><span>활발한 · 사람을 좋아하는</span></div>
-    <div class="glaze" style="background:var(--c)"><b>담즙질</b><span>든든한 · 밀고 나가는</span></div>
-    <div class="glaze" style="background:var(--p)"><b>점액질</b><span>만사태평 · 평화로운</span></div>
-    <div class="glaze" style="background:var(--m)"><b>우울질</b><span>거장 · 깊고 꼼꼼한</span></div>
+  <div class="glazes" aria-label="네 그릇">
+    <div class="glaze" style="background:var(--s)"><b>가나의 돌항아리</b><span>다혈 · 기쁨으로 채우는</span></div>
+    <div class="glaze" style="background:var(--c)"><b>기드온의 항아리</b><span>담즙 · 빛을 드러내는</span></div>
+    <div class="glaze" style="background:var(--p)"><b>과부의 기름병</b><span>점액 · 그치지 않는</span></div>
+    <div class="glaze" style="background:var(--m)"><b>마리아의 옥합</b><span>우울 · 향을 붓는</span></div>
   </div>
   <div class="how">
     <p>· 되고 싶은 모습 말고, 평소의 내 모습으로 고르세요.</p>
     <p>· 고민되면 가족이나 가까운 친구가 나를 어떻게 볼지 떠올려 보세요.</p>
-    <p>· 정답도, 좋은 기질 나쁜 기질도 없습니다.</p>
+    <p>· 정답도, 좋은 그릇 나쁜 그릇도 없습니다. 쓰임이 다를 뿐입니다.</p>
   </div>
   <label class="field" for="nameInput">이름 (결과 공유용, 선택)
     <input type="text" id="nameInput" maxlength="12" placeholder="예: 김요한" autocomplete="off">
@@ -483,7 +512,6 @@ const AXIS={S:"외향 · 사람 중심",C:"외향 · 일 중심",M:"내향 · �
 let BOOK=null,BL=null,FR=null,DETAIL=null,INTRO2=null,EXTRA=null,FIGV=null,Q=[];
 let FID={};
 
-/* 도입 전시 — 책 1·2·3장 + 책에 없는 부분은 성경으로 보충 (성경: 개역한글) */
 /* 조합 전시실의 성경 인물 말씀 (개역한글) */
 const FORDER=["agape","chara","eirene","makrothumia","chrestotes","agathosune","pistis","prautes","egkrateia"];
 const plaques=(list,col)=>`<div class="plaques" style="color:${col}">${list.map(f=>FID[f]?`<a class="plaque" href="#fruit-${FID[f]}">${f}</a>`:`<span class="plaque">${f}</span>`).join("")}</div><p class="sub" style="margin-top:-4px">열매 이름을 누르면 원어 뜻과 성경 구절을 볼 수 있습니다.</p>`;
@@ -535,14 +563,14 @@ function renderResult(res){
   const a=res.code[0],b=res.code[1],A=BOOK[a],B=BOOK[b],X=EXTRA[a],bl=BL[res.code],line=resultLine(res);
   $("#v-result").innerHTML=`
   <section class="band resband" style="background:${COLOR[a]}"><div class="wrap">
-    ${pic("vessel_"+a.toLowerCase(),vaseSVG([HEX[a],HEX[a],HEX[b]]),"resvase",A.name+" 그릇")}
-    <p class="room-no">${res.name?esc(res.name)+" 님의 ":""}검사 결과 · 주 기질 ${A.name} + 보조 기질 ${B.name}</p>
+    ${pic("vessel_"+a.toLowerCase(),vaseSVG([HEX[a],HEX[a],HEX[b]]),"resvase",A.vessel)}
+    <p class="room-no">${res.name?esc(res.name)+" 님의 ":""}검사 결과 · 주 그릇 ${esc(A.vessel)}(${NAME[a]}) + 보조 그릇 ${esc(B.vessel)}(${NAME[b]})</p>
     <h1>${bl.name}</h1>
     <p class="nick">${esc(bl.tagline)}${bl.nickname?" · "+esc(bl.nickname):""}</p>
     <p class="quote">${esc(bl.summary)}</p>
   </div></section>
   <div class="wrap view">
-    <div class="bars">${[...K].sort((x,y)=>res.pct[y]-res.pct[x]).map(k=>`<div class="bar"><span>${BOOK[k].name}</span><span class="t"><i style="width:${res.pct[k]}%;background:${COLOR[k]}"></i></span><span class="v">${res.pct[k]}%</span></div>`).join("")}</div>
+    <div class="bars">${[...K].sort((x,y)=>res.pct[y]-res.pct[x]).map(k=>`<div class="bar"><span>${NAME[k]}</span><span class="t"><i style="width:${res.pct[k]}%;background:${COLOR[k]}"></i></span><span class="v">${res.pct[k]}%</span></div>`).join("")}</div>
     <div class="frame label-card">
       <p style="font-weight:700">셀에 결과 보내기</p>
       <p style="font-size:14.5px;color:var(--muted)">아래 문장을 복사해 셀 단톡방에 올려 주세요. 셀리더가 ‘우리 셀 지도’에 모아 봅니다.</p>
@@ -559,15 +587,15 @@ function renderResult(res){
     <section class="wall">
       <header><h2>성령께 맡겨 드릴 부분</h2><p class="sub">걸려 넘어지기 쉬운 것: ${X.core}</p></header>
       <p class="frame label-card t" style="font-family:var(--display);font-size:17px">${esc(bl.growth)}</p>
-      <p class="sub">${A.name}에게 필요한 성령의 열매 (갈라디아서 5:22–23)</p>
+      <p class="sub">${esc(A.vessel)}에게 특히 필요한 성령의 열매 (갈라디아서 5:22–23)</p>
       ${plaques(A.spirit.fruits,COLOR[a])}
     </section>
     <section class="wall">
       <header><h2>나를 대할 때는 이렇게</h2></header>
       <ul class="clean">${X.treat.map(x=>`<li>${x}</li>`).join("")}</ul>
     </section>
-    <p class="note">이 결과는 서로를 이해하기 위한 출발점입니다. 기질은 핑계가 아니라 성령께서 다듬으시는 재료입니다.</p>
-    <div class="row"><a class="btn ghost small" href="#room-${a.toLowerCase()}">${A.name} 전시실</a><a class="btn ghost small" href="#types">기질 전시관 둘러보기</a><button class="btn ghost small" id="retryBtn" type="button">다시 검사하기</button></div>
+    <div class="mirror frame"><p class="eyebrow">틀이 아니라 거울</p><p>이 결과는 나를 정하는 판결이 아니라 나를 비추어 보는 거울입니다. 퍼센트가 비슷하게 나왔다면 두 그릇의 모습을 다 지니고 있는 것이고, 나이와 환경과 신앙의 여정에 따라 드러나는 모습도 달라집니다. 기질은 핑계가 아니라, 토기장이께서 다듬으시는 재료입니다.</p><a href="#about-why">‘틀이 아니라 거울’ 읽기 →</a></div>
+    <div class="row"><a class="btn ghost small" href="#room-${a.toLowerCase()}">${esc(A.vessel)} 전시실</a><a class="btn ghost small" href="#types">토기장이의 집 둘러보기</a><button class="btn ghost small" id="retryBtn" type="button">다시 검사하기</button></div>
   </div>`;
   $("#copyBtn").addEventListener("click",()=>copyText(line));
   $("#retryBtn").addEventListener("click",()=>{answers.fill(null);idx=0;location.hash="#test";show("intro")});
@@ -584,7 +612,7 @@ function renderBlends(){
   $("#v-blends").innerHTML=`
   <section class="band" style="background:var(--ink);color:var(--wall)"><div class="wrap">
     <p class="room-no">특별전</p>
-    <h1 style="font-size:clamp(36px,10vw,52px)">열두 가지<br>기질 조합</h1>
+    <h1 style="font-size:clamp(36px,10vw,52px)">열두 가지<br>그릇 조합</h1>
     <p class="quote" style="font-size:17px">${esc(BL.intro)}</p>
   </div></section>
   <div class="wrap view">
@@ -610,14 +638,14 @@ function renderBlendRoom(code){
   const prev=BLEND_ORDER[(i+11)%12],next=BLEND_ORDER[(i+1)%12];
   $("#v-blend").innerHTML=`
   <section class="band" style="background:${bandBg(code)}"><div class="wrap">
-    <p class="room-no">특별전 · 조합 ${String(i+1).padStart(2,"0")} / 12 · 주 ${BOOK[p].name} + 보조 ${BOOK[q].name}</p>
+    <p class="room-no">특별전 · 조합 ${String(i+1).padStart(2,"0")} / 12 · ${NAME[p]}${NAME[q]}질</p>
     <h1 style="font-size:clamp(40px,12vw,60px)">${b.name}</h1>
     <p class="nick">${esc(b.tagline)}${b.nickname?" · "+esc(b.nickname):""}</p>
   </div></section>
   <div class="wrap">
     <section class="wall">
       <header><p class="eyebrow">작품 해설</p></header>
-      <div class="frame label-card"><p class="t">${esc(b.summary)}</p><p class="cap">『성령과 기질』 4장 · ${b.page}쪽 무렵</p></div>
+      <div class="frame label-card"><p class="t">${esc(b.summary)}</p><p class="cap">주 그릇 ${esc(BOOK[p].vessel)} + 보조 그릇 ${esc(BOOK[q].vessel)}</p></div>
     </section>
     ${b.portrait&&b.portrait.length?`<section class="wall">
       <header><h2>이런 모습이에요</h2></header>
@@ -643,7 +671,7 @@ function renderBlendRoom(code){
       ${FIGV[code]?vcard(FIGV[code],cp):""}
     </section>
     <section class="wall">
-      <header><h2>성장 포인트</h2><p class="sub">주 기질 ${BOOK[p].name}에게 필요한 성령의 열매</p></header>
+      <header><h2>성장 포인트</h2><p class="sub">주 그릇 ${esc(BOOK[p].vessel)}에게 특히 필요한 성령의 열매</p></header>
       <p class="frame label-card t" style="font-family:var(--display);font-size:17px">${esc(b.growth)}</p>
       ${plaques(BOOK[p].spirit.fruits,cp)}
     </section>
@@ -652,8 +680,8 @@ function renderBlendRoom(code){
       <a class="btn ghost small" href="#blends">특별전 목록</a>
       <a class="btn ghost small" href="#blend-${next.toLowerCase()}">${BL[next].name} →</a>
     </div>
-    <div class="row" style="padding-top:12px;justify-content:center"><a class="btn ghost small" href="#room-${p.toLowerCase()}">${BOOK[p].name} 전시실</a><a class="btn ghost small" href="#room-${q.toLowerCase()}">${BOOK[q].name} 전시실</a></div>
-    <p class="source">조합 해설은 『성령과 기질』 4장을 바탕으로 새로 풀어 썼고, 말씀은 개역한글입니다.</p>
+    <div class="row" style="padding-top:12px;justify-content:center"><a class="btn ghost small" href="#room-${p.toLowerCase()}">${esc(BOOK[p].vessel)}</a><a class="btn ghost small" href="#room-${q.toLowerCase()}">${esc(BOOK[q].vessel)}</a></div>
+    <p class="source">조합 이름과 해설은 이 앱에서 새로 쓴 것이고, 말씀은 개역한글입니다.</p>
   </div>`;
 }
 
@@ -702,8 +730,8 @@ function renderFruit(id){
       <header><h2>대표 구절</h2><p class="sub">같은 뿌리의 형용사·동사가 쓰인 구절도 함께 넣었습니다</p></header>
       <div class="vstack">${f.key.map(v=>vcard({q:v.t,c:v.r},"var(--f)")).join("")}</div>
     </section>
-    ${who.length?`<section class="wall"><header><h2>이 열매를 권한 기질</h2><p class="sub">『성령과 기질』 6장</p></header>
-      <div class="lobby-grid">${who.map(k=>`<a class="tile" href="#room-${k.toLowerCase()}" style="background:${COLOR[k]};min-height:96px"><span class="n">제${ROOMNO[k]}전시실</span><b style="font-size:24px">${BOOK[k].name}</b></a>`).join("")}</div></section>`:""}
+    ${who.length?`<section class="wall"><header><h2>이 열매가 특히 필요한 그릇</h2><p class="sub">어떤 그릇이든 성령 안에서는 아홉 열매를 함께 맺습니다</p></header>
+      <div class="lobby-grid">${who.map(k=>`<a class="tile" href="#room-${k.toLowerCase()}" style="background:${COLOR[k]};min-height:96px"><span class="n">제${ROOMNO[k]}전시실 · ${BOOK[k].name}</span><b style="font-size:22px">${esc(BOOK[k].vessel)}</b></a>`).join("")}</div></section>`:""}
     <section class="wall">
       <header><h2>신약에서 ${f.lemma}가 나오는 곳</h2><p class="sub">헬라어 원문 기준 ${f.count}구절${id==="pistis"?" — ‘신실함’의 뜻으로 쓰인 곳만 모았습니다. 같은 단어가 ‘믿음’의 뜻으로는 200번 넘게 나옵니다":""}. 우리말 번역은 구절마다 다를 수 있습니다.</p></header>
       <details class="more" ${f.count<=12?"open":""}><summary>${f.count}구절 모두 보기</summary>
@@ -785,7 +813,11 @@ $("#clearYes").addEventListener("click",()=>{members=[];saveMap();renderMap();$(
 /* ---------- 열람권 · 내용 불러오기 ---------- */
 let gjResolve; const GJready=new Promise(r=>gjResolve=r); window.gjResolve=gjResolve;
 let PASS_TOKEN=new URLSearchParams(location.search).get("pass");
-const CREDIT="이 앱의 내용은 『성령과 기질』(팀 라헤이 지음, 생명의말씀사)을 바탕으로, 셀 모임에서 함께 읽기 좋게 새로 풀어 쓴 것입니다. 원문 그대로가 아니니, 더 깊이 알고 싶은 분은 책을 직접 읽어 보시길 권합니다.";
+const CREDIT="이 앱은 고대부터 전해 온 네 기질 이론과 성경 말씀을 바탕으로 새로 쓴 창작물입니다. 네 그릇은 기질을 쉽게 떠올리도록 돕는 비유이며, 성경 본문의 원래 뜻을 기질로 풀이하려는 것이 아닙니다. 말씀: 개역한글 · 원어 자료: STEP Bible (www.STEPBible.org, CC BY 4.0)";
+/* 네 그릇 (공개: 홈·소개에서 씀) */
+const VES={S:{n:"가나의 돌항아리",r:"요 2:6–10",o:"ὑδρία",d:"잔치를 기쁨으로 채우는 그릇"},C:{n:"기드온의 항아리",r:"삿 7:16–20",o:"כַּד",d:"깨뜨려 빛을 드러내는 그릇"},M:{n:"마리아의 옥합",r:"막 14:3–9",o:"ἀλάβαστρον",d:"깨뜨려 향을 붓는 그릇"},P:{n:"과부의 기름병",r:"왕하 4:1–7",o:"אָסוּךְ",d:"마르지 않고 흘려보내는 그릇"}};
+const ga=w=>{const c=w.charCodeAt(w.length-1)-44032;return c>=0&&c<11172&&c%28?"이":"가"};
+const MIRROR="기질은 사람을 네 상자에 나누어 담는 틀이 아닙니다. 하나님은 거푸집이 아니라 물레 위에서 한 사람씩 빚으셨습니다. 기질은 나를 비추는 거울이고, 이웃을 이해하는 창문일 뿐입니다.";
 async function loadAll(){
   if(BOOK) return true;
   try{
@@ -813,16 +845,17 @@ function picNext(img){const i=+(img.dataset.i||0)+1;if(i<PEXT.length){img.datase
 const FB={
   hero:()=>`<div class="heroFb"><div class="wheel"></div>${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P],"heroVase")}</div>`,
   shelves:()=>`<div class="shelfFb">${[["#B98A62"],[HEX.S],["#C9A27E"],[HEX.M],["#A8805E"],[HEX.P],[HEX.C],["#BF9670"]].map((c,i)=>`<span style="--h:${[58,74,50,80,62,54,70,46][i]}%">${vaseSVG(c)}</span>`).join("")}<div class="board"></div></div>`,
-  stages:()=>`<div class="stageFb"><span>${vaseSVG(["#B98A62"])}<i>기질 · 타고난 흙</i></span><span>${vaseSVG(["#CDA987"])}<i>인격 · 빚은 모양</i></span><span>${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}<i>성격 · 겉의 유약</i></span></div>`,
+  stages:()=>`<div class="stageFb"><span>${vaseSVG(["#B98A62"])}<i>흙 · 하나님이 주신 재료</i></span><span>${vaseSVG(["#CDA987"])}<i>물레 · 빚어 가는 손</i></span><span>${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}<i>가마 · 다듬어지는 그릇</i></span></div>`,
   twotone:()=>`<div class="oneFb">${vaseSVG([HEX.P,HEX.P,HEX.S])}</div>`,
   kiln:()=>`<div class="kilnFb"><div class="arch"></div>${vaseSVG(["#C9A27E"])}</div>`,
   four:()=>`<div class="shelfFb four">${["S","C","M","P"].map(k=>`<span>${vaseSVG([HEX[k]])}</span>`).join("")}<div class="board"></div></div>`
 };
 const STORY=[
-  {t:"사람은 모두 다르게 빚어졌습니다",d:"눈송이가 하나도 같지 않듯 사람도 저마다 다릅니다. 그 다름을 만드는 보이지 않는 힘을 ‘기질’이라고 부릅니다. 기질은 우리에게 강점을 주기도 하고 약점을 남기기도 합니다.",img:"intro_shelves",fb:"shelves"},
-  {t:"흙과 모양과 유약",d:"타고난 흙의 성질이 기질이라면, 그 흙을 빚어 만든 모양은 인격이고, 겉에 입힌 유약은 성격입니다. 하나님은 겉모습이 아니라 중심을 보십니다(삼상 16:7).",img:"intro_stages",fb:"stages"},
-  {t:"누구나 두 가지 색이 섞여 있습니다",d:"기질은 다혈 · 담즙 · 우울 · 점액 네 가지입니다. 누구나 가장 강한 주 기질과 그다음인 보조 기질이 섞여 있어서, 열두 가지 조합이 나옵니다.",img:"intro_twotone",fb:"twotone"},
-  {t:"가마 속에서 다듬어지는 그릇",d:"기질은 평생 바뀌지 않지만 다듬어집니다. 성령께서 약점을 보완하시고 강점을 더 빛나게 하십니다. 그것이 우리가 함께 기질을 공부하는 이유입니다.",img:"intro_kiln",fb:"kiln"}
+  {t:"거푸집이 아니라 물레",d:"공장의 거푸집은 같은 모양을 수없이 찍어 냅니다. 그러나 토기장이는 물레 위에서 그릇을 하나씩 손으로 빚습니다. 하나님은 우리를 그렇게 지으셨습니다. ‘나를 지으심이 신묘막측하심이라’(시 139:14). 세상에 같은 그릇은 하나도 없습니다.",img:"intro_shelves",fb:"shelves"},
+  {t:"틀이 아니라 거울",d:"그런데도 기질을 이야기하는 까닭은, 사람을 상자에 담으려는 것이 아니라 나를 비추어 보고 이웃을 이해하려는 것입니다. 기질은 판결이 아니라 거울이고, 판단이 아니라 창문입니다.",img:"intro_stages",fb:"stages"},
+  {t:"성경 속 네 그릇",d:"가나의 돌항아리, 기드온의 항아리, 마리아의 옥합, 과부의 기름병. 네 기질을 기억하기 쉽게 성경 속 네 그릇에 빗대어 부릅니다. 모두 평범한 그릇이었고, 모두 하나님의 손에서 쓰임받았습니다.",img:"lobby_four",fb:"four"},
+  {t:"두 가지 흙이 섞인 나",d:"누구에게나 앞에 두드러지는 주 그릇과 그 뒤를 받치는 보조 그릇이 섞여 있습니다. 그래서 열두 가지 조합이 나오지만, 그것도 큰 지도일 뿐 사람마다 모습은 다 다릅니다.",img:"intro_twotone",fb:"twotone"},
+  {t:"가마 속에서 다듬어지는 그릇",d:"그릇은 불을 지나며 단단해집니다. 타고난 흙은 쉽게 바뀌지 않지만, 성령께서 우리를 다듬으시고 그 안에 보배를 담으십니다(고후 4:7). 그것이 우리가 함께 기질을 공부하는 이유입니다.",img:"intro_kiln",fb:"kiln"}
 ];
 
 /* ---------- 화면 전환 ---------- */
@@ -842,20 +875,21 @@ function renderHome(){
   const locked=!BOOK&&!store.get("bn_pass",0);
   $("#v-home").innerHTML=`
   <section class="hero">${pic("hero_home",FB.hero(),"heroPic","물레 위에서 흙을 빚는 손")}<div class="heroShade"></div>
-    <div class="wrap heroTxt"><p class="eyebrow light">성령과 기질 · 셀 전시관</p><h1>하나님이<br>빚으신 나</h1></div></section>
+    <div class="wrap heroTxt"><p class="eyebrow light">토기장이와 네 그릇</p><h1>하나님이<br>빚으신 나</h1><p class="heroSub">성경으로 읽는 네 가지 기질</p></div></section>
   <div class="wrap view">
     <p class="potter">“이제 여호와여 주는 우리 아버지시니이다 우리는 진흙이요 주는 토기장이시니 우리는 다 주의 손으로 지으신 것이니이다”<span>이사야 64:8</span></p>
     <a class="cta" href="#story"><span><b>처음이세요?</b><i>3분이면 읽는 기질 이야기</i></span><span class="arr" aria-hidden="true">→</span></a>
-    <div class="vrow" aria-label="네 기질 전시실">${["S","C","M","P"].map(k=>`<a href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]};--rs:${SOFT[k]}">${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"vrpic",NAME[k]+"질 그릇")}<b>${NAME[k]}질</b>${lockMark()}</a>`).join("")}</div>
+    <div class="vcards" aria-label="네 그릇 전시실">${["S","C","M","P"].map(k=>`<a href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]};--rs:${SOFT[k]}">${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"vrpic",VES[k].n)}<b>${VES[k].n}</b><i>${NAME[k]}질 · ${VES[k].r}</i>${lockMark()}</a>`).join("")}</div>
+    <div class="mirror frame"><p class="eyebrow">왜 기질을 알아보나요</p><p>${MIRROR}</p><a href="#story">3분 이야기 보기 →</a></div>
     <div class="hgrid">
-      <a class="hcard" href="#types">${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}<b>네 기질 전시실</b><i>다혈 · 담즙 · 우울 · 점액</i>${lockMark()}</a>
-      <a class="hcard" href="#about"><span class="hnum">10</span><b>자세한 소개</b><i>열 장으로 읽는 기질 이야기</i>${lockMark()}</a>
+      <a class="hcard" href="#types">${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}<b>토기장이의 집</b><i>네 그릇 전시실</i>${lockMark()}</a>
+      <a class="hcard" href="#about"><span class="hnum">10</span><b>자세한 소개</b><i>열 장으로 읽는 네 그릇 이야기</i>${lockMark()}</a>
       <a class="hcard" href="#test"><span class="hnum">36</span><b>기질 검사</b><i>나는 어떤 그릇일까</i>${lockMark()}</a>
-      <a class="hcard" href="#blends">${vaseSVG([HEX.P,HEX.P,HEX.S])}<b>열두 조합</b><i>주 기질 + 보조 기질</i>${lockMark()}</a>
+      <a class="hcard" href="#blends">${vaseSVG([HEX.P,HEX.P,HEX.S])}<b>열두 조합</b><i>주 그릇 + 보조 그릇</i>${lockMark()}</a>
       <a class="hcard" href="#fruits"><span class="hnum f">9</span><b>성령의 열매</b><i>원어로 읽는 갈 5:22–23</i>${lockMark()}</a>
       <a class="hcard" href="room.html"><span class="hnum">⌂</span><b>모임방</b><i>입장 코드 · 링크로 입장</i></a>
     </div>
-    ${locked?`<div class="frame keybox"><p style="font-weight:700">자세한 전시는 셀 모임 안에서 함께 봅니다</p><p class="mut">모임방에 들어오거나 셀리더에게 받은 초대 링크로 열면 전시실과 검사가 열립니다.</p><a class="btn small" href="#gate">열람권 받는 방법</a></div>`:""}
+    ${locked?`<div class="frame keybox"><p style="font-weight:700">자세한 전시는 열람권으로 함께 봅니다</p><p class="mut">모임방에 들어오거나 셀리더·교회에서 받은 초대 링크로 열면 전시실과 검사가 열립니다.</p><a class="btn small" href="#gate">열람권 받는 방법</a></div>`:""}
     <p class="credit">${esc(CREDIT)}</p>
   </div>`;
 }
@@ -864,9 +898,9 @@ function renderHome(){
 function renderStory(){
   const n=STORY.length+1;
   $("#v-story").innerHTML=`<div class="wrap view">
-    <div class="stack" style="gap:8px"><p class="eyebrow">소개</p><h1 class="big">흙과 토기장이의 이야기</h1><p class="mut">옆으로 넘기며 3분 동안 기질의 큰 그림을 봅니다.</p></div>
+    <div class="stack" style="gap:8px"><p class="eyebrow">소개</p><h1 class="big">흙과 토기장이의 이야기</h1><p class="mut">옆으로 넘기며 3분 동안 네 그릇의 큰 그림을 봅니다.</p></div>
     <div class="rail" id="rail">${STORY.map((c,i)=>`<article class="scard frame">${pic(c.img,FB[c.fb](),"spic")}<div class="sbody"><span class="eyebrow">${i+1} / ${STORY.length}</span><h2>${c.t}</h2><p>${c.d}</p></div></article>`).join("")}
-      <article class="scard frame endcard"><div class="sbody"><span class="eyebrow">이어서</span><h2>더 깊이 보기</h2><p>책이 말하는 기질 이야기를 열 개의 장으로 정리했습니다. 이 책이 어떻게 시작되었는지, 기질과 인격은 어떻게 다른지, 성령께서 우리를 어떻게 다듬으시는지 차례로 읽어 보세요.</p>
+      <article class="scard frame endcard"><div class="sbody"><span class="eyebrow">이어서</span><h2>더 깊이 보기</h2><p>왜 기질을 알아보는지, 토기장이 하나님은 어떤 분이신지, 네 그릇은 무엇을 비유하는지, 성령께서 우리를 어떻게 다듬으시는지 열 개의 장으로 차례로 읽어 보세요.</p>
         <a class="btn block" href="#about">자세한 소개 읽기 →</a><a class="btn ghost block" href="#types">전시실로 바로 가기</a></div></article></div>
     <div class="dots" id="dots">${Array.from({length:n},(_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>
     <div class="row" style="justify-content:space-between"><button class="btn ghost small" id="stPrev" type="button">← 이전</button><button class="btn small" id="stNext" type="button">다음 →</button></div>
@@ -882,8 +916,8 @@ function renderStory(){
 function renderGate(target){
   gateFrom=target||"";
   $("#v-gate").innerHTML=`<div class="wrap view">
-    <div class="stack" style="gap:10px"><p class="eyebrow">열람권</p><h1 class="big">이 전시는 셀 모임 안에서<br>함께 봅니다</h1>
-    <p>책을 바탕으로 한 자세한 전시와 기질 검사는 셀 모임과 그 가족에게만 열어 두었습니다. 아래 가운데 한 가지 방법으로 열람권을 받으세요.</p></div>
+    <div class="stack" style="gap:10px"><p class="eyebrow">열람권</p><h1 class="big">이 전시는 열람권으로<br>함께 봅니다</h1>
+    <p>자세한 전시와 기질 검사는 열람권이 있는 셀과 교회, 그 가족에게 열어 두었습니다. 아래 가운데 한 가지 방법으로 열람권을 받으세요.</p></div>
     <div class="gopt frame"><span class="gn">1</span><div><b>모임방으로 들어오기</b><p>셀리더가 연 모임방에 링크나 입장 코드로 들어오면 30일 동안 열립니다.</p><a class="btn small" href="room.html">입장 코드 넣기</a></div></div>
     <div class="gopt frame"><span class="gn">2</span><div><b>초대 링크 열기</b><p>셀리더나 진행자가 보낸 초대 링크를 이 휴대폰에서 누르면 바로 열립니다.</p></div></div>
     <div class="gopt frame"><span class="gn">3</span><div><b>구글 계정으로 신청하기</b><p>신청하면 셀리더가 확인하고 열어 드립니다. 구글 계정으로 받은 열람권은 어느 기기에서든 열립니다.</p><div id="reqBox" class="stack" style="gap:8px;margin-top:6px"><button class="btn small" id="reqLogin" type="button">구글로 로그인하고 신청</button></div></div></div>
@@ -907,7 +941,7 @@ function reqForm(u,r){
 function renderClaim(){
   $("#v-gate").innerHTML=`<div class="wrap view">
     <div class="claimArt">${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}</div>
-    <div class="stack" style="gap:10px;text-align:center"><p class="eyebrow">초대 링크</p><h1 class="big">빚으신 나 전시관에<br>초대받으셨어요</h1><p class="mut">이름을 남기면 초대한 분이 누가 열었는지 알 수 있습니다.</p></div>
+    <div class="stack" style="gap:10px;text-align:center"><p class="eyebrow">초대 링크</p><h1 class="big">토기장이의 집에<br>초대받으셨어요</h1><p class="mut">이름을 남기면 초대한 분이 누가 열었는지 알 수 있습니다.</p></div>
     <label class="field" for="clName">이름 (선택)<input type="text" id="clName" maxlength="20" placeholder="예: 이마리아"></label>
     <p class="err" id="clErr" hidden></p>
     <button class="btn block" id="clBtn" type="button">전시관 열기</button></div>`;
@@ -923,15 +957,15 @@ function renderClaim(){
 /* ---------- 자세한 소개 (열 장) ---------- */
 function renderAbout(){
   const I=INTRO2;
-  const four=`<div class="lobby-grid" style="margin-top:6px">${["S","C","P","M"].map(k=>`<a class="tile" href="#room-${k.toLowerCase()}" style="background:${COLOR[k]}"><span class="n">${AXIS[k]}</span><b>${BOOK[k].name}</b><span>${esc(DETAIL[k].bible.name.split(" (")[0])}</span></a>`).join("")}</div>`;
+  const four=`<div class="lobby-grid" style="margin-top:6px">${["S","C","P","M"].map(k=>`<a class="tile" href="#room-${k.toLowerCase()}" style="background:${COLOR[k]}"><span class="n">${BOOK[k].name} · ${AXIS[k]}</span><b>${esc(BOOK[k].vessel)}</b><span>${esc(BOOK[k].word.o)} · ${esc(BOOK[k].word.ref)}</span></a>`).join("")}</div>`;
   $("#v-about").innerHTML=`<section class="aboutHead">${pic("intro_stages",FB.stages(),"aboutPic","흙, 빚은 그릇, 유약을 입힌 그릇")}</section>
   <div class="wrap view">
-    <div class="stack" style="gap:8px"><p class="eyebrow">자세한 소개</p><h1 class="big">책이 말하는 기질 이야기</h1><p class="mut">『성령과 기질』의 흐름을 열 장으로 정리했습니다.</p></div>
+    <div class="stack" style="gap:8px"><p class="eyebrow">자세한 소개</p><h1 class="big">토기장이와<br>네 그릇 이야기</h1><p class="mut">틀이 아니라 거울로, 성경으로 읽는 기질 열 장입니다.</p></div>
     <nav class="toc2 frame" aria-label="목차">${I.chapters.map(c=>`<a href="#about-${c.id}"><span>${c.no}</span>${esc(c.t)}</a>`).join("")}</nav>
     ${I.chapters.map(c=>`<section class="chap" id="about-${c.id}"><header><span class="cno">${c.no}</span><div><h2>${esc(c.t)}</h2><span class="src-tag ${c.src.includes("성경")?"bible":""}">${esc(c.src)}</span></div></header>
       <div class="prose">${c.body.map(p=>`<p>${esc(p)}</p>`).join("")}</div>${c.id==="four"?four:""}${c.id==="blend"?pic("intro_twotone",FB.twotone(),"wide","두 색이 섞인 그릇"):""}${c.id==="change"?pic("intro_kiln",FB.kiln(),"wide","가마 속 그릇"):""}</section>`).join("")}
     <section class="chap"><header><span class="cno">✦</span><div><h2>함께하는 약속</h2></div></header><ul class="promise">${I.promise.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>
-    <a class="cta" href="#types"><span><b>전시실로 들어가기</b><i>네 기질의 방을 하나씩 둘러봅니다</i></span><span class="arr" aria-hidden="true">→</span></a>
+    <a class="cta" href="#types"><span><b>전시실로 들어가기</b><i>네 그릇의 방을 하나씩 둘러봅니다</i></span><span class="arr" aria-hidden="true">→</span></a>
     <p class="credit">${esc(I.credit)}</p>
   </div>`;
 }
@@ -940,21 +974,22 @@ function renderAbout(){
 function renderLobby(){
   $("#v-types").innerHTML=`<section class="lobbyHead">${pic("lobby_four",FB.four(),"lobbyPic","선반 위 네 그릇")}</section>
   <div class="wrap view">
-    <div class="stack" style="gap:8px"><p class="eyebrow">기질 전시관</p><h1 class="big">네 개의 그릇,<br>네 개의 전시실</h1><p class="mut">내 방뿐 아니라 가족과 친구의 방도 둘러보면 서로가 더 잘 보입니다.</p></div>
+    <div class="stack" style="gap:8px"><p class="eyebrow">토기장이의 집</p><h1 class="big">네 개의 그릇,<br>네 개의 전시실</h1><p class="mut">내 방뿐 아니라 가족과 친구의 방도 둘러보면 서로가 더 잘 보입니다.</p></div>
     <div class="axes"><span>사람 중심 ←</span><span>위 외향 · 아래 내향</span><span>→ 일 중심</span></div>
-    <div class="vgrid">${["S","C","P","M"].map(k=>`<a class="vroom frame" href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]};--rs:${SOFT[k]}">${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"vpic",BOOK[k].name+" 그릇")}<span class="n">제${ROOMNO[k]}전시실</span><b>${BOOK[k].name}</b><i>${esc(BOOK[k].nickname)}</i></a>`).join("")}</div>
+    <div class="cgrid">${["S","C","P","M"].map(k=>`<a class="cblock" href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]}"><span class="n">제${ROOMNO[k]}전시실 · ${BOOK[k].name}</span><b>${esc(BOOK[k].vessel)}</b><i>${esc(BOOK[k].nickname)}</i><span class="orig ${BOOK[k].word.lang}">${esc(BOOK[k].word.o)}</span>${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"cpic",BOOK[k].vessel)}</a>`).join("")}</div>
+    <p class="mut" style="font-size:13.5px">${MIRROR}</p>
     <div class="wides">
-      <a class="wcard frame" href="#blends">${vaseSVG([HEX.C,HEX.C,HEX.M])}<span><b>특별전 1 · 열두 가지 조합</b><i>주 기질 + 보조 기질로 보는 나</i></span><span class="arr">›</span></a>
+      <a class="wcard frame" href="#blends">${vaseSVG([HEX.C,HEX.C,HEX.M])}<span><b>특별전 1 · 열두 가지 조합</b><i>주 그릇 + 보조 그릇으로 보는 나</i></span><span class="arr">›</span></a>
       <a class="wcard frame" href="#fruits"><span class="hnum f">9</span><span><b>특별전 2 · 성령의 아홉 열매</b><i>원어로 읽는 갈라디아서 5:22–23</i></span><span class="arr">›</span></a>
-      <a class="wcard frame" href="#about"><span class="hnum">10</span><span><b>자세한 소개</b><i>책이 말하는 기질 이야기 열 장</i></span><span class="arr">›</span></a>
+      <a class="wcard frame" href="#about"><span class="hnum">10</span><span><b>자세한 소개</b><i>토기장이와 네 그릇 이야기 열 장</i></span><span class="arr">›</span></a>
       <a class="wcard frame" href="#map"><span class="hnum">⌖</span><span><b>우리 셀 지도</b><i>결과를 손으로 넣어 보는 지도</i></span><span class="arr">›</span></a>
     </div>
     <p class="credit">${esc(CREDIT)}</p>
   </div>`;
 }
 
-/* ---------- 전시실 (책 내용을 빠짐없이) ---------- */
-const RTABS=[["ov","개요"],["st","강점"],["wk","약점"],["life","생활"],["work","일"],["emo","감정"],["bible","성경 인물"],["spirit","성령"],["treat","대하기"]];
+/* ---------- 전시실 ---------- */
+const RTABS=[["ov","그릇"],["st","강점"],["wk","약점"],["life","생활"],["work","일"],["emo","마음"],["bible","성경 인물"],["spirit","다듬기"],["treat","대하기"]];
 let roomShown="";
 function renderRoom(k){
   roomShown=k;
@@ -962,35 +997,39 @@ function renderRoom(k){
   const prev=order[(i+3)%4],next=order[(i+1)%4],blends=K.filter(x=>x!==k).map(x=>k+x);
   $("#v-room").innerHTML=`
   <section class="rhead" style="--rc:${HEX[k]};--rs:${SOFT[k]}"><div class="wrap rhin">
-    <div class="rtxt"><p class="room-no">제${ROOMNO[k]}전시실 · ${AXIS[k]}</p><h1>${t.name}</h1><p class="nick">${esc(t.nickname)}</p><p class="rbible">성경 인물 · ${esc(d.bible.name.split(" (")[0])}</p></div>
-    ${pic("vessel_"+kl,vaseSVG([HEX[k]]),"rvase",t.name+" 그릇")}</div><div class="rbar"></div></section>
+    <div class="rtxt"><p class="room-no">제${ROOMNO[k]}전시실 · ${t.name} · ${AXIS[k]}</p><h1>${esc(t.vessel)}</h1><p class="nick">${esc(t.nickname)}</p><p class="rbible">성경 인물 · ${esc(d.bible.name.split(" (")[0])}</p></div>
+    ${pic("vessel_"+kl,vaseSVG([HEX[k]]),"rvase",t.vessel)}</div><div class="rbar"></div></section>
   <nav class="rtabs" id="rtabs" aria-label="전시실 안내"><div class="wrap">${RTABS.map(([id,l])=>`<a href="#room-${kl}-${id}" data-id="${id}">${l}</a>`).join("")}</div></nav>
   <div class="wrap">
-    <section class="wall sect" id="r-ov"><p class="lead">${esc(d.lead)}</p><div class="prose">${d.intro.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+    <section class="wall sect" id="r-ov">
+      <div class="wordcard frame" style="--rc:${HEX[k]}"><span class="orig ${t.word.lang}">${esc(t.word.o)}</span><b>${esc(t.word.tr)} · ${esc(t.word.mean)}</b><q>${esc(t.word.verse)}</q><cite>${esc(t.word.ref)} · 개역한글</cite></div>
+      <h3 class="h3">그릇 이야기</h3><div class="prose">${t.vstory.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+      <p class="sub" style="margin-top:6px">네 그릇은 기질을 기억하기 쉽게 빌려 온 비유입니다. 본문의 원래 뜻은 하나님의 표적과 공급, 헌신과 승리를 말합니다.</p>
+      <h3 class="h3">${esc(t.vessel)}의 사람</h3><p class="lead">${esc(d.lead)}</p><div class="prose">${d.intro.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
       <h3 class="h3">이런 장면, 익숙한가요?</h3><div class="salon">${t.portrait.map((p,j)=>`<div class="vign frame"><i>장면 ${num(j)}</i>${esc(p)}</div>`).join("")}</div>
       <p class="quoteline" style="border-color:${c}">“${esc(t.quote)}”</p></section>
     <section class="wall sect" id="r-st"><header><h2>하나님이 주신 강점</h2><p class="sub">${d.strengths.length}가지 · 눌러서 펼쳐 보세요</p></header>
       <div class="works">${d.strengths.map((x,j)=>`<details class="work frame" ${j<2?"open":""}><summary><span class="no" style="color:${c}">${num(j)}</span><b>${esc(x.t)}</b></summary><p>${esc(x.d)}</p></details>`).join("")}</div></section>
-    <section class="wall sect" id="r-wk"><header><h2>다듬어져야 할 약점</h2><p class="sub">강점의 뒷면입니다. 정죄가 아니라 성령께 맡길 목록입니다.</p></header>
+    <section class="wall sect" id="r-wk"><header><h2>다듬어져야 할 약점</h2><p class="sub">강점의 뒷면입니다. 정죄가 아니라 토기장이의 손에 다시 올려 드릴 목록입니다.</p></header>
       <div class="works">${d.weaknesses.map((x,j)=>`<details class="work dim" ${j<2?"open":""}><summary><span class="no">${num(j)}</span><b>${esc(x.t)}</b></summary><p>${esc(x.d)}</p></details>`).join("")}</div></section>
-    <section class="wall sect" id="r-life"><header><h2>생활 속 모습</h2><p class="sub">운전 · 정원 · 식사 · 돈 관리에서도 기질이 보입니다</p></header>
+    <section class="wall sect" id="r-life"><header><h2>생활 속 모습</h2><p class="sub">모임 · 집 · 계획 · 갈등 속에서 보이는 그릇의 모양</p></header>
       <div class="habits">${d.habits.map(h=>`<div class="hab frame"><b style="color:${c}">${esc(h.t)}</b><p>${esc(h.d)}</p></div>`).join("")}</div></section>
     <section class="wall sect" id="r-work"><header><h2>어울리는 일</h2></header><p class="prose1">${esc(d.work.lead)}</p>
       <ul class="worklist">${d.work.items.map(x=>{const [a,...b]=x.split(" — ");return `<li><b>${esc(a)}</b>${b.length?`<span>${esc(b.join(" — "))}</span>`:""}</li>`}).join("")}</ul>${d.work.note?`<div class="frame note">${esc(d.work.note)}</div>`:""}</section>
-    <section class="wall sect" id="r-emo"><header><h2>분노 · 두려움 · 우울</h2><p class="sub">그리고 모든 약점의 뿌리, 이기심</p></header>
+    <section class="wall sect" id="r-emo"><header><h2>마음의 날씨</h2><p class="sub">기쁠 때 · 화날 때 · 불안할 때 · 지칠 때</p></header>
       <div class="emos">${d.emotion.map(e=>`<div class="emo frame"><b>${esc(e.t)}</b><p>${esc(e.d)}</p></div>`).join("")}</div></section>
     <section class="wall sect" id="r-bible"><header><p class="eyebrow">성경 속 ${t.name}</p></header>
       <div class="spot frame" style="border-top:6px solid ${c}"><p class="who">${esc(d.bible.name)}</p><p>${esc(d.bible.d)}</p></div></section>
-    <section class="wall sect" id="r-spirit"><header><h2>성령으로 달라진 ${t.name}</h2></header><p class="prose1">${esc(d.spirit.lead)}</p>
+    <section class="wall sect" id="r-spirit"><header><h2>성령으로 다듬어지는 ${esc(t.vessel)}</h2></header><p class="prose1">${esc(d.spirit.lead)}</p>
       <p class="sub" style="margin:16px 0 8px">${esc(d.spirit.fruitsNote)}</p>${plaques(d.spirit.fruits,c)}
       <div class="works" style="margin-top:14px">${d.spirit.items.map(x=>`<div class="work plain frame"><b style="color:${c}">${esc(x.t)}</b><p>${esc(x.d)}</p></div>`).join("")}</div>
-      <div class="spot frame" style="border-top:6px solid ${c};margin-top:14px"><p class="who">대표적인 인물</p><p>${esc(d.spirit.figure)}</p></div>
+      <div class="prayer frame" style="--rc:${HEX[k]}"><p class="eyebrow">그릇의 기도</p><p>${esc(d.spirit.figure)}</p></div>
       ${d.spirit.stories.map(x=>`<div class="story1 frame"><p>${esc(x)}</p></div>`).join("")}</section>
     <section class="wall sect" id="r-treat"><header><h2>이렇게 대해 주세요</h2><p class="sub">모임에서 서로 돕도록 덧붙인 내용입니다</p></header>
       <ul class="treat">${EXTRA[k].treat.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>
-    <section class="wall"><header><h2>${t.name}이 주 기질인 조합</h2></header>
+    <section class="wall"><header><h2>${esc(t.vessel)}${ga(t.vessel)} 주 그릇인 조합</h2></header>
       <div class="blend-mini">${blends.map(code=>`<a class="frame" href="#blend-${code.toLowerCase()}"><span class="twotone"><i style="flex:6;background:${COLOR[code[0]]}"></i><i style="flex:4;background:${COLOR[code[1]]}"></i></span><b>${BL[code].name}</b>${esc(BL[code].tagline)}</a>`).join("")}</div></section>
-    <div class="roomnav"><a class="btn ghost small" href="#room-${prev.toLowerCase()}">← ${BOOK[prev].name}</a><a class="btn ghost small" href="#types">로비</a><a class="btn ghost small" href="#room-${next.toLowerCase()}">${BOOK[next].name} →</a></div>
+    <div class="roomnav"><a class="btn ghost small" href="#room-${prev.toLowerCase()}">← ${esc(BOOK[prev].vessel)}</a><a class="btn ghost small" href="#types">로비</a><a class="btn ghost small" href="#room-${next.toLowerCase()}">${esc(BOOK[next].vessel)} →</a></div>
     <p class="credit">${esc(CREDIT)}</p>
   </div>`;
   const links=[...document.querySelectorAll("#rtabs a")];

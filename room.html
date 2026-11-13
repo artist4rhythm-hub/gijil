@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>빚으신 나 모임방</title>
-<meta name="theme-color" content="#F3F3F0">
+<meta name="theme-color" content="#F4EDE3">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: index.html과 같은 화이트 큐브 + 기질 색면. 모임 진행용 한 화면 앱 */
+/* Layout: 토기장이의 집 — index.html과 같은 흙빛 벽 + 기질 색 유약. 모임 진행용 한 화면 앱 */
 :root{
-  --wall:#F3F3F0; --frame:#FFFFFF; --ink:#1C1F22; --muted:#5E6368; --line:#E2E2DE;
-  --shadow:0 1px 0 rgba(0,0,0,.04),0 14px 30px -20px rgba(0,0,0,.35);
+  --wall:#F4EDE3; --frame:#FBF7F1; --ink:#2B211B; --muted:#76624F; --line:#E4D6C4;
+  --shadow:0 1px 0 rgba(60,35,15,.05),0 14px 30px -20px rgba(60,35,15,.35); --clay:#B25C36;
   --s:#C9581E; --c:#A82A35; --m:#2A5592; --p:#3F7F67; --ok:#2D6B54; --ok-soft:#E5F1EC;
   --s-soft:#FBEDE4; --c-soft:#F8E6E7; --m-soft:#E6EDF7; --p-soft:#E5F1EC;
   --on-band:#FFFFFF; --focus:#2A5592;
@@ -23,13 +23,14 @@
   --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root{
-  --wall:#141618; --frame:#1E2124; --ink:#ECEDEE; --muted:#A3A9AE; --line:#30353A;
-  --shadow:0 0 0 1px #2A2E32,0 14px 30px -20px rgba(0,0,0,.8);
+  --wall:#1A1512; --frame:#241D18; --ink:#F1E8DE; --muted:#BBA996; --line:#3A2F27;
+  --shadow:0 0 0 1px #33281F,0 14px 30px -20px rgba(0,0,0,.8); --clay:#C97650;
   --s:#B9541F; --c:#A0333D; --m:#2F5A97; --p:#3B765F; --ok:#74B89D; --ok-soft:#1B2D26;
   --s-soft:#33241B; --c-soft:#34201F; --m-soft:#1C2635; --p-soft:#1B2D26; --focus:#7AA3DD; color-scheme:dark}}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
+body,h1,h2,h3,p,li,b,span{word-break:keep-all;overflow-wrap:break-word}
 body{background:var(--wall);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;margin:0;padding-block:env(safe-area-inset-top,0px) 56px}
 .wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.3;margin:0;font-weight:700}
@@ -248,7 +249,7 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
 <!-- 참석자: 입장 정보 -->
 <main id="v-profile" hidden><div class="wrap view">
   <p class="eyebrow" id="pfRoom"></p>
-  <h1 style="font-size:30px">하나님이 빚으신 나,<br>어떤 기질일까?</h1>
+  <h1 style="font-size:30px">나는 어떤<br>그릇일까?</h1>
   <label class="field" for="nameInput">이름
     <input type="text" id="nameInput" maxlength="12" placeholder="예: 김요한" autocomplete="off">
   </label>
@@ -275,7 +276,7 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
   <h2 style="font-size:26px;margin-top:10px">결과가 봉인되었습니다</h2>
   <p class="note" style="font-size:15px" id="sealNote">셀리더가 공개하면 모두 함께 열립니다.<br>그동안 네 기질 설명을 들으며<br>내 기질을 짐작해 보세요.</p>
   <div id="guessBox" class="stack" style="width:100%;gap:10px;margin-top:8px"></div>
-  <a class="btn ghost block" href="index.html#types" target="_blank" rel="noopener" style="margin-top:12px">기질 전시관 둘러보기</a>
+  <a class="btn ghost block" href="index.html#types" target="_blank" rel="noopener" style="margin-top:12px">토기장이의 집 둘러보기</a>
   <a class="btn ghost block" id="toAdmin1" href="#" hidden>운영 화면으로</a>
 </div></main>
 
@@ -310,7 +311,7 @@ const KINDS = {cell:{label:"셀 모임",note:"셀리더가 진행하고, 셀원�
                couple:{label:"부부 · 가정 모임",note:"나도 함께 검사하고, 배우자(가족)에게 링크를 보냅니다. 둘 다 끝나면 함께 열고, ‘우리 둘’ 비교와 대화 카드를 봅니다.",title:d=>`우리 부부 기질 (${d.getMonth()+1}/${d.getDate()})`}};
 const DAYS = [["1주",7],["2주",14],["1달",30],["3달",90]];
 
-/* 두 주 기질의 만남 — 책의 강점·약점과 ‘정반대 기질끼리 끌린다’(5장), 분노 다루기(9장)를 바탕으로 정리 */
+/* 두 주 그릇의 만남 — 이 앱에서 새로 쓴 내용 */
 const PAIR = {
  SS:{like:"둘 다 사람을 좋아하고 밝아서 함께 있으면 웃음이 많고, 손님 맞는 일을 즐깁니다.",clash:"둘 다 계획과 마무리가 약해 약속 · 돈 · 집안일이 흐지부지되기 쉽습니다. 기분이 오를 때도 내려갈 때도 함께 출렁입니다.",tip:"중요한 일은 달력에 함께 적고, 끝까지 챙길 사람을 정해 두세요."},
  SC:{like:"둘 다 외향적이고 활동적이라 함께 일을 벌이고 사람을 모을 때 힘이 납니다.",clash:"다혈은 즐거움을, 담즙은 목표를 앞세웁니다. 담즙의 직설이 다혈에게 상처가 되고, 다혈의 즉흥이 담즙을 답답하게 합니다. 둘 다 화를 겉으로 터뜨립니다.",tip:"담즙은 칭찬을 먼저 하고, 다혈은 약속한 일을 끝까지 해 주세요. 화가 나면 10분 쉬었다가 다시 이야기하세요."},
@@ -534,7 +535,7 @@ async function psInvite(){
     const label=$("#ivLabel").value.trim()||"초대"; const t=rand(24);
     try{ await setDoc(doc(db,"invites",t),{ownerUid:me.uid,label,days:ivDays,expiresAt:Timestamp.fromDate(new Date(Date.now()+7*864e5-60000)),createdAt:serverTimestamp()});
       $("#ivOut").innerHTML=`<div class="confirm" style="margin-top:10px"><p style="font-weight:700">링크를 만들었습니다</p><p class="note" style="word-break:break-all">${esc(ivLink(t))}</p><div class="row"><button class="btn small" id="ivShare" type="button">보내기</button><button class="btn small ghost" id="ivCopy" type="button">복사</button></div></div>`;
-      const text=`[빚으신 나] ${label}님, 하나님이 빚으신 나 — 기질 전시관에 초대합니다. 아래 링크를 눌러 열어 주세요. (${ivDays}일 동안 볼 수 있어요)`;
+      const text=`[빚으신 나] ${label}님, 하나님이 빚으신 나 — 토기장이의 집에 초대합니다. 아래 링크를 눌러 열어 주세요. (${ivDays}일 동안 볼 수 있어요)`;
       $("#ivShare").addEventListener("click",async()=>{if(navigator.share){try{await navigator.share({title:"빚으신 나 초대",text,url:ivLink(t)})}catch(e){}}else copy(text+"\n"+ivLink(t));});
       $("#ivCopy").addEventListener("click",()=>copy(ivLink(t)));
       loadInvites();
@@ -804,9 +805,9 @@ function myBlock(mine){
   const b=D.BL[mine.code], p=mine.code[0], q=mine.code[1];
   $("#myBlock").innerHTML=`
     <section class="band reveal-in" style="background:linear-gradient(0deg,${COLOR[q]} 0 14px,${COLOR[p]} 14px)"><div class="in">
-      <span class="k">${esc(mine.name)} · 주 ${NAME[p]} + 보조 ${NAME[q]}</span><h1>${b.name}</h1><span class="nick">${esc(b.tagline)} · 성경 인물 ${esc(b.bible)}</span></div></section>
+      <span class="k">${esc(mine.name)} · 주 그릇 ${esc(D.V[p])} + 보조 그릇 ${esc(D.V[q])}</span><h1>${b.name}</h1><span class="nick">${esc(b.tagline)} · 성경 인물 ${esc(b.bible)}</span></div></section>
     <section class="frame card"><p style="font-weight:700">네 기질 점수</p>${bars(mine.pct,mine.code)}<p class="note">문항 가운데 각 기질을 고른 비율입니다. 가장 높은 기질이 주 기질, 두 번째가 보조 기질입니다. 점수 차이가 작으면 두 기질을 모두 살펴보세요.</p></section>
-    ${isCouple()?"":`<p style="font-size:15.5px">셀리더에게 <b>${b.name} 카드</b>를 받아 주세요. 카드 뒷면 QR로 언제든 이 내용을 다시 볼 수 있습니다.</p>`}
+    ${isCouple()?"":`<p style="font-size:15.5px">셀리더에게 <b>${NAME[p]}${NAME[q]}질 카드</b>를 받아 주세요. 카드 뒷면 QR로 언제든 이 내용을 다시 볼 수 있습니다.</p>`}
     <div class="chips">${b.st.map(x=>`<span>강점 · ${esc(x)}</span>`).join("")}${b.wk.map(x=>`<span>약점 · ${esc(x)}</span>`).join("")}</div>
     <a class="btn ghost block" href="index.html#blend-${mine.code.toLowerCase()}" target="_blank" rel="noopener">내 조합 전시실 자세히 보기</a>`;
 }
@@ -830,7 +831,7 @@ function pairBlock(people, meId){
       <div><p class="lbl">서로를 위해</p><p>${P.tip}</p></div>
       <div><p class="lbl">${esc(o.name)}에게는 이렇게 해 주세요</p><ul style="margin:4px 0 0;padding-left:20px">${D.EX[b].treat.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>
       <div><p class="lbl">${esc(o.name)}이(가) 나에게 해 주면 좋은 것</p><ul style="margin:4px 0 0;padding-left:20px">${D.EX[a].treat.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>
-      <p class="src">두 사람의 주 기질을 바탕으로 책의 강점 · 약점, ‘정반대 기질끼리 끌린다’(5장), 분노 다루기(9장)를 참고해 정리했습니다. 책이 두 기질의 만남을 직접 다룬 부분은 많지 않습니다.</p></section>`;
+      <p class="src">두 사람의 주 그릇을 바탕으로 정리한 대화의 출발점입니다. 사람은 저마다 다르니, 맞지 않는 부분은 서로 이야기하며 고쳐 가세요.</p></section>`;
   };
   $("#pairBox").innerHTML=`<h2 style="font-size:22px;margin-top:8px">우리 둘</h2>${others.slice(0,6).map(card).join("")}
     <h2 style="font-size:22px;margin-top:8px">대화 카드</h2><p class="note">옆으로 넘기며 둘이 번갈아 답해 보세요.</p>
@@ -846,7 +847,7 @@ async function loadD(){
     if(!c.exists()||!b.exists()) throw new Error("empty");
     const core=JSON.parse(c.data().data), bl=JSON.parse(b.data().data).BL, BLm={};
     Object.keys(bl).forEach(k=>{ if(k.length!==2) return; const v=bl[k]; BLm[k]={name:v.name,tagline:v.tagline,bible:v.bible.name,st:v.strengths.slice(0,3).map(x=>x.title),wk:v.weaknesses.slice(0,3).map(x=>x.title)}; });
-    D={Q:core.Q.map(q=>({t:q.t,o:q.o,part:q.part})),BL:BLm,EX:core.EXTRA}; NQ=D.Q.length;
+    D={Q:core.Q.map(q=>({t:q.t,o:q.o,part:q.part})),BL:BLm,EX:core.EXTRA,V:Object.fromEntries(Object.entries(core.T).map(([k,v])=>[k,v.vessel||NAME[k]+"질"]))}; NQ=D.Q.length;
   };
   try{ await get(); return true; }catch(e){}
   try{

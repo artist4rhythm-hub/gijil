@@ -1,7 +1,7 @@
 {
   "name": "빚으신 나 기질검사",
   "short_name": "빚으신 나",
-  "description": "36문항 4기질 검사와 기질 전시관",
+  "description": "토기장이와 네 그릇 · 36문항 기질 검사",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
