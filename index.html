@@ -15,7 +15,7 @@
 <meta name="apple-mobile-web-app-title" content="빚으신 나">
 <meta property="og:title" content="빚으신 나 기질검사">
 <meta property="og:description" content="하나님이 빚으신 나, 어떤 기질일까? 36문항 검사와 기질 전시관">
-<meta property="og:image" content="img/og_share.webp">
+<meta property="og:image" content="https://artist4rhythm-hub.github.io/gijil/img/og_share.jpg">
 <title>빚으신 나 기질검사</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif:wght@400;600&family=Noto+Serif+Hebrew:wght@400;600&display=swap">
@@ -346,6 +346,28 @@ details.work.dim p{color:var(--ink)}
 .treat{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px}
 @media (min-width:640px){.habits,.emos{grid-template-columns:1fr 1fr}.hgrid{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:380px){.rhin{grid-template-columns:1fr 96px}.rvase{width:96px}.toc2{grid-template-columns:1fr}}
+
+/* ===== v11 · 사진 그릇 ===== */
+.rhead{color:var(--ink);background:radial-gradient(ellipse 70% 90% at 82% 60%,var(--rs) 0 45%,transparent 70%),var(--frame);position:relative}
+.rhin{grid-template-columns:1fr 150px;padding-top:26px;padding-bottom:20px}
+.rhead .room-no{color:var(--muted)}
+.rhead h1{color:var(--rc)}
+.rhead .nick{opacity:1;color:var(--ink);font-weight:600}
+.rbible{font-size:13.5px;color:var(--muted);margin-top:8px}
+.rvase{width:150px}
+.rvase>img,.vpic>img,.vrpic>img,.resvase>img{filter:drop-shadow(0 14px 14px rgba(60,35,15,.28))}
+.rbar{height:6px;background:var(--rc)}
+.vrow{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.vrow a{position:relative;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 10px;border-radius:14px;background:radial-gradient(circle at 50% 42%,var(--rs) 0 46%,transparent 47%),var(--frame);border:1px solid var(--line)}
+.vrow b{font-family:var(--display);font-size:15px;color:var(--rc)}
+.vrow .lock{right:6px;top:6px;font-size:11px}
+.vrpic{width:78%;aspect-ratio:1;overflow:visible}.vrpic>img{object-fit:contain;filter:drop-shadow(0 6px 6px rgba(60,35,15,.22))}
+.vroom{background:radial-gradient(circle at 50% 30%,var(--rs) 0 34%,transparent 35%),var(--frame)}
+.resband .wrap{position:relative}
+.resvase{float:right;width:96px;aspect-ratio:1;margin:-6px -4px 0 8px}
+.resvase>img{object-fit:contain;filter:drop-shadow(0 10px 10px rgba(0,0,0,.3))}
+.resvase .fb svg{filter:drop-shadow(0 8px 8px rgba(0,0,0,.25))}
+@media (max-width:380px){.rhin{grid-template-columns:1fr 110px}.rvase{width:110px}}
 </style>
 </head>
 <body>
@@ -512,7 +534,8 @@ function resultLine(res){return `[빚으신 나] ${res.name||"이름없음"} · 
 function renderResult(res){
   const a=res.code[0],b=res.code[1],A=BOOK[a],B=BOOK[b],X=EXTRA[a],bl=BL[res.code],line=resultLine(res);
   $("#v-result").innerHTML=`
-  <section class="band" style="background:${COLOR[a]}"><div class="wrap">
+  <section class="band resband" style="background:${COLOR[a]}"><div class="wrap">
+    ${pic("vessel_"+a.toLowerCase(),vaseSVG([HEX[a],HEX[a],HEX[b]]),"resvase",A.name+" 그릇")}
     <p class="room-no">${res.name?esc(res.name)+" 님의 ":""}검사 결과 · 주 기질 ${A.name} + 보조 기질 ${B.name}</p>
     <h1>${bl.name}</h1>
     <p class="nick">${esc(bl.tagline)}${bl.nickname?" · "+esc(bl.nickname):""}</p>
@@ -783,7 +806,7 @@ let _vid=0;
 function vaseSVG(cols,cls=""){const id="vz"+(_vid++),h=66/cols.length;
   return `<svg class="vase ${cls}" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="${id}"><path d="${VASE}"/></clipPath><radialGradient id="${id}g" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></radialGradient></defs><g clip-path="url(#${id})">${cols.map((c,i)=>`<rect x="0" y="${18+i*h}" width="100" height="${h+.6}" fill="${c}"/>`).join("")}<rect width="100" height="100" fill="url(#${id}g)"/></g><rect x="34" y="15" width="32" height="5" rx="2.5" fill="#2b2018"/></svg>`}
 function pic(name,fallback,cls="",alt=""){
-  return `<div class="pic ${cls}"><div class="fb">${fallback}</div><img src="${IMG(name)}" data-n="${name}" alt="${esc(alt)}" loading="lazy" decoding="async" onerror="picNext(this)" onload="this.parentNode.classList.add('has')"></div>`}
+  return `<div class="pic ${cls}"><div class="fb">${fallback}</div><img src="${IMG(name)}" data-n="${name}" alt="${esc(alt)}" decoding="async" onerror="picNext(this)" onload="this.parentNode.classList.add('has')"></div>`}
 // webp가 없으면 jpg, png 순서로 찾아보고, 다 없으면 대체 그림을 그대로 둡니다
 const PEXT=["webp","jpg","png"];
 function picNext(img){const i=+(img.dataset.i||0)+1;if(i<PEXT.length){img.dataset.i=i;img.src=`img/${img.dataset.n}.${PEXT[i]}`}else img.remove()}
@@ -823,6 +846,7 @@ function renderHome(){
   <div class="wrap view">
     <p class="potter">“이제 여호와여 주는 우리 아버지시니이다 우리는 진흙이요 주는 토기장이시니 우리는 다 주의 손으로 지으신 것이니이다”<span>이사야 64:8</span></p>
     <a class="cta" href="#story"><span><b>처음이세요?</b><i>3분이면 읽는 기질 이야기</i></span><span class="arr" aria-hidden="true">→</span></a>
+    <div class="vrow" aria-label="네 기질 전시실">${["S","C","M","P"].map(k=>`<a href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]};--rs:${SOFT[k]}">${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"vrpic",NAME[k]+"질 그릇")}<b>${NAME[k]}질</b>${lockMark()}</a>`).join("")}</div>
     <div class="hgrid">
       <a class="hcard" href="#types">${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}<b>네 기질 전시실</b><i>다혈 · 담즙 · 우울 · 점액</i>${lockMark()}</a>
       <a class="hcard" href="#about"><span class="hnum">10</span><b>자세한 소개</b><i>열 장으로 읽는 기질 이야기</i>${lockMark()}</a>
@@ -918,7 +942,7 @@ function renderLobby(){
   <div class="wrap view">
     <div class="stack" style="gap:8px"><p class="eyebrow">기질 전시관</p><h1 class="big">네 개의 그릇,<br>네 개의 전시실</h1><p class="mut">내 방뿐 아니라 가족과 친구의 방도 둘러보면 서로가 더 잘 보입니다.</p></div>
     <div class="axes"><span>사람 중심 ←</span><span>위 외향 · 아래 내향</span><span>→ 일 중심</span></div>
-    <div class="vgrid">${["S","C","P","M"].map(k=>`<a class="vroom frame" href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]}">${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"vpic",BOOK[k].name+" 그릇")}<span class="n">제${ROOMNO[k]}전시실</span><b>${BOOK[k].name}</b><i>${esc(BOOK[k].nickname)}</i></a>`).join("")}</div>
+    <div class="vgrid">${["S","C","P","M"].map(k=>`<a class="vroom frame" href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]};--rs:${SOFT[k]}">${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"vpic",BOOK[k].name+" 그릇")}<span class="n">제${ROOMNO[k]}전시실</span><b>${BOOK[k].name}</b><i>${esc(BOOK[k].nickname)}</i></a>`).join("")}</div>
     <div class="wides">
       <a class="wcard frame" href="#blends">${vaseSVG([HEX.C,HEX.C,HEX.M])}<span><b>특별전 1 · 열두 가지 조합</b><i>주 기질 + 보조 기질로 보는 나</i></span><span class="arr">›</span></a>
       <a class="wcard frame" href="#fruits"><span class="hnum f">9</span><span><b>특별전 2 · 성령의 아홉 열매</b><i>원어로 읽는 갈라디아서 5:22–23</i></span><span class="arr">›</span></a>
@@ -937,9 +961,9 @@ function renderRoom(k){
   const t=BOOK[k],d=DETAIL[k],c=COLOR[k],kl=k.toLowerCase(),order=["S","C","M","P"],i=order.indexOf(k);
   const prev=order[(i+3)%4],next=order[(i+1)%4],blends=K.filter(x=>x!==k).map(x=>k+x);
   $("#v-room").innerHTML=`
-  <section class="rhead" style="background:${c}"><div class="wrap rhin">
-    <div class="rtxt"><p class="room-no">제${ROOMNO[k]}전시실 · ${AXIS[k]}</p><h1>${t.name}</h1><p class="nick">${esc(t.nickname)}</p></div>
-    ${pic("vessel_"+kl,vaseSVG([HEX[k]]),"rvase",t.name+" 그릇")}</div></section>
+  <section class="rhead" style="--rc:${HEX[k]};--rs:${SOFT[k]}"><div class="wrap rhin">
+    <div class="rtxt"><p class="room-no">제${ROOMNO[k]}전시실 · ${AXIS[k]}</p><h1>${t.name}</h1><p class="nick">${esc(t.nickname)}</p><p class="rbible">성경 인물 · ${esc(d.bible.name.split(" (")[0])}</p></div>
+    ${pic("vessel_"+kl,vaseSVG([HEX[k]]),"rvase",t.name+" 그릇")}</div><div class="rbar"></div></section>
   <nav class="rtabs" id="rtabs" aria-label="전시실 안내"><div class="wrap">${RTABS.map(([id,l])=>`<a href="#room-${kl}-${id}" data-id="${id}">${l}</a>`).join("")}</div></nav>
   <div class="wrap">
     <section class="wall sect" id="r-ov"><p class="lead">${esc(d.lead)}</p><div class="prose">${d.intro.map(p=>`<p>${esc(p)}</p>`).join("")}</div>

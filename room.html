@@ -141,6 +141,8 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
 .badge{font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--line);color:var(--muted);margin-left:6px;font-weight:600;vertical-align:2px}
 input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1.5px solid var(--line);border-radius:10px;padding:12px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.startPic{margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));aspect-ratio:16/9;overflow:hidden;border-radius:0 0 18px 18px}
+.startPic img{width:100%;height:100%;object-fit:cover;display:block}
 </style>
 </head>
 <body>
@@ -150,6 +152,7 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
 
 <!-- 첫 화면: 코드로 입장 / 운영자 로그인 -->
 <main id="v-start" hidden><div class="wrap view">
+  <div class="startPic"><img src="img/lobby_four.webp" alt="선반 위 네 기질 색의 그릇" onerror="this.parentNode.remove()"></div>
   <p class="eyebrow">모임방</p>
   <h1 style="font-size:32px">셀리더가 알려 준<br>입장 코드를 넣어 주세요</h1>
   <label class="field" for="codeInput">입장 코드 (숫자 4자리)
