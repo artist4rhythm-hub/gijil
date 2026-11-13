@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#F3F3F0" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#141618" media="(prefers-color-scheme: dark)">
-<meta name="description" content="일터·가정·친구 사이의 나를 돌아보는 24문항 4기질 검사와 기질 전시관">
+<meta name="description" content="하나님이 빚으신 나 — 『성령과 기질』로 함께 보는 셀 기질 전시관">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
@@ -14,16 +14,17 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="빚으신 나">
 <meta property="og:title" content="빚으신 나 기질검사">
-<meta property="og:description" content="하나님이 빚으신 나, 어떤 기질일까? 24문항 검사와 기질 전시관">
-<meta property="og:image" content="icons/icon-512.png">
+<meta property="og:description" content="하나님이 빚으신 나, 어떤 기질일까? 36문항 검사와 기질 전시관">
+<meta property="og:image" content="img/og_share.webp">
 <title>빚으신 나 기질검사</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif:wght@400;600&family=Noto+Serif+Hebrew:wght@400;600&display=swap">
 <style>
-/* Layout: 화이트 큐브 전시관 — 밝은 벽 위에 액자 카드, 전시실 입구마다 기질 색의 큰 색면 */
+/* Layout: 토기장이의 집 — 흙빛 벽 위에 액자 카드, 전시실 입구마다 기질 색 유약 그릇 */
 :root{
-  --wall:#F3F3F0; --frame:#FFFFFF; --ink:#1C1F22; --muted:#5E6368; --line:#E2E2DE;
-  --shadow:0 1px 0 rgba(0,0,0,.04),0 14px 30px -20px rgba(0,0,0,.35);
+  --wall:#F4EDE3; --frame:#FBF7F1; --ink:#2B211B; --muted:#76624F; --line:#E4D6C4;
+  --shadow:0 1px 0 rgba(60,35,15,.05),0 14px 30px -20px rgba(60,35,15,.35);
+  --clay:#B25C36; --clay-soft:#F1DFCF; --walnut:#3E281B; --on-clay:#FFFFFF;
   --s:#C9581E; --c:#A82A35; --m:#2A5592; --p:#3F7F67;
   --s-soft:#FBEDE4; --c-soft:#F8E6E7; --m-soft:#E6EDF7; --p-soft:#E5F1EC;
   --f:#56662B; --f-soft:#EEF1E2;
@@ -32,19 +33,22 @@
   --body:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic","Noto Sans CJK KR",sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --wall:#141618; --frame:#1E2124; --ink:#ECEDEE; --muted:#A3A9AE; --line:#30353A;
-  --shadow:0 0 0 1px #2A2E32,0 14px 30px -20px rgba(0,0,0,.8);
+  --wall:#1A1512; --frame:#241D18; --ink:#F1E8DE; --muted:#BBA996; --line:#3A2F27;
+  --shadow:0 0 0 1px #33281F,0 14px 30px -20px rgba(0,0,0,.8);
+  --clay:#C97650; --clay-soft:#3A271C; --walnut:#120D0A; --on-clay:#FFFFFF;
   --s:#B9541F; --c:#A0333D; --m:#2F5A97; --p:#3B765F;
   --s-soft:#33241B; --c-soft:#34201F; --m-soft:#1C2635; --p-soft:#1B2D26; --f:#5E7032; --f-soft:#262C19; --focus:#7AA3DD; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --wall:#141618; --frame:#1E2124; --ink:#ECEDEE; --muted:#A3A9AE; --line:#30353A;
-  --shadow:0 0 0 1px #2A2E32,0 14px 30px -20px rgba(0,0,0,.8);
+  --wall:#1A1512; --frame:#241D18; --ink:#F1E8DE; --muted:#BBA996; --line:#3A2F27;
+  --shadow:0 0 0 1px #33281F,0 14px 30px -20px rgba(0,0,0,.8);
+  --clay:#C97650; --clay-soft:#3A271C; --walnut:#120D0A; --on-clay:#FFFFFF;
   --s:#B9541F; --c:#A0333D; --m:#2F5A97; --p:#3B765F;
   --s-soft:#33241B; --c-soft:#34201F; --m-soft:#1C2635; --p-soft:#1B2D26; --f:#5E7032; --f-soft:#262C19; --focus:#7AA3DD; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{background:var(--wall);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;margin:0;padding-block:0 56px}
+body{word-break:keep-all;overflow-wrap:anywhere}
 .wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.3;margin:0;font-weight:700}
 p{margin:0}
@@ -214,24 +218,159 @@ details.more[open] summary::after{content:" ▴"}
 @media (max-width:560px){.triad{grid-template-columns:1fr}}
 @media (max-width:420px){.salon{grid-template-columns:1fr}.blend-mini{grid-template-columns:1fr}.bframe .cols{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+/* ===== v10 · 토기장이의 집 ===== */
+body{background-color:var(--wall)}
+body.tex{background-image:var(--tex);background-size:420px}
+.eyebrow.light{color:#F2E6D6}
+.big{font-size:clamp(28px,7.6vw,38px)}
+.mut{color:var(--muted)}
+.spin{width:34px;height:34px;border-radius:50%;border:3px solid var(--line);border-top-color:var(--clay);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.pic{position:relative;overflow:hidden}
+.pic>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pic.has>.fb{visibility:hidden}
+.pic>.fb{position:absolute;inset:0}
+svg.vase{display:block;width:100%;height:100%}
+/* 홈 */
+.hero{position:relative;height:min(64vh,520px);min-height:360px;background:var(--walnut);color:#fff;overflow:hidden}
+.heroPic{position:absolute;inset:0}
+.heroFb{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 42%,#B07A52 0%,#6B4329 45%,#2A1A10 100%)}
+.heroFb .wheel{position:absolute;left:50%;top:62%;width:260px;height:46px;margin-left:-130px;border-radius:50%;background:#24170F;box-shadow:0 0 0 10px rgba(0,0,0,.15)}
+.heroFb .heroVase{position:absolute;left:50%;top:22%;width:190px;height:190px;margin-left:-95px;filter:drop-shadow(0 18px 18px rgba(0,0,0,.35))}
+.heroShade{position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(28,17,10,.82) 100%)}
+.heroTxt{position:absolute;left:0;right:0;bottom:24px}
+.heroTxt h1{font-size:clamp(36px,10vw,50px);color:#fff;line-height:1.15}
+.potter{font-family:var(--display);font-size:15.5px;line-height:1.75;border-left:3px solid var(--clay);padding:2px 0 2px 14px}
+.potter span{display:block;font-family:var(--body);font-size:12.5px;color:var(--muted);margin-top:4px}
+.cta{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--clay);color:var(--on-clay);text-decoration:none;border-radius:16px;padding:18px 20px;box-shadow:var(--shadow)}
+.cta b{display:block;font-size:18px}.cta i{font-style:normal;font-size:14px;opacity:.9}.cta .arr{font-size:24px}
+.hgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hcard{position:relative;display:flex;flex-direction:column;gap:3px;background:var(--frame);border:1px solid var(--line);border-radius:14px;padding:14px;text-decoration:none;min-height:124px}
+.hcard svg.vase{width:40px;height:40px;margin-bottom:4px}
+.hcard b{font-size:15.5px}.hcard i{font-style:normal;font-size:12.5px;color:var(--muted);line-height:1.45}
+.hnum{font-family:var(--display);font-size:28px;line-height:40px;height:44px;color:var(--clay);font-weight:700}
+.hnum.f{color:var(--f)}
+.lock{position:absolute;right:10px;top:10px;font-size:14px;opacity:.75}
+.keybox{padding:18px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.credit{font-size:12.5px;color:var(--muted);line-height:1.6;border-top:1px solid var(--line);padding-top:14px;margin-top:8px}
+/* 소개 */
+.rail{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));padding:4px max(16px,env(safe-area-inset-left,0px)) 10px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.rail::-webkit-scrollbar{display:none}
+.scard{flex:0 0 min(86%,440px);scroll-snap-align:center;display:flex;flex-direction:column;overflow:hidden;border-radius:18px;padding:0}
+.spic{aspect-ratio:3/2;background:var(--clay-soft)}
+.sbody{padding:18px 18px 22px;display:flex;flex-direction:column;gap:10px}
+.sbody h2{font-size:22px}
+.endcard{justify-content:center;background:var(--clay-soft)}
+.dots{display:flex;gap:6px;justify-content:center}
+.dots i{width:7px;height:7px;border-radius:4px;background:var(--line);transition:width .2s}
+.dots i.on{width:22px;background:var(--clay)}
+.shelfFb{position:absolute;inset:0;background:linear-gradient(#F6EFE5,#E8DCCB);display:flex;align-items:flex-end;justify-content:space-evenly;padding:0 6% 13%}
+.shelfFb span{display:block;width:11%;height:var(--h,60%);filter:drop-shadow(0 6px 6px rgba(60,35,15,.2))}
+.shelfFb.four span{width:17%;height:62%}
+.shelfFb .board{position:absolute;left:4%;right:4%;bottom:8%;height:5%;background:#8B6446;border-radius:2px;box-shadow:0 6px 10px rgba(60,35,15,.25)}
+.stageFb{position:absolute;inset:0;background:#EADFCF;display:flex;justify-content:space-around;align-items:flex-end;padding:8% 4% 6%}
+.stageFb span{width:28%;display:flex;flex-direction:column;align-items:center;gap:6px}
+.stageFb svg{height:auto;aspect-ratio:1;filter:drop-shadow(0 8px 6px rgba(60,35,15,.2))}
+.stageFb i{font-style:normal;font-size:11.5px;color:#6B5646;text-align:center}
+.oneFb{position:absolute;inset:0;background:radial-gradient(circle at 50% 40%,#F6EEE4,#E2D3C0);display:flex;align-items:center;justify-content:center}
+.oneFb svg{width:58%;height:auto;aspect-ratio:1;filter:drop-shadow(0 14px 12px rgba(60,35,15,.25))}
+.kilnFb{position:absolute;inset:0;background:#2A1A10;display:flex;align-items:flex-end;justify-content:center;padding-bottom:10%}
+.kilnFb .arch{position:absolute;left:50%;bottom:8%;width:56%;height:74%;margin-left:-28%;border-radius:50% 50% 6px 6px/40% 40% 6px 6px;background:radial-gradient(ellipse at 50% 70%,#FFB25C,#D9682A 40%,#5A2A12 75%)}
+.kilnFb svg{position:relative;width:26%;height:auto;aspect-ratio:1}
+/* 열람권 */
+.gopt{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:16px}
+.gopt .gn{width:30px;height:30px;border-radius:50%;background:var(--clay);color:var(--on-clay);display:grid;place-items:center;font-weight:700}
+.gopt b{font-size:16px}.gopt p{font-size:14.5px;color:var(--muted);margin:4px 0 8px}
+.okline{font-size:14.5px;background:var(--p-soft);padding:10px 12px;border-radius:10px}
+.claimArt{width:120px;height:120px;margin:10px auto 0}
+/* 자세한 소개 */
+.aboutHead .aboutPic{aspect-ratio:3/2;max-height:340px;width:100%}
+.toc2{padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}
+.toc2 a{text-decoration:none;font-size:14px;padding:6px 0;display:flex;gap:8px;border-bottom:1px dashed var(--line)}
+.toc2 a span{font-family:var(--display);color:var(--clay);font-weight:700;min-width:18px}
+.chap{scroll-margin-top:70px;display:flex;flex-direction:column;gap:12px;padding-top:6px}
+.chap header{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start}
+.cno{font-family:var(--display);font-size:30px;line-height:1;color:var(--clay);font-weight:700}
+.chap h2{font-size:22px;margin-bottom:4px}
+.pic.wide{aspect-ratio:3/2;border-radius:14px}
+.promise{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+/* 로비 */
+.lobbyHead .lobbyPic{aspect-ratio:16/9;max-height:360px;width:100%}
+.vgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vroom{display:flex;flex-direction:column;gap:2px;text-decoration:none;padding:14px;border-top:6px solid var(--rc);border-radius:14px}
+.vpic{aspect-ratio:1;width:72%;margin:0 auto 6px}
+.vpic>img{object-fit:contain}
+.vroom .n{font-size:12px;color:var(--muted);letter-spacing:.06em}
+.vroom b{font-family:var(--display);font-size:22px;color:var(--rc)}
+.vroom i{font-style:normal;font-size:13px;color:var(--muted)}
+.wides{display:flex;flex-direction:column;gap:8px}
+.wcard{display:grid;grid-template-columns:44px 1fr auto;gap:12px;align-items:center;padding:12px 14px;text-decoration:none;border-radius:14px}
+.wcard svg.vase{width:40px;height:40px}.wcard .hnum{height:auto;line-height:1;text-align:center}
+.wcard b{display:block;font-size:15px}.wcard i{font-style:normal;font-size:13px;color:var(--muted)}.wcard .arr{color:var(--muted);font-size:20px}
+/* 전시실 */
+.rhead{color:var(--on-band)}
+.rhin{display:grid;grid-template-columns:1fr 132px;gap:8px;align-items:end;padding-top:28px;padding-bottom:18px}
+.rhead h1{font-size:clamp(38px,11vw,54px);line-height:1.1}
+.rhead .nick{font-size:15px;opacity:.92;margin-top:4px}
+.rvase{aspect-ratio:1;width:132px}
+.rvase>img{object-fit:contain}
+.rvase .fb svg{filter:drop-shadow(0 10px 10px rgba(0,0,0,.25))}
+.rtabs{position:sticky;top:calc(env(safe-area-inset-top,0px) + 53px);z-index:4;background:var(--wall);border-bottom:1px solid var(--line)}
+.rtabs .wrap{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-block:8px}
+.rtabs .wrap::-webkit-scrollbar{display:none}
+.rtabs a{flex:none;text-decoration:none;font-size:14px;font-weight:600;color:var(--muted);padding:6px 12px;border-radius:999px}
+.rtabs a.on{background:var(--ink);color:var(--wall)}
+.sect{scroll-margin-top:118px}
+.lead{font-family:var(--display);font-size:20px;line-height:1.6;margin-bottom:12px}
+.h3{font-size:18px;margin:22px 0 10px}
+.quoteline{font-family:var(--display);font-size:17px;border-left:4px solid;padding-left:12px;margin-top:18px}
+details.work summary{list-style:none;cursor:pointer;display:flex;align-items:baseline;gap:10px}
+details.work summary::-webkit-details-marker{display:none}
+details.work summary::after{content:"＋";margin-left:auto;color:var(--muted);font-size:14px}
+details.work[open] summary::after{content:"－"}
+details.work{display:block}
+details.work summary .no{grid-row:auto;min-width:32px}
+details.work p{margin-top:10px;color:var(--ink);font-size:15px;line-height:1.75}
+details.work.dim p{color:var(--ink)}
+.work.plain{display:flex;flex-direction:column;gap:6px}
+.work.plain p{color:var(--ink);font-size:15px;line-height:1.75}
+.habits,.emos{display:grid;gap:10px}
+.hab,.emo,.story1{padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.hab p,.emo p,.story1 p{font-size:15px;line-height:1.7}
+.story1{margin-top:10px;background:var(--clay-soft);border:0}
+.prose1{font-size:16px;line-height:1.75}
+.worklist{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.worklist li{background:var(--frame);border:1px solid var(--line);border-radius:12px;padding:10px 14px;display:flex;flex-direction:column}
+.worklist li span{font-size:14px;color:var(--muted);line-height:1.6}
+.note{padding:14px 16px;margin-top:12px;font-size:15px;line-height:1.7}
+.treat{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:16px}
+@media (min-width:640px){.habits,.emos{grid-template-columns:1fr 1fr}.hgrid{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:380px){.rhin{grid-template-columns:1fr 96px}.rvase{width:96px}.toc2{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
 
 <nav class="tabs" aria-label="화면"><div class="wrap">
+  <a href="#" id="tab-home">홈</a>
+  <a href="#story" id="tab-story">소개</a>
+  <a href="#types" id="tab-types">전시관</a>
   <a href="#test" id="tab-test">검사</a>
-  <a href="#types" id="tab-types">기질 전시관</a>
-  <a href="#map" id="tab-map">우리 셀 지도</a>
 </div></nav>
+
+<main id="v-home" hidden></main>
+<main id="v-story" hidden></main>
+<main id="v-about" hidden></main>
+<main id="v-gate" hidden></main>
+<main id="v-loading" hidden><div class="wrap view" style="align-items:center;padding-top:30vh"><div class="spin" aria-hidden="true"></div><p class="mut">전시관 문을 여는 중…</p></div></main>
 
 <!-- 검사 시작 -->
 <main id="v-intro" hidden><div class="wrap view">
   <div class="hero stack">
-    <p class="eyebrow">기질 검사 · 24문항</p>
+    <p class="eyebrow">기질 검사 · 36문항</p>
     <h1>하나님이 빚으신 나,<br>어떤 기질일까?</h1>
     <p class="verse">내가 주께 감사하옴은 나를 지으심이 심히 기묘하심이라 — 시편 139:14</p>
-    <p>일터, 가정, 친구 사이에서 나는 어떤 사람일까요? 24개 질문에 답하면 네 가지 기질 가운데 나의 주 기질과 보조 기질을 알려 줍니다. 약 7분 걸립니다.</p>
+    <p>일터, 가정, 친구 사이에서 나는 어떤 사람일까요? 36개 질문에 답하면 네 가지 기질 가운데 나의 주 기질과 보조 기질을 알려 줍니다. 약 7분 걸립니다.</p>
   </div>
   <div class="glazes" aria-label="네 가지 기질">
     <div class="glaze" style="background:var(--s)"><b>다혈질</b><span>활발한 · 사람을 좋아하는</span></div>
@@ -318,56 +457,13 @@ const COLOR={S:"var(--s)",C:"var(--c)",M:"var(--m)",P:"var(--p)"};
 const SOFT={S:"var(--s-soft)",C:"var(--c-soft)",M:"var(--m-soft)",P:"var(--p-soft)"};
 const ROOMNO={S:1,C:2,M:3,P:4};
 const AXIS={S:"외향 · 사람 중심",C:"외향 · 일 중심",M:"내향 · 일 중심",P:"내향 · 사람 중심"};
-const BOOK={"intro": "기질론은 기원전 4세기 그리스의 의사 히포크라테스에게서 시작되었다. 그는 몸속의 네 가지 체액(피·황담즙·흑담즙·점액)이 기질을 만든다고 보았고, 이 설명은 틀린 것으로 밝혀졌지만 네 기질의 이름은 지금도 쓰인다. 누구도 한 가지 기질만 갖지 않으며, 부모와 조부모에게서 물려받은 여러 기질이 섞인 가운데 주된 성향이 하나 드러난다. 기질에 우열은 없고 저마다 강점과 약점이 있으니, 남을 재단하는 잣대가 아니라 자신을 돌아보고 성령께 맡겨 다듬어 가는 출발점으로 삼아야 한다.", "S": {"name": "다혈질", "nickname": "활발한 다혈질", "summary": "따뜻하고 명랑하며 사람과 즐거움을 무엇보다 좋아하는 외향적 기질이다. 외부 자극에 쉽게 반응하고 깊은 숙고보다 그 순간의 감정으로 결정한다. 현재를 누리는 힘이 크지만 의지가 약해 시작한 일을 끝맺기 어렵다.", "portrait": ["모임에 들어서면 이야기보따리를 풀어 분위기를 단숨에 띄운다", "처음 만난 사람의 기쁨과 슬픔에도 진심으로 공감한다", "혼자 있는 시간을 싫어하고 사람들 속에서 힘을 얻는다", "의욕적으로 일을 시작했다가 금세 이웃과 수다로 빠진다", "운전 중에도 상대 얼굴을 보며 말하느라 앞을 잘 안 본다", "통장 위치나 지출 내역 같은 숫자 관리에는 영 서툴다"], "strengths": [{"title": "인생을 즐긴다", "desc": "호기심을 잃지 않고 노래하듯 하루를 살며 지루할 틈이 없다."}, {"title": "낙천적이다", "desc": "지난 실망은 쉽게 잊고 미래 걱정에 짓눌리지 않으며 오늘에 집중한다."}, {"title": "붙임성이 좋다", "desc": "사람을 진심으로 좋아해 새 친구를 쉽게 사귀고 소외된 이를 모임에 끌어들인다."}, {"title": "동정심이 많다", "desc": "남의 기쁨과 아픔에 누구보다 먼저 마음으로 반응한다."}, {"title": "타고난 이야기꾼", "desc": "생생한 표현과 넘치는 감성으로 듣는 이를 즐겁게 한다."}, {"title": "열정이 전염된다", "desc": "새 일에 대한 의욕이 커서 주변 사람들까지 함께 들뜨게 만든다."}], "weaknesses": [{"title": "진득하지 못하다", "desc": "분주하지만 산만해서 깊이 분석하기 전에 엉뚱한 방향으로 뛰어든다."}, {"title": "의지가 약하다", "desc": "자제력이 부족하고 인정받고 싶어 쉽게 타협하며 시작한 일을 마무리하지 못한다."}, {"title": "약속을 잘 잊는다", "desc": "악의는 없지만 다짐과 약속, 시간과 마감을 자주 놓친다."}, {"title": "유혹에 약하다", "desc": "당장의 즐거움에 끌려 유혹 앞에서 넘어지기 쉽다."}, {"title": "자기 중심적이다", "desc": "대화를 독차지하고 자기 이야기와 관심사에만 몰두하기 쉽다."}, {"title": "감정이 불안정하다", "desc": "눈물이 잦고 쉽게 낙심하며 버럭 화를 냈다가 본인만 금방 잊는다."}], "careers": ["영업사원", "배우·연예인", "설교자(특히 부흥사)", "사회자", "경매인", "정치인", "간호사·의사 등 병원 일", "리더(다른 기질이 섞인 경우)", "사람을 많이 만나는 직업"], "bible": "사도 베드로 — 복음서에서 늘 먼저 입을 열고 실수와 눈물의 회개를 반복했지만, 성령 충만 후 초대교회의 굳건한 지도자가 되었다.", "spirit": {"fruits": ["절제", "오래 참음", "충성", "화평", "양선"], "note": "활기찬 신앙생활로 성령 충만을 입으면 들뜬 열정이 흔들림 없는 충성과 자제로 바뀐다."}, "quote": "오늘을 누리는 웃음, 성령 안에서 끝까지 간다", "pages": "3장 29–34쪽, 5장 84–85쪽, 6장 93–96쪽"}, "C": {"name": "담즙질", "nickname": "든든한 담즙질", "summary": "뜨겁고 재빠르며 실용적이고 의지가 굳센 행동가 기질이다. 독립적이고 결단이 빨라 자신과 남의 일을 쉽게 결정하며, 역경을 만나면 오히려 더 밀어붙인다. 다만 감정과 공감 면에서는 메마르기 쉬워 사람에게 상처를 주곤 한다.", "portrait": ["끊임없이 계획과 아이디어를 내며 주변 환경을 움직인다", "남들이 포기한 자리에서도 끝까지 밀어붙여 성과를 낸다", "세부 사항이나 장기 회의는 질색이고 직관으로 빠르게 판단한다", "남의 눈물 앞에서 어색해하고 칭찬보다 비판으로 사람을 다그친다", "약속 사이를 서두르며 차선을 넘나드는 속도광 운전자다", "식사는 늘 같은 메뉴를 말하면서 가장 먼저 해치운다"], "strengths": [{"title": "의지가 강하다", "desc": "자신감 있고 자제력이 있어 한 방향으로 끈질기게 몰두한다."}, {"title": "실제적이다", "desc": "모든 것을 실용적 관점에서 보고 상황을 금세 파악해 해결책을 낸다."}, {"title": "타고난 리더", "desc": "위기에 민첩하고 대담하며 책임자 자리를 두려워하지 않는다."}, {"title": "낙천적 개척자", "desc": "타고난 자신감으로 안정된 자리를 떠나 새로운 일에 뛰어든다."}, {"title": "역경에 강하다", "desc": "어려움이 닥치면 낙심하기보다 목표를 향한 의지가 더 굳어진다."}, {"title": "동기 부여의 달인", "desc": "분명한 목표 의식으로 동료들이 같은 방향을 보게 만든다."}], "weaknesses": [{"title": "성미가 급하다", "desc": "순식간에 격분하고 화가 난 뒤에도 앙금을 오래 품는다."}, {"title": "잔인할 수 있다", "desc": "남의 감정과 필요에 무심해 목표를 위해 사람을 짓밟기도 한다."}, {"title": "목적이 수단을 정당화", "desc": "도덕 훈련이 없으면 성공을 위해 편법도 마다하지 않을 수 있다."}, {"title": "즉흥적이다", "desc": "성급히 벌인 일을 후회하면서도 자존심 때문에 고집스레 밀고 간다."}, {"title": "자부심이 지나치다", "desc": "오만하고 고압적이 되기 쉽고 하나님이 필요하다는 것을 잘 못 느낀다."}, {"title": "사과와 칭찬에 인색", "desc": "인정과 격려를 아껴 가족과 동료에게 깊은 상처를 남긴다."}], "careers": ["기업가·창업자", "건설업 십장·현장감독", "택지 개발업자", "기술자 감독", "영업", "교사(실용 과목)", "정치인", "군인", "스포츠", "설교자·대형교회 담임목사"], "bible": "사도 바울 — 회심 전에는 교회를 맹렬히 박해했고 회심 후에는 돌에 맞고도 일어나 복음을 들고 세상을 누볐으며, 성령 안에서 부드러움과 연민까지 보여 주었다.", "spirit": {"fruits": ["사랑", "희락", "화평", "온유", "오래 참음", "자비", "양선"], "note": "내 힘이 아니라 주의 영으로 된다는 것을 배울 때, 강한 추진력에 온유와 긍휼이 더해진다."}, "quote": "앞장서는 힘에 사랑을 더할 때 진짜 리더", "pages": "3장 35–41쪽, 5장 86–87쪽, 6장 96–100쪽"}, "M": {"name": "우울질", "nickname": "거장 우울질", "summary": "흔히 '어두운 기질'로 불리지만 실은 가장 풍요로운 기질로, 분석적이고 자기희생적이며 재능 있는 완벽주의자다. 감수성이 매우 예민해 예술을 깊이 누리고 기분의 기복이 크다. 성령의 능력을 입으면 어떤 기질보다 큰 잠재력을 발휘한다.", "portrait": ["친구를 먼저 찾지 않지만 한번 맺은 소수와는 깊고 충실한 우정을 나눈다", "새 일의 위험과 걸림돌을 누구보다 먼저 꼼꼼히 짚어낸다", "들떠 외향적일 때와 울적해 혼자 있고 싶은 때가 번갈아 온다", "여행 전 최적 경로를 미리 짜고 차량 기록까지 꼼꼼히 남긴다", "동네에서 가장 정성스럽게 정원을 가꾸고 식물을 아낀다", "메뉴 고르는 데 오래 걸리고 한입 한입 맛을 음미한다"], "strengths": [{"title": "감수성과 재능", "desc": "창의성과 지적 능력이 뛰어나 예술과 문화의 가치를 깊이 안다."}, {"title": "완벽주의자", "desc": "기준이 높아 무슨 일이든 탁월하고 정확하게 해내려 한다."}, {"title": "탁월한 분석력", "desc": "세부를 꼼꼼히 살펴 계획의 문제점과 위험을 정확히 진단한다."}, {"title": "충실한 친구", "desc": "많지 않은 친구와 목숨이라도 내줄 만큼 깊은 우정을 나눈다."}, {"title": "희생적이다", "desc": "앞에 나서기보다 뒤에서 섬기며 남을 돕는 일에 인생을 건다."}, {"title": "믿을 수 있다", "desc": "맡은 일을 기한 안에 반드시 해내며 자신의 한계도 잘 안다."}, {"title": "말이 정확하다", "desc": "먼저 나서지 않지만 물으면 깊이 생각한 의견을 군더더기 없이 말한다."}], "weaknesses": [{"title": "자기 중심적", "desc": "지나친 자기 성찰과 자기 진단에 빠져 의지와 기력이 마비되기 쉽다."}, {"title": "쉽게 상처받는다", "desc": "예민해서 모욕감을 잘 느끼고 남을 쉽게 의심한다."}, {"title": "비관적이다", "desc": "얻을 유익보다 넘어야 할 문제가 더 크게 보여 겁 많고 우유부단해진다."}, {"title": "비판적이다", "desc": "최고가 아니면 받아들이지 못해 남과 자신 모두에게 만족하지 못한다."}, {"title": "감정 기복이 심하다", "desc": "이유 없이 울적해지고 과거 회상과 공상으로 도피하곤 한다."}, {"title": "앙심을 품는다", "desc": "겉은 조용해도 분한 마음을 오래 쌓아 두고 판단까지 흐려진다."}], "careers": ["작곡가·음악가·지휘자", "미술가", "발명가", "철학자·이론가", "신학자", "과학자", "헌신적인 교육자", "배우(연기)", "숙련 기술직(목수·벽돌공·배관공·미장이·정비사)", "원예가", "공학자", "의사", "건축 설계·도면 작업"], "bible": "모세 — 유능하지만 자신을 믿지 못하던 내향적 인물이 하나님을 신뢰하며 위대한 지도자가 되었으나, 분노를 다스리지 못해 약속의 땅에 들어가지 못했다(그 밖에 선지자들, 솔로몬, 사도 요한).", "spirit": {"fruits": ["사랑", "희락", "화평", "양선", "충성", "절제"], "note": "범사에 감사하기를 배우며 은혜로 변화되면, 자기에게 갇힌 시선이 다른 사람을 향한 큰 사명으로 바뀐다."}, "quote": "깊이 느끼는 마음, 감사로 빛나는 재능", "pages": "3장 41–47쪽, 5장 88–89쪽, 6장 100–104쪽"}, "P": {"name": "점액질", "nickname": "만사태평 점액질", "summary": "온화하고 차분하며 느긋하고 균형 잡힌 기질로, 어떤 상황에도 좀처럼 흔들리지 않는다. 속은 따뜻하고 감정도 풍부하지만 잘 드러내지 않고 삶의 구경꾼으로 남으려 한다. 일단 움직이면 유능하고 효율적이지만, 스스로 나서기보다 기다리다 기회를 놓치기 쉽다.", "portrait": ["무표정한 얼굴로 농담을 던져 좌중을 웃기고 본인은 태연하다", "다른 사람의 말투와 행동을 잘 관찰해 흉내 내는 재주가 있다", "불의를 보면 안타까워하지만 직접 나서기보다 지켜보는 편이다", "리더 자리를 속으로 원해도 자원하지 않고 차례를 기다린다", "네 기질 중 운전이 가장 느리고 차선도 좀처럼 바꾸지 않는다", "음식을 천천히 꼭꼭 씹어 늘 가장 늦게 식사를 마친다"], "strengths": [{"title": "재치 있는 유머", "desc": "일상에서 웃음거리를 찾아내 절묘한 타이밍에 담백하게 웃긴다."}, {"title": "믿음직하다", "desc": "늘 친절하고 한결같으며 맡은 일을 제때 해내는 충실한 친구다."}, {"title": "타고난 상담가", "desc": "느긋하게 잘 들어주고 객관적이며 꼭 필요한 조언만 건넨다."}, {"title": "효율적이다", "desc": "미리 생각하고 계획해 최소의 노력으로 목표에 이르는 길을 찾는다."}, {"title": "압박에 강하다", "desc": "남들이 무너질 긴장된 상황에서 오히려 최상의 결과를 낸다."}, {"title": "깔끔하고 정확하다", "desc": "완벽주의는 아니어도 정돈과 꼼꼼함이 몸에 배어 있다."}, {"title": "화평케 하는 사람", "desc": "사람들 사이를 원만하게 하고 조용히 남의 꿈을 돕는다."}], "weaknesses": [{"title": "느리고 게으르다", "desc": "내키지 않는 일은 일부러 느릿느릿 하며 되도록 일을 적게 하려 한다."}, {"title": "구경꾼에 머문다", "desc": "좋은 생각이 있어도 품이 든다는 이유로 행동에 옮기지 않는다."}, {"title": "약을 올린다", "desc": "초연한 유머로 열정적인 사람들의 김을 빼고 속을 뒤집어 놓는다."}, {"title": "이기적이다", "desc": "돈과 노력, 감정까지 아끼며 사랑도 잘 표현하지 않는다."}, {"title": "완고하다", "desc": "변화를 싫어하고 미소 뒤에 고집을 숨긴 은근한 반항자가 되기도 한다."}, {"title": "우유부단하다", "desc": "남의 기분을 살피고 개입할지 저울질하다 결정을 미룬다."}], "careers": ["초등학교 교사", "고교·대학 교사(수학·물리·문법·문학·언어)", "교직원·도서관 사서", "카운슬러·상담가", "대학 학과장", "건축사·제도사", "화학·기계·토목 공학자", "통계학자", "정비사·목수·전기기술자 등 기술직", "시계·카메라 수리공", "십장·감독관·지배인", "공무원·군인 등 안정된 직장", "코미디언"], "bible": "아브라함 — 두려움과 걱정 속에 망설이던 사람이 하나님 안에서 결단력 있고 용감한 사람으로 바뀌어, 타고난 약점이 강점이 되는 과정을 보여 준다.", "spirit": {"fruits": ["사랑", "양선", "온유", "충성", "절제"], "note": "성령께서 움직일 동기와 자제력을 주시면, 지켜보던 사람이 결단하고 행동하는 사람으로 바뀐다."}, "quote": "고요한 평화, 성령 안에서 한 걸음 내딛다", "pages": "3장 47–53쪽, 5장 89–90쪽, 6장 104–107쪽"}};
-const BL={"intro": "기질론이 사람을 한 가지 틀에 가둔다는 비판이 있지만, 책은 누구나 적어도 두 가지 기질이 섞인 존재라고 말합니다. 앞에서 두드러지는 ‘주 기질’과 그 뒤를 받치는 ‘부 기질’을 함께 보면, 네 가지 기본형보다 자기 모습을 훨씬 정확하게 찾을 수 있습니다. 실제 섞인 비율은 사람마다 다르지만, 책은 설명을 쉽게 하려고 주 기질과 부 기질을 6대 4로 가정합니다. 같은 다혈질이라도 담즙질이 섞이면 거칠게 부딪히고 점액질이 섞이면 편안한 사람이 되듯, 부 기질을 알면 자신을 이해하는 데 훨씬 큰 도움이 됩니다.", "SC": {"name": "다혈담즙질", "tagline": "무대 위의 추진가", "nickname": "가장 외향적인 조합", "summary": "외향적인 두 기질이 겹친, 열두 조합 중 가장 바깥으로 향하는 사람입니다. 다혈질의 유쾌한 매력 덕분에 사람을 중심에 두는 열정적인 세일즈맨 같은 모습이 되고, 담즙질의 결단력과 배짱이 더해져 순수 다혈질보다 체계적이고 일 처리도 낫습니다. 다만 약점 역시 감추어지지 않고 겉으로 분명히 드러나는 편입니다.", "portrait": ["모임에 들어서는 순간 분위기가 살아나는, 파티의 활력소 같은 사람", "첫인상은 아주 좋지만 대화를 혼자 끌고 가다 그 인상을 스스로 깎아 먹기도 함", "상황을 다 듣기도 전에 먼저 말이 튀어나와 곤란해지는 일이 잦음", "스포츠 이야기만 나오면 눈이 반짝이는 열성 팬", "작은 일에 욱해서 앞뒤 재지 않고 행동했다가 나중에 수습하는 모습"], "strengths": [{"title": "사람을 끄는 카리스마", "desc": "밝고 유쾌한 성품으로 처음 만난 사람에게도 금세 호감을 얻습니다."}, {"title": "열정과 결단력", "desc": "담즙질의 기개가 더해져 머뭇거리지 않고 결정하고 밀고 나갑니다."}, {"title": "다혈질보다 나은 조직력", "desc": "순수 다혈질에 비해 일을 체계 있게 꾸리고 성과도 더 냅니다."}, {"title": "관계 중심의 영향력", "desc": "사람을 상대하는 분야라면 어디서든 자기 몫 이상을 해냅니다."}], "weaknesses": [{"title": "앞서 나가는 입", "desc": "말이 많고 성급해서 어느 기질보다 입 때문에 어려움을 많이 겪습니다."}, {"title": "대화 독점과 강한 자의식", "desc": "자기 이야기에 몰두하다 보니 좋은 첫인상을 망치고, 거부당한다고 느끼면 더 세게 나와 상황을 키웁니다."}, {"title": "쉽게 터지는 분노", "desc": "정서적으로 가장 큰 문제는 화로, 사소한 일에도 발끈해 무모한 행동을 할 수 있습니다."}, {"title": "편 가르는 말", "desc": "자기 편에게는 칭찬을 아끼지 않지만 걸림돌이 되는 사람은 깎아내립니다."}, {"title": "무뎌지기 쉬운 양심", "desc": "잘 잊어버리는 데다 목적만 좋으면 된다는 생각이 있어 자기 행동을 쉽게 정당화합니다."}], "home": "책은 이 기질이 자라면서 가정에서 바른 훈련과 동기 부여, 사랑을 받고 약점에 휘둘리지 않는다면 경제적으로도 성공할 수 있다고 봅니다.", "careers": ["영업사원", "홍보사원", "영업부장(영업 책임자)", "대인관계가 중심이 되는 분야 전반"], "bible": {"name": "시몬 베드로", "others": [], "story": "책은 3장에서 다혈질로 소개한 베드로를 좀 더 세분하면 다혈담즙질의 전형이라고 봅니다. 복음서 속 베드로는 앞뒤 없이 나서고 의지가 약하며 세상적인 모습이었고, 실제로 예수님을 세 번 부인하기도 했습니다. 그러나 사도행전에서는 오순절 설교를 비롯해 단호하고 유능하며 열매 맺는 지도자로 달라졌는데, 책은 그 변화의 비결을 성령 충만으로 꼽습니다."}, "growth": "입과 분노를 다스리는 것, 그리고 목적을 핑계로 자기 행동을 합리화하지 않는 정직한 양심이 가장 큰 과제입니다. 책은 베드로를 바꾼 것이 성령 충만이었듯, 같은 성령께서 이 기질의 열정을 단단하고 생산적인 힘으로 바꾸신다고 말합니다.", "page": 58}, "SM": {"name": "다혈우울질", "tagline": "눈물 많은 감성가", "nickname": "", "summary": "다혈질의 밝음과 우울질의 깊은 감수성이 만나 감정의 폭이 매우 넓은 사람입니다. 크게 웃다가도 금세 눈물을 보이고, 다른 사람의 아픔을 진심으로 함께 아파합니다. 사람들과 어울려 일할 때 가장 빛나지만, 두 기질 모두 생각에 잠기는 몽상가라서 머릿속 생각이 가장 큰 약점이 되기도 합니다.", "portrait": ["슬픈 사연이나 음악 앞에서 누구보다 먼저 눈시울이 붉어지는 사람", "환자를 늘 따뜻하게 대하는 의사, 학생들에게 인기 많은 교수의 모습", "강연을 해도 감성에만 기대지 않고 정확한 숫자와 자료를 챙겨 오는 연사", "받은 상처나 모욕을 오래 되새기며 스스로를 괴롭히기도 함", "사람들에게 인정받는 것이 중요해서 맡은 일을 꾸준히 해냄"], "strengths": [{"title": "깊은 공감 능력", "desc": "다른 사람의 슬픔을 진심으로 함께 느끼고 아파합니다."}, {"title": "따뜻한 가르침과 돌봄", "desc": "교사·교수·의사로서 사람들을 따뜻하게 대해 사랑을 받습니다."}, {"title": "표현력과 예술성", "desc": "강연, 연기, 음악, 미술처럼 감정을 전하는 분야에 재능이 있습니다."}, {"title": "정확함을 갖춘 전달", "desc": "다혈질 연사들 가운데서도 통계와 사실을 가장 정확하게 사용합니다."}, {"title": "하나님과의 깊은 교제", "desc": "책은 이 기질이 하나님과 교제하는 데 남다른 능력이 있다고 말합니다."}], "weaknesses": [{"title": "심한 감정 기복", "desc": "기분이 순식간에 웃음과 눈물 사이를 오갑니다."}, {"title": "완벽주의에서 나오는 비판", "desc": "완벽주의를 다스리지 못하면 사람들을 마구 비판하다 외톨이가 될 수 있습니다."}, {"title": "자의식과 오만", "desc": "자기를 의식하는 마음이 교만으로 흘러 밉살스럽게 비칠 수 있습니다."}, {"title": "상처를 곱씹는 생각", "desc": "모욕과 상처를 되새기다 스스로를 학대하는 데까지 이를 수 있습니다."}, {"title": "불안과 분노", "desc": "두려움 때문에 잠재력을 다 쓰지 못하고, 화도 문제가 될 수 있습니다."}], "home": "", "careers": ["의사", "교사", "대학교수", "대중 강연자", "배우(연기)", "음악가", "예술가"], "bible": {"name": "다윗 왕", "others": [], "story": "책은 하나님과 깊이 교제하는 다혈우울질의 본보기로 다윗을 듭니다. 그는 사람들을 사로잡는 매력과 풍부한 감정을 지닌 음악가이자 시인이었지만, 충동적인 결정이 많았고 의지가 약해 큰 죄와 값비싼 실수로 삶에 깊은 상처를 남겼습니다. 그러나 나단 선지자의 책망 앞에 진심으로 회개했고(시편 51편), 그 뒤에야 자제력을 배웠습니다. 책은 많은 다혈우울질이 다윗처럼 무너진 삶을 다시 세우지 못한다고 경고합니다."}, "growth": "생각의 흐름을 다스려 상처와 불안을 곱씹지 않는 것, 그리고 충동을 이기는 자제력이 가장 큰 과제입니다. 책은 다윗의 실수를 피하려면 날마다 성령 안에서 행해야 한다고 권합니다.", "page": 60}, "SP": {"name": "다혈점액질", "tagline": "모두의 유쾌한 친구", "nickname": "다혈질 중 가장 덜 외향적인 조합", "summary": "누구라도 좋아할 만한 사람입니다. 다혈질 특유의 부담스럽고 가끔은 얄미운 면이 점액질의 여유와 품위로 누그러져, 태평한 마음과 유머로 주변을 즐겁게 하는 낙천가가 됩니다. 다만 스스로 앞장서 밀고 나가기보다 주변 상황에 끌려가는 경향이 있고, 의욕과 자제력이 부족한 것이 가장 큰 약점입니다.", "portrait": ["어떤 자리든 농담으로 웃음을 만드는 사람, 때로는 진지해야 할 때도", "해고 소식조차 웃는 얼굴로 전할 만큼 웬만해선 당황하지 않음", "기회만 되면 주변 사람을 돕고 나서는 넉넉한 마음", "일하는 시간보다 수다 떠는 시간이 더 즐거운 직장인", "사장 입장에서는 인간적으로 좋지만 좀 더 열심히 해 주었으면 하는 직원"], "strengths": [{"title": "누구나 좋아하는 성품", "desc": "부드럽고 여유로워 어디서든 사람들의 호감을 삽니다."}, {"title": "낙천성과 유머", "desc": "매사를 밝은 쪽으로 해석하고 사람들을 웃게 만듭니다."}, {"title": "남을 돕는 마음", "desc": "틈만 나면 다른 사람을 도우려 합니다."}, {"title": "가족을 향한 성실함", "desc": "대개 가족에게 성실하고 배우자와 자녀에게 사랑을 많이 쏟습니다."}, {"title": "다양한 설득 방식", "desc": "사람을 상대하는 여러 형태의 영업에서 자기 스타일을 보여 줍니다."}], "weaknesses": [{"title": "의욕과 자제력 부족", "desc": "책은 이것을 이 기질의 가장 큰 약점으로 꼽습니다."}, {"title": "진지함의 부족", "desc": "일보다 잡담을 좋아하고 인생을 가볍게 사는 경향이 있습니다."}, {"title": "상황에 끌려가는 수동성", "desc": "주도적으로 움직이기보다 환경과 분위기에 따라 흘러가기 쉽습니다."}, {"title": "흔들리기 쉬운 마음", "desc": "강한 도덕적 신념으로 자신을 지키지 않으면 가정 밖의 그릇된 유혹에 넘어갈 위험이 있습니다."}], "home": "대개 가정에 성실하고 아내와 자녀를 많이 사랑하는 남편이자 아버지입니다. 다만 책은 분명한 도덕적 신념으로 스스로를 지키지 않으면 그릇된 관계의 유혹에 흔들릴 수 있다고 경고합니다.", "careers": ["다양한 형태의 영업·판매"], "bible": {"name": "아볼로", "others": [], "story": "책은 1세기 전도자 아볼로를 다혈점액질의 전형으로 봅니다. 성경에 능통하고 말솜씨가 뛰어난 알렉산드리아 출신 유대인이었던 그는(행 18:24), 브리스길라와 아굴라에게 하나님의 도를 더 정확히 배운 뒤 바울 등이 세운 교회들을 맡아 성령 충만한 설교로 성도들을 세웠습니다. 바울이 ‘나는 심었고 아볼로는 물을 주었다’(고전 3:6)고 했듯 모두에게 사랑받고 따르는 이들도 있었지만, 책은 그가 새 일을 개척하지는 않았다고 덧붙입니다."}, "growth": "스스로를 독려하는 의욕과 자제력, 그리고 흔들리지 않는 도덕적 중심을 세우는 것이 과제입니다. 책은 이 사람이 그리스도를 뜨겁게 사랑하게 되면 훨씬 결단력 있고 열매 맺는 사람으로 변한다고 말합니다.", "page": 61}, "CS": {"name": "담즙다혈질", "tagline": "멈추지 않는 기관차", "nickname": "두 번째로 외향적인 조합", "summary": "담즙질의 추진력에 다혈질의 매력이 더해져 거의 활동에만 몰두하는 사람입니다. 대부분 목적이 분명하고 생산적인 일에 힘을 쏟으며, 타고난 홍보가로서 무엇이든 팔 수 있을 만큼 설득력이 있습니다. 그러나 다혈질의 급한 성미와 담즙질의 풀리지 않는 앙심이 함께 있어, 적대감이 가장 큰 약점이 됩니다.", "portrait": ["아내 말로는 ‘전속력’과 ‘정지’, 딱 두 가지 속도만 있는 남편", "어려움이 닥치면 오히려 힘이 솟고, 새로운 도전 앞에서 두려움이 없음", "어디를 가든 눈에 띄고 금세 친구를 사귐", "논리가 부족할 때는 말로 밀어붙이거나 엄포를 놓아서라도 토론을 이김", "여러 일을 동시에 벌여 놓고 마무리는 다른 사람들을 끌어들여 해결함"], "strengths": [{"title": "타고난 설득력", "desc": "무엇이든 팔 수 있을 만큼 사람의 마음을 움직이는 홍보 능력이 있습니다."}, {"title": "동기 부여의 달인", "desc": "다른 사람들에게 의욕을 불어넣는 데 능합니다."}, {"title": "지치지 않는 에너지", "desc": "어려움 앞에서 더 강해지고 두려움 없이 새로운 모험에 뛰어듭니다."}, {"title": "빠른 두뇌 회전", "desc": "어떤 일을 하든 머리가 재빨리 돌아갑니다."}, {"title": "사람을 얻는 카리스마", "desc": "이웃과 잘 어울리고 사람들이 자연스럽게 호감을 느낍니다."}], "weaknesses": [{"title": "적대감과 앙심", "desc": "욱하는 성미에 화를 오래 품는 성향까지 겹쳐 자신과 주변 사람 모두를 지치게 합니다."}, {"title": "날카롭고 가혹한 말", "desc": "잔인할 만큼 솔직한 것을 오히려 자랑으로 여깁니다."}, {"title": "느린 사람에 대한 조급함", "desc": "추진력과 에너지가 부족한 사람을 참아 주지 못합니다."}, {"title": "고집과 편파성", "desc": "애초에 시작하지 말았어야 할 일도 끝까지 밀어붙이곤 합니다."}, {"title": "사람을 이용하는 위험", "desc": "하나님의 다스림을 받지 않으면 목표를 위해 사람을 조종하고 짓밟으며 그것을 정당화할 수 있습니다."}], "home": "일에 빠져 가족과 친구를 소홀히 하고, 가족이 서운함을 말하면 거친 말로 받아치기 쉽습니다. 그러면 아내는 사랑받지 못한다고 느끼며 남편을 존경하면서도 두려워하고 원망하게 되지만, 이 사람이 가족을 사랑하고 인정해 주는 일의 중요성을 깨달으면 집안 전체를 바꿀 수 있습니다.", "careers": ["홍보 전문가", "변호사", "기금 모금 전문가", "목회자(실제적인 설교와 효율적인 교회 행정)", "정치가", "토론가", "사회과학 교사"], "bible": {"name": "야고보(야고보서의 저자)", "others": [], "story": "책은 야고보서의 저자 야고보를 담즙다혈질로 봅니다. ‘행함이 없는 믿음은 죽은 것’이라는 야고보서의 핵심은 일을 사랑하는 담즙질이 좋아할 구호이고, 그가 경고한 ‘불과 같은 혀’는 바로 이 기질의 가장 약한 부분인 날카로운 말을 가리킵니다. 전통적으로 예수님의 동생으로 여겨지는 그는 처음엔 예수님을 믿지 않았으나(요 7:5) 부활하신 주님을 만난 뒤(고전 15:7) 예루살렘 교회의 존경받는 지도자가 되었고, 책은 그가 독설과 빈정거림을 이기고 복음을 위해 일한 것을 성령의 역사의 좋은 본보기로 꼽습니다."}, "growth": "혀를 다스리고 마음속 적대감을 내려놓는 것, 그리고 일 때문에 가족을 뒤로 미루지 않는 것이 가장 큰 과제입니다. 책은 그리스도께서 성령을 통해 이 기질의 잔인함과 빈정거림을 이기게 하시고, 그 에너지를 복음을 위한 힘으로 쓰게 하신다고 말합니다.", "page": 62}, "CM": {"name": "담즙우울질", "tagline": "치밀한 전략가 리더", "nickname": "", "summary": "담즙질의 낙관과 실행력이 우울질의 변덕을 눌러 주어, 목표를 향해 달리면서도 꼼꼼함을 잃지 않는 사람입니다. 분석력이 뛰어나고 머리 회전이 빠르면서도 결단력이 있어 탁월하게 일을 처리하는 리더가 됩니다. 그러나 강점만큼 약점도 커서, 존경과 미움을 동시에 받는 독재자 같은 면이 있습니다.", "portrait": ["아주 작은 사실까지 기억해 두었다가 논쟁에서 정확히 꺼내는 사람", "확실한 근거 없이는 함부로 말싸움을 걸면 안 되는 상대, 상대의 약점을 정확히 찌름", "외과 과장이면서 동시에 뛰어난 성경 교사이기도 한 모습", "일하는 리듬은 들쭉날쭉하지만 한번 붙잡으면 오랜 시간 몰두함", "자녀의 성적에 실망해 지나치게 엄한 벌을 내리는 아버지가 되기도 함"], "strengths": [{"title": "근면함과 유능함", "desc": "부지런하고 능력이 있어 어떤 직업에서도 대개 성공합니다."}, {"title": "목표 지향과 꼼꼼함", "desc": "큰 목표를 세우면서도 세부 사항을 놓치지 않습니다."}, {"title": "날카로운 분석력과 결단", "desc": "빠르게 분석하고 망설임 없이 결정합니다."}, {"title": "뛰어난 논쟁 능력", "desc": "작은 사실까지 정확히 기억해 논리 싸움에서 좀처럼 지지 않습니다."}, {"title": "최고의 리더 자질", "desc": "책은 이 기질을 가장 뛰어난 리더가 될 가능성이 높은 조합으로 봅니다."}], "weaknesses": [{"title": "독재자 성향", "desc": "자기 주장이 강하고, 상대가 원하든 말든 생각을 거침없이 쏟아냅니다."}, {"title": "이기기 위한 논쟁", "desc": "논쟁에서 이기려고 자기 입장과 다른 주장까지 펼칩니다."}, {"title": "상처 주는 빈정거림", "desc": "말솜씨가 날카로워 비꼬는 말로 사람들을 깊이 아프게 합니다."}, {"title": "증오와 원한", "desc": "미움과 원망을 오래 품을 수 있고, 특히 가족 관계에서 어려움을 겪기 쉽습니다."}, {"title": "끝없는 불만족", "desc": "좀처럼 만족하지 못하는 데다 완벽주의까지 있어 스스로도 위궤양·고혈압 같은 스트레스성 질환에 시달리기 쉽습니다."}], "home": "만족을 모르는 성향과 완벽주의 때문에 자녀를 지나치게 다그치는 가혹한 부모가 될 수 있습니다. 책은 성적 문제로 아들을 여름 내내 방에 가둔 아버지의 아들이 결국 가족과 하나님을 떠난 사례를 들며 경고합니다.", "careers": ["변호사", "외과 의사", "성경 교사", "세일즈맨", "군 지휘관(예: 조지 패튼 장군)", "리더·지도자"], "bible": {"name": "사도 바울", "others": [], "story": "책은 3장에서 담즙질로 소개한 바울을 좀 더 정확히는 담즙우울질이라고 확신합니다. 회심 전의 그는 적대감에 불타 교회를 박해한 사람이었고, 책은 회심 뒤에도 경고를 듣고도 예루살렘으로 올라간 모습에서 꺾이지 않는 고집을 봅니다. 그러나 다메섹 길에서 주님을 만난 뒤(행 9장) 그의 분석적인 논증과 자기를 희생하는 추진력은 복음을 위해 쓰였고, 신약의 많은 서신이 그 열매로 남았기에 책은 바울을 하나님이 이 기질을 변화시키시는 산 증거로 소개합니다."}, "growth": "날카로운 말과 쌓인 원한, 그리고 가족을 향한 지나친 요구를 내려놓는 것이 가장 큰 과제입니다. 책은 성령의 다스림을 받을 때 이 사람의 정서 자체가 달라져 훌륭한 그리스도인이 될 수 있다고 말합니다.", "page": 64}, "CP": {"name": "담즙점액질", "tagline": "열 사람을 움직이는 행정가", "nickname": "외향적 조합 중 가장 차분한 조합", "summary": "담즙질의 빠르고 열정적인 추진력에 점액질의 침착하고 담담한 면이 섞인 사람입니다. 다른 외향형처럼 상황에 곧장 뛰어들지 않고 신중하게 계획을 세운 뒤 꾸준히 일하기 때문에, 처음엔 눈에 띄지 않아도 길게 보면 대단히 유능합니다. 혼자 다 하려 하지 않고 사람들을 모아 함께 일하기에, 어느 기질보다 많은 일을 이루어 냅니다.", "portrait": ["책 수백 권을 옮겨야 할 때 혼자 뛰지 않고 조용히 열 명에게 도움을 청해 4분 만에 끝내는 목사", "분명한 목표와 세부 계획을 세워 두고도 사람들을 몰아붙이지 않는 리더", "함께 일하는 사람들이 자기 능력을 최대한 발휘하도록 돕는 사람", "가시 돋친 말을 농담으로 포장해서, 듣는 사람이 웃어야 할지 헷갈리게 만들기도 함", "잘못했을 때 미안하다는 말 대신 다른 방식으로 ‘갚으려’ 하는 모습"], "strengths": [{"title": "신중한 계획과 꾸준함", "desc": "꼼꼼히 계획한 뒤 열심히 일하는 조직적인 사람입니다."}, {"title": "사람을 살리는 리더십", "desc": "사람들을 이용한다는 느낌 없이 각자의 능력을 끌어냅니다."}, {"title": "함께 일하는 지혜", "desc": "혼자 열 사람 몫을 하기보다 열 사람을 모아 일하는 법을 압니다."}, {"title": "탁월한 행정 능력", "desc": "거의 모든 분야에서 뛰어난 행정가가 됩니다."}, {"title": "좋은 남편과 아버지", "desc": "책은 이 기질이 가정에서도 좋은 남편과 아버지가 된다고 말합니다."}], "weaknesses": [{"title": "속으로 품는 적개심", "desc": "크게 폭발하지는 않지만 마음속에 원망과 앙심을 쌓아 둡니다."}, {"title": "유머로 포장한 비꼼", "desc": "날카로운 말을 농담처럼 던져 상대가 농담인지 조롱인지 헷갈리게 합니다."}, {"title": "누구보다 강한 고집", "desc": "완고해서 잘못을 인정하거나 회개하기를 어려워합니다."}, {"title": "사과 대신 보상", "desc": "잘못한 상대에게 사과하기보다 다른 것으로 만회하려 합니다."}, {"title": "억눌린 진취성", "desc": "점액질의 소심함이 담즙질의 추진력을 눌러 잠재력을 다 쓰지 못할 수 있습니다."}], "home": "책은 담즙점액질이 거의 모든 분야의 뛰어난 행정가일 뿐 아니라 좋은 남편이자 아버지가 된다고 말합니다.", "careers": ["행정가(거의 모든 분야)", "목회자"], "bible": {"name": "디도", "others": [], "story": "책은 바울의 영적 아들 디도를 담즙점액질로 봅니다. 이방인 출신이었던 그는(갈 2:3) 고린도 교회의 어려운 문제를 맡아 풀어냈고(고후 7–8장), 바울은 그에게 그레데 섬의 교회들을 맡겨 각 성에 장로를 세우게 했습니다(딛 1:5). 책은 성령 충만했던 디도가 복음을 신실하게 가르치고 교회를 유능하게 다스릴 사람으로 바울의 신뢰를 받았다며, 디도서를 모든 교사, 특히 이 기질의 교사가 꼭 읽어야 할 책으로 권합니다."}, "growth": "고집을 내려놓고 잘못을 솔직하게 인정하며 사과하는 법, 그리고 마음에 쌓인 원망을 풀어내는 것이 과제입니다. 디도처럼 성령 충만을 받으면 이 기질의 차분한 조직력은 공동체를 신실하게 세우는 힘이 됩니다.", "page": 66}, "MS": {"name": "우울다혈질", "tagline": "무대에 선 학자", "nickname": "", "summary": "우울질이 앞서고 다혈질이 뒤를 받치는, 내향 쪽에 더 가까운 조합입니다. 우울질 덕분에 남들이 놓친 사실을 찾아내고 세부까지 정확하며, 다혈질 덕분에 사람들과 잘 통해 가르치고 공연하는 일에 탁월합니다. 하지만 감정의 기복이 커서, 일이 틀어지면 자기 연민에 깊이 잠기고 스스로 만든 초라한 자화상에 갇히기 쉽습니다.", "portrait": ["학생들과 잘 통하면서도 자료 하나하나를 정확히 짚는 인기 교사·교수", "청중의 마음을 사로잡는 연주자, 노래하는 사람, 재미있는 사회자", "성적은 좋은데 전공을 자주 바꿔 졸업이 늦어지기도 하는 학생", "상황이 좋을 땐 한없이 행복하다가, 거절이나 모욕을 당하면 자기 연민에 빠짐", "실력은 충분한데 자기 사업을 시작할 배짱은 없어 대개 누군가의 밑에서 일함"], "strengths": [{"title": "학자다운 정확성", "desc": "잘 알려지지 않은 사실을 찾아내고 세부 사항까지 정확하게 다룹니다."}, {"title": "가르치는 은사", "desc": "특히 고등학생이나 대학생을 가르치는 일에 누구보다 잘 맞습니다."}, {"title": "공연과 예술적 재능", "desc": "청중을 사로잡는 연주가·가수·배우의 자질이 많습니다."}, {"title": "깊이 느끼는 마음", "desc": "쉽게 감동하고 모든 상황을 깊이 느낍니다."}, {"title": "신실한 가정생활", "desc": "좋은 배우자이자 충실한 부모가 됩니다."}], "weaknesses": [{"title": "자기 연민", "desc": "거절당하거나 마음이 상하면 자기 연민의 바다에 잠겨 버립니다."}, {"title": "지나친 비판과 가혹함", "desc": "감수성이 예민한 만큼 다른 사람에게 터무니없이 비판적이고 가혹해질 수 있습니다."}, {"title": "고집과 비협조", "desc": "일이 뜻대로 되지 않으면 완고해지고 협조하지 않습니다."}, {"title": "초라한 자화상", "desc": "실제보다 자신을 낮게 보아 두려움과 불안에 갇히고 재능을 드러내지 못합니다."}, {"title": "끝맺음의 어려움", "desc": "방향을 자주 바꾸거나 중도에 포기해 잠재력을 다 쓰지 못하기도 합니다."}], "home": "좋은 남편이자 충실한 아버지가 됩니다. 다만 아내와 자녀를 있는 모습 그대로 받아들이고 비판을 줄이는 법을 배워야 합니다.", "careers": ["학자", "고등학교·대학 교사", "컴퓨터·사무기기·교재 판매", "변호사", "의사", "배우·오페라 가수·컨트리 가수", "작곡가(포크송·발라드)", "사회자", "목회자", "화가"], "bible": {"name": "침례 요한", "others": ["엘리야", "예레미야", "그 외 여러 선지자"], "story": "책은 침례 요한, 엘리야, 예레미야 같은 선지자들을 우울다혈질로 봅니다. 그들은 하나님과 깊이 교제하며 자신을 희생해 사람들을 섬겼고, 회개를 외치며 극적인 표현을 사용했으며, 원칙을 위해 목숨까지 내놓았습니다. 그러나 엘리야가 갈멜산의 승리 뒤 로뎀나무 아래서 죽기를 구했고(왕상 19장), 침례 요한이 감옥에서 ‘오실 그분이 당신입니까’라고 물었듯(마 11:3) 그들도 자기 회의와 낙심을 겪었습니다. 책의 저자는 상담가로서 하나님이 이런 사람들에게 베푸시는 회복의 은혜를 잘 안다고 고백합니다."}, "growth": "생각의 흐름을 다스려 자기 연민과 낮은 자화상에서 벗어나는 것, 그리고 가족과 이웃을 비판하기보다 있는 그대로 받아들이는 것이 과제입니다. 책은 낙심에 빠졌던 선지자들을 일으키신 하나님의 은혜가 이 기질에게도 충분하다고 말합니다.", "page": 67}, "MC": {"name": "우울담즙질", "tagline": "완벽을 향한 설립자", "nickname": "", "summary": "우울질 특유의 감정 기복이 담즙질의 의지와 결단으로 어느 정도 안정된 사람입니다. 완벽주의와 추진력을 함께 갖추어 거의 모든 직업에서 성공할 수 있고, 자기 이름을 건 기관을 세워 조용하고 효율적으로 이끌 만한 리더십이 있습니다. 그러나 약점은 생각과 감정과 말에서 드러나며, 부정적인 생각에 사로잡히면 함께 지내기가 몹시 어려운 사람이 됩니다.", "portrait": ["남들보다 두 배는 더 준비해서 좀처럼 지지 않는 변호사", "어떤 회의에도 준비 없이 들어오는 법이 없고, 의장 역할을 즐기는 사람", "교향악단이나 성가대 앞에서 한 음 한 음을 정확히 이끄는 지휘자", "힘들 때 주로 드리는 기도가 ‘주님, 왜 하필 저입니까?’", "가족의 작은 실수를 크게 부풀려 바로잡으려다 집안 분위기를 무겁게 만들기도 함"], "strengths": [{"title": "완벽주의와 추진력", "desc": "높은 기준과 실행력을 함께 갖추어 거의 모든 분야에서 일할 수 있습니다."}, {"title": "철저한 준비", "desc": "조사와 정확성이 필요한 일에서 누구보다 열심히 준비합니다."}, {"title": "강한 리더십", "desc": "회의를 이끄는 자리를 즐기며 늘 준비된 상태로 나섭니다."}, {"title": "기관을 세우는 능력", "desc": "많은 선교기관·대학·기독교 단체의 설립자가 성령 충만한 이 기질입니다."}, {"title": "분명한 전달력", "desc": "의사라면 최신 지식을 갖추고 환자에게 중요한 사실을 분명히 전합니다."}], "weaknesses": [{"title": "만족시키기 어려움", "desc": "사람과 일에 대한 기준이 높아 좀처럼 만족하지 못합니다."}, {"title": "생각을 따라가는 감정", "desc": "부정적인 생각을 시작하면 감정이 그대로 따라가, 낙심에 빠지는 속도가 매우 빠릅니다."}, {"title": "깊어지는 자기 비난", "desc": "자기 비판과 미움이 겹치면 어려울 때 자신을 몹시 몰아세우며 깊은 낙심에 빠질 수 있습니다."}, {"title": "사람과 하나님을 향한 분노", "desc": "원망과 앙심을 오래 품고, 그것을 지적받으면 오히려 크게 화를 냅니다."}, {"title": "흠잡기", "desc": "분석적인 성향으로 남의 흠을 찾아내 사람들을 궁지로 몰아넣곤 합니다."}], "home": "성령으로 채워지지 않으면 그 고통을 가장 깊이 느끼는 사람은 아내와 자녀입니다. 살림이나 씀씀이 같은 사소한 불만 때문에 오랫동안 마음과 애정을 닫아 버리기도 하므로, 책은 이 사람이야말로 하나님의 사랑을 가슴으로 느끼고 그 사랑을 가족에게 흘려보내야 한다고 말합니다.", "careers": ["변호사", "의사", "교향악단·합창단 지휘자", "교육 행정가", "정치인", "운동선수(특히 야구 투수)", "선교기관·대학·기독교 단체 설립자"], "bible": {"name": "누가", "others": ["모세"], "story": "책은 성경의 많은 위인이 우울담즙질이었다며, 바울의 선교 여행에 꾸준히 동행한 의사 누가를 예로 듭니다. 그는 주님의 생애를 가장 자세히 기록하고 초대 교회의 확장을 유일하게 기록한 학자이자 연구자였습니다. 실제로 누가는 모든 일을 처음부터 자세히 살펴 차례대로 썼다고 밝혔고(눅 1:3), 바울이 옥중에서 외로울 때 끝까지 곁을 지켰습니다(딤후 4:11). 책은 3장에서 다룬 모세도 이 기질의 인물로 함께 언급합니다."}, "growth": "분노와 복수심, 그리고 부정적인 생각의 흐름을 끊어 내는 것이 이 기질의 가장 큰 과제입니다. 책은 성령 충만과 긍정적인 생각이 있을 때 이 사람이 놀라운 잠재력에 걸맞게 살 수 있으며, 하나님의 사랑을 마음으로 경험하는 것이 무엇보다 필요하다고 말합니다.", "page": 69}, "MP": {"name": "우울점액질", "tagline": "조용한 천재 장인", "nickname": "세계 최고 학자들의 기질", "summary": "우울질의 분석적인 완벽주의와 점액질의 조직적인 효율성을 함께 갖춘, 재능 많은 내향형입니다. 앞의 두 우울질 조합보다 쉽게 적개심을 품지 않고 사람들과도 원만하게 지내며, 연구와 조사를 위한 조용한 시간에서 힘을 얻는 성품 좋은 인도주의자입니다. 하지만 하나님의 도우심이 없으면 쉽게 낙담하고, 자신을 하찮게 여기는 생각에 스스로 무너지기 쉽습니다.", "portrait": ["맞춤법 하나도 그냥 넘어가지 않고 계산도 정확한 사람", "주변에서 ‘못 하는 게 없는 사람’이라는 말을 듣는 친구", "혼자 조용히 연구하고 설계하는 시간이 가장 행복한 전문가", "양심적이라 부탁을 거절하지 못하고 이것저것 떠맡다 지쳐 버리기도 함", "오래전 맺힌 응어리를 풀지 못해 그 그늘이 얼굴에까지 드러나기도 함"], "strengths": [{"title": "탁월한 지적 능력", "desc": "의학·건축·문학·신학 등 지적인 분야에서 두각을 나타냅니다."}, {"title": "꼼꼼함과 정확성", "desc": "극도로 세밀하고 정확해 회계나 전문 의료 분야에서도 빛납니다."}, {"title": "창의적 발견", "desc": "책은 세상의 중요한 발명과 의학적 발견 대부분이 이 기질에게서 나왔다고 말합니다."}, {"title": "원만한 성품", "desc": "쉽게 적대감을 품지 않고 사람들과 잘 지내는 인도주의자입니다."}, {"title": "강한 양심", "desc": "양심에 따라 바르게 행동하려는 마음이 강하고, 어려운 이웃을 돌봅니다."}], "weaknesses": [{"title": "쉽게 낙담함", "desc": "하나님의 도우심이 없으면 금세 부정적인 생각에 빠집니다."}, {"title": "두려움과 낮은 자화상", "desc": "큰 재능이 있는데도 스스로를 하찮게 여기는 생각에 무너지기 쉽습니다."}, {"title": "조용한 복수심", "desc": "겉으로는 조용하지만 마음에 원한을 품다 미움에 사로잡힐 수 있습니다."}, {"title": "완고함과 비타협", "desc": "감정 기복이 있으면서도 고집이 세고 타협하지 않으려 합니다."}, {"title": "과로와 소진", "desc": "남의 요청을 떠맡느라 힘을 다 쓰고, 쉼을 배우지 못하면 건강을 크게 해칠 수 있습니다."}], "home": "가족을 아끼지만 남의 부탁과 어려운 이웃을 돌보느라 가족과 보낼 시간을 놓치기도 합니다. 성령 충만을 받으면 본이 되는 절제와 헌신으로 가족의 존경과 사랑을 받는 가장이 됩니다.", "careers": ["학자·교수", "의사·전문의", "약사", "치과의사", "건축가", "실내 장식가", "작가", "철학자", "과학자", "신학자", "음악가·예술가", "회계사·공인회계사", "발명가"], "bible": {"name": "사도 요한", "others": [], "story": "책은 성경 속 우울점액질 후보로 사도 요한을 가장 먼저 꼽습니다. 그는 예수님을 맞아들이지 않은 마을에 하늘에서 불을 내려 달라고 할 만큼 격한 면이 있어 ‘우레의 아들’이라 불렸지만(막 3:17, 눅 9:54), 최후의 만찬에서 주님의 품에 기댈 만큼 섬세했고, 십자가 곁을 지켜 주님께 어머니를 부탁받은 제자였습니다. 그런 그가 훗날 교회의 큰 지도자가 되어 요한복음과 요한계시록을 포함한 다섯 권의 책을 남겼고, 흔히 ‘사랑의 사도’로 기억됩니다."}, "growth": "남을 비판하는 습관과 마음에 쌓인 응어리를 내려놓고 항상 기뻐하는 법을 배우는 것, 그리고 속도를 조절하며 쉬는 법을 익히는 것이 과제입니다. 책은 성령 충만을 받을 때 이 사람이 두려움과 낙심을 이기고 절제와 헌신으로 가족과 이웃에게 본이 된다고 말합니다.", "page": 72}, "PS": {"name": "점액다혈질", "tagline": "편안한 이웃집 형", "nickname": "가장 오래 함께 지내기 편한 조합", "summary": "열두 조합 가운데 오랜 세월 함께 지내기 가장 편한 사람입니다. 붙임성 있고 유쾌하며 협조적이고, 사려 깊고 믿음직하며 유머 감각까지 있어 아이부터 어른까지 이웃의 사랑을 받습니다. 그러나 점액질답게 아쉬운 것이 없고 다혈질답게 자제력이 부족해, 타고난 잠재력을 다 살리지 못하는 것이 약점입니다.", "portrait": ["동네 아이들도 어른들도 좋아하는 푸근한 아저씨", "아내가 사다 준 자기계발서를 읽다가 어느새 잠들어 버리는 남편", "‘너무 애써야 하는 일’은 슬며시 피하고 좋은 기회도 그냥 흘려보내곤 함", "혼자 빈둥거리는 시간을 즐기며 세월이 가는 것에 크게 개의치 않음", "괜한 걱정과 두려움 때문에 자기 껍질 속으로 더 깊이 들어가 버리기도 함"], "strengths": [{"title": "함께하기 편한 성품", "desc": "원만하고 협조적이라 오랜 세월 곁에 있어도 부담이 없습니다."}, {"title": "유쾌함과 유머", "desc": "재미있고 유머 감각이 있어 분위기를 부드럽게 합니다."}, {"title": "사람을 소중히 여김", "desc": "사려 깊고 사람을 귀하게 여겨 이웃의 사랑을 받습니다."}, {"title": "믿을 수 있는 사람", "desc": "한결같고 신뢰할 만해 맡은 자리를 묵묵히 지킵니다."}, {"title": "평온한 가정", "desc": "가족과의 평온한 생활을 즐기고 배우자와 자녀를 사랑합니다."}], "weaknesses": [{"title": "의욕 부족", "desc": "아쉬운 것이 없다 보니 스스로 움직일 동기가 약합니다."}, {"title": "자제력 부족", "desc": "꾸준히 자신을 다그치지 못해 학업이나 좋은 기회를 중도에 놓치기 쉽습니다."}, {"title": "노력 회피", "desc": "힘이 많이 드는 일은 피하다 결국 고만고만한 삶에 머물곤 합니다."}, {"title": "두려움과 걱정", "desc": "근거 없는 불안 때문에 자신과 가족에게 유익한 일까지 외면합니다."}], "home": "가족을 사랑하고 평온한 가정을 꾸리지만, 남편이 이 기질이면 소극적인 생활 방식이 아내를 답답하게 만들 수 있습니다. 책은 세미나에서 아내들이 가장 많이 묻는 질문이 ‘점액질 남편에게 어떻게 동기를 부여할 수 있나요?’라고 전합니다.", "careers": ["교육자", "행정가", "회계사", "기계·공학 분야", "장례지도사", "과학자", "통계학자", "라디오 아나운서", "상담가", "목회자", "수의사", "농부", "건설 노동자", "판매(강매 부담이 없을 때)"], "bible": {"name": "디모데", "others": [], "story": "책은 점액다혈질 하면 디모데가 떠오른다고 말합니다. 바울이 영적 아들로 특별히 아꼈던 그는 부드럽고 신실하며 믿음직했지만 소심하고 두려움이 많았습니다. 그래서 바울은 ‘하나님이 주신 것은 두려워하는 마음이 아니라 능력과 사랑과 절제의 마음’(딤후 1:7)이라 일깨우고, ‘전도자의 일을 하라’(딤후 4:5)며 거듭 담대해지라고 권했으며, 디모데는 에베소 교회를 맡아 섬겼습니다(딤전 1:3). 책은 바울의 이 권면을 모든 점액다혈질을 향한 하나님의 말씀으로 받습니다."}, "growth": "편안함에 안주하지 않고 스스로를 일으키는 의욕과, 두려움을 이기는 믿음이 가장 필요합니다. 책은 조금만 더 믿음을 가지면 소심함과 자멸적인 불안을 떨치고 변화될 수 있으며, 헌신된 그리스도인으로서 좋은 목회자의 격려를 받으면 교회에서 큰 역할을 감당하게 된다고 말합니다.", "page": 74}, "PC": {"name": "점액담즙질", "tagline": "묵묵한 실무형 상담가", "nickname": "점액질 중 가장 활동적인 조합", "summary": "점액질 가운데 가장 활동적인 유형이지만, 여전히 점액질이 앞서기 때문에 활동가라고 부르기는 어렵습니다. 함께 지내기 무난하고 모임을 잘 이끌며, 남의 말을 잘 듣고 진심 어린 관심을 보여 좋은 상담가의 자질이 있습니다. 약점은 처음엔 잘 드러나지 않다가 가정에서 서서히 나타나는데, 조용한 고집과 침묵 속에 숨은 분노가 그것입니다.", "portrait": ["다른 상담가에게서 위로받지 못한 사람도 끝까지 들어 주는 욥 같은 인내", "자기가 맡은 질서 정연한 사무실에서는 최고의 전문가", "화가 나도 싸우지 않고, 대신 며칠씩 입을 닫아 버리는 남편", "퇴근하면 작업실이나 자기만의 공간으로 들어가 조용히 시간을 보내거나 텔레비전 앞에 앉음", "늘 옳은 일만 하지만 정해진 틀에서 좀처럼 벗어나지 않음"], "strengths": [{"title": "편안한 리더십", "desc": "함께 지내기 무난하고 모임의 훌륭한 리더가 되기도 합니다."}, {"title": "경청과 진심 어린 관심", "desc": "남의 이야기를 잘 듣고 진정한 관심을 보여 상담가 자질이 뛰어납니다."}, {"title": "부드러운 태도", "desc": "사람들에게 위협감을 주지 않아 마음을 열게 합니다."}, {"title": "실제적인 조언", "desc": "그의 조언은 현실적이고 쓸모가 있으며, 성경을 아는 그리스도인이라면 더욱 신뢰할 만합니다."}, {"title": "조직 안에서의 전문성", "desc": "책임을 맡은 조직에서는 일급 전문가로 일합니다."}], "weaknesses": [{"title": "안주와 두려움", "desc": "다른 점액질처럼 아쉬운 것이 없고 두려움이 많습니다."}, {"title": "완강한 고집", "desc": "한번 정하면 좀처럼 뜻을 굽히지 않습니다."}, {"title": "침묵 속의 분노", "desc": "드러내 싸우지는 않지만 반항하거나 비협조적으로 나오고, 숨은 분노를 침묵으로 표현합니다."}, {"title": "점점 깊어지는 수동성", "desc": "나이가 들수록 더 앉아 있기를 좋아하고 소극적이 되어 갑니다."}], "home": "약점이 가정에서 서서히 드러나며, 가장 노릇을 버거워하는 수동성이 문제가 될 수 있습니다. 책은 이 사람이 가족의 필요를 생각하며 적극적이 되려고 애써야 하고, 아내가 그 성향을 이해하고 자녀 훈육 같은 일을 함께 챙겨 준다면 오래도록 행복한 결혼 생활을 누릴 수 있다고 말합니다.", "careers": ["현장 감독(십장)", "부사장", "회계사", "교육자", "기획가", "건축 분야 노동자", "상담가"], "bible": {"name": "아브라함", "others": [], "story": "책은 점액담즙질을 가장 잘 보여 주는 인물로 아브라함을 꼽습니다. 초기의 그는 두려움에서 움직였고, 안전한 도시 우르를 떠나라는 부르심 앞에서 머뭇거렸으며, 두 번이나 아내를 누이라고 속였습니다(창 12장, 20장). 그러나 결국 하나님께 온전히 순종하며 자라 갔고 그의 가장 큰 약점은 가장 큰 강점이 되었으니, 오늘 그는 겁 많은 사람이 아니라 하나님을 믿어 의로 여겨진(창 15:6) ‘믿음의 조상’으로 불립니다."}, "growth": "침묵과 고집 뒤에 숨은 분노를 정직하게 다루고, 가정에서 적극적으로 가장의 자리를 지키는 것이 과제입니다. 아브라함처럼 하나님께 온전히 순종하며 성령 안에서 자라면, 두려움이라는 가장 큰 약점이 믿음이라는 가장 큰 강점으로 바뀔 수 있습니다.", "page": 75}, "PM": {"name": "점액우울질", "tagline": "조용한 섬김의 장인", "nickname": "가장 품위 있고 부드러운 조합", "summary": "모든 조합 가운데 가장 품위 있고 부드러우며 조용한 사람입니다. 좀처럼 화를 내거나 적의를 품지 않고, 말수가 적어 사과할 일도 거의 만들지 않으며, 늘 적절하게 행동하는 믿음직하고 정확한 사람입니다. 그러나 두려움과 부정적인 생각, 그리고 무엇이든 일단 피하고 보는 수동성 때문에 자기 재능을 제값에 쓰지 못하기 쉽습니다.", "portrait": ["수수한 옷차림에 늘 단정하고, 남을 곤란하게 만드는 일이 없는 사람", "직장에서 동료들의 필요를 누구보다 먼저 알아채고 조용히 돕는 사람", "주말이면 집안 곳곳을 손보는 꼼꼼한 손재주꾼", "실력은 뛰어난데 큰 기회 앞에서 겁이 나 재능을 헐값에 넘겨 온 젊은 화가", "무언가에 휘말릴까 봐 새로운 제안을 거의 자동으로 거절함"], "strengths": [{"title": "온화함과 품위", "desc": "화를 잘 내지 않고 언제나 부드럽고 점잖게 행동합니다."}, {"title": "긍휼과 돕는 은사", "desc": "자비를 베풀어 남을 돕는 일에 재능이 있습니다."}, {"title": "믿음직함과 정확성", "desc": "신뢰할 수 있고, 일을 깔끔하고 조직적으로 처리합니다."}, {"title": "세밀함과 인내", "desc": "섬세한 손길과 큰 인내가 필요한 일을 잘 해냅니다."}, {"title": "가정을 돌보는 손", "desc": "집안일을 잘하고 틈나는 대로 집을 고치고 가꿉니다."}], "weaknesses": [{"title": "훈육을 미루는 아버지", "desc": "자녀에게 필요한 훈계를 소홀히 해 아이들이 버릇없이 자라도록 방치하기 쉽습니다."}, {"title": "두려움과 비관", "desc": "두려움, 부정적 사고, 비관이 큰 기회를 놓치게 합니다."}, {"title": "건강한 자아상의 결핍", "desc": "자신을 낮게 평가해 재능을 헐값에 넘기곤 합니다."}, {"title": "지나친 거절", "desc": "일에 말려들까 겁이 나서 무엇이든 거의 자동으로 거절합니다."}, {"title": "이기심", "desc": "자기 편안함을 지키려는 마음이 이기심으로 흐를 수 있습니다."}], "home": "자녀의 말대꾸와 불순종을 내버려 두는 수동적인 아버지는 지나치게 엄한 부모만큼이나 자녀를 노엽게 한다고 책은 경고합니다(엡 6:4). 아내가 남편의 수동적인 성향을 이해하고 그가 가장의 역할을 하도록 지혜롭게 기다려 준다면 행복한 가정을 이룰 수 있습니다.", "careers": ["사진 촬영·인쇄", "목록 작성·분석", "레이아웃·광고", "기계 분야", "교육", "약학", "치의학", "시계 제작", "목공(정밀 목수일)", "유리 세공", "도배·페인트", "세밀함과 인내가 필요한 일"], "bible": {"name": "바나바", "others": [], "story": "책은 바울의 1차 전도 여행에 동행한 바나바를 점액우울질로 봅니다. ‘위로의 아들’이라는 이름처럼(행 4:36) 그는 밭을 팔아 그 값을 교회에 내놓았고, 모두가 두려워하던 회심자 사울을 사도들에게 소개했습니다(행 9:27). 첫 여행 도중 돌아간 친척 마가를 다시 데려가는 문제로 바울과 크게 다투고 마가와 함께 떠났지만, 훗날 바울은 마가가 자기 일에 유익하다고 인정했습니다(딤후 4:11). 책은 신실하고 부드러운 바나바가 넘어진 마가를 붙들어 주었기에 오늘 우리가 마가복음을 갖게 되었다고 말합니다."}, "growth": "두려움 때문에 모든 것을 거절하는 습관을 버리고, 오히려 조금 벅차다 싶은 책임을 맡아 바깥에서 오는 긴장으로 자신을 움직이게 하는 것이 필요합니다. 책은 몸을 단련하는 것도 도움이 되지만, 이 기질이 의욕을 얻는 가장 큰 원천은 성령의 능력이라고 말합니다.", "page": 77}};
+/* 전시 내용: 열람권이 있을 때 파이어베이스에서 받아 옵니다 (loadAll) */
+let BOOK=null,BL=null,FR=null,DETAIL=null,INTRO2=null,EXTRA=null,FIGV=null,Q=[];
+let FID={};
 
 /* 도입 전시 — 책 1·2·3장 + 책에 없는 부분은 성경으로 보충 (성경: 개역한글) */
-const INTRO={
- triad:[
-  {k:"기질",d:"태어날 때 물려받은 타고난 특성들의 조합입니다. 의식하지 못해도 모든 행동에 영향을 주고, 사람을 외향적이게도 내향적이게도 만듭니다. 평생 바뀌지 않습니다.",eq:"타고난 재료"},
-  {k:"인격",d:"기질이 양육, 교육, 신념, 습관을 거치며 다듬어진 결과입니다. 아무도 보지 않을 때 드러나는 진짜 나입니다. 성경은 이를 ‘마음에 숨은 사람’이라 부릅니다(벧전 3:4).",eq:"다듬어진 기질"},
-  {k:"성격",d:"다른 사람에게 보이는 겉모습입니다. 진실한 사람은 인격과 성격이 같지만, 성격이 약한 인격을 가리는 가면이 될 때도 있습니다.",eq:"겉으로 보이는 얼굴"}
- ],
- v1:{q:"사람은 외모를 보거니와 나 여호와는 중심을 보느니라",c:"사무엘상 16:7",p:"그래서 행동이 바뀌는 자리는 겉이 아니라 마음 안쪽입니다."},
- change:[
-  "외향적으로 태어난 사람은 끝까지 외향적입니다. 기질 자체는 바뀌지 않습니다.",
-  "그런데 성마르고 거칠던 사람이 너그러워지고, 겁 많던 사람이 믿음으로 담대해지면 기질이 바뀐 것처럼 보입니다. 책은 이것을 성령께서 약점을 보완하신 결과라고 말합니다.",
-  "이 변화는 저절로 오지 않습니다. 우리 안에 계신 성령께 순종하며 성령으로 충만할 때 일어납니다."
- ],
- v2:[
-  {q:"오호라 나는 곤고한 사람이로다 이 사망의 몸에서 누가 나를 건져내랴 우리 주 예수 그리스도로 말미암아 하나님께 감사하리로다",c:"로마서 7:24–25",p:"약점 앞에서의 탄식과, 그 답"},
-  {q:"그런즉 누구든지 그리스도 안에 있으면 새로운 피조물이라 이전 것은 지나갔으니 보라 새 것이 되었도다",c:"고린도후서 5:17",p:"옛 본성 위에 주어지는 새 본성"},
-  {q:"술 취하지 말라 이는 방탕한 것이니 오직 성령의 충만을 받으라",c:"에베소서 5:18",p:"변화의 길"}
- ],
- diff:[
-  "책은 기질이 부모에게서 물려받은 것이라고 설명합니다. 성경은 한 걸음 더 들어가, 그 모든 과정 위에 우리를 지으신 하나님의 손이 있다고 말합니다.",
-  "고린도전서 12장은 은사를 두고 한 말이지만, 서로 다른 사람들을 한 몸으로 부르신 원리는 기질의 차이를 볼 때도 그대로 비춰 볼 수 있습니다. 서로 다르기 때문에 서로가 필요합니다.",
-  "그래서 내 기질의 강점은 남을 섬기라고 주신 것이고, 다른 사람의 강점은 나의 빈자리를 채우라고 주신 것입니다."
- ],
- v3:[
-  {q:"주께서 내 장부를 지으시며 나의 모태에서 나를 조직하셨나이다 내가 주께 감사하옴은 나를 지으심이 신묘막측하심이라",c:"시편 139:13–14"},
-  {q:"그러나 이제 하나님이 그 원하시는 대로 지체를 각각 몸에 두셨으니 … 눈이 손더러 내가 너를 쓸 데 없다 하거나 또한 머리가 발더러 내가 너를 쓸 데 없다 하거나 하지 못하리라",c:"고린도전서 12:18, 21"},
-  {q:"각각 은사를 받은 대로 하나님의 각양 은혜를 맡은 선한 청지기 같이 서로 봉사하라",c:"베드로전서 4:10"}
- ]
-};
 /* 조합 전시실의 성경 인물 말씀 (개역한글) */
-const FIGV={
- SC:{q:"저희가 베드로와 요한이 기탄 없이 말함을 보고 그 본래 학문 없는 범인으로 알았다가 이상히 여기며 또 그 전에 예수와 함께 있던 줄도 알고",c:"사도행전 4:13"},
- SM:{q:"하나님이여 내 속에 정한 마음을 창조하시고 내 안에 정직한 영을 새롭게 하소서",c:"시편 51:10"},
- SP:{q:"알렉산드리아에서 난 아볼로라 하는 유대인이 에베소에 이르니 이 사람은 학문이 많고 성경에 능한 자라",c:"사도행전 18:24"},
- CS:{q:"사람마다 듣기는 속히 하고 말하기는 더디 하며 성내기도 더디하라 사람의 성내는 것이 하나님의 의를 이루지 못함이니라",c:"야고보서 1:19–20"},
- CM:{q:"내가 그리스도와 함께 십자가에 못 박혔나니 그런즉 이제는 내가 산 것이 아니요 오직 내 안에 그리스도께서 사신 것이라",c:"갈라디아서 2:20"},
- CP:{q:"내가 너를 그레데에 떨어뜨려 둔 이유는 부족한 일을 바로잡고 나의 명한 대로 각 성에 장로들을 세우게 하려 함이니",c:"디도서 1:5"},
- MS:{q:"내가 진실로 너희에게 말하노니 여자가 낳은 자 중에 침례 요한보다 큰 이가 일어남이 없도다",c:"마태복음 11:11"},
- MC:{q:"그 모든 일을 근원부터 자세히 미루어 살핀 나도 데오빌로 각하에게 차례대로 써 보내는 것이 좋은 줄 알았노니",c:"누가복음 1:3"},
- MP:{q:"사랑하는 자들아 우리가 서로 사랑하자 사랑은 하나님께 속한 것이니",c:"요한일서 4:7"},
- PS:{q:"하나님이 우리에게 주신 것은 두려워하는 마음이 아니요 오직 능력과 사랑과 근신하는 마음이니",c:"디모데후서 1:7"},
- PC:{q:"믿음으로 아브라함은 부르심을 받았을 때에 순종하여 장래 기업으로 받을 땅에 나갈새 갈 바를 알지 못하고 나갔으며",c:"히브리서 11:8"},
- PM:{q:"바나바는 착한 사람이요 성령과 믿음이 충만한 자라 이에 큰 무리가 주께 더하더라",c:"사도행전 11:24"}
-};
-const FR={"agape": {"ko": "사랑", "lemma": "ἀγάπη", "tr": "agapē", "strong": "G0026", "gloss": "love", "kg": "사랑", "ks": "호의와 존중을 뜻하며, 성경과 교회 문헌에서 널리 쓰인다. 사람의 사랑과 하나님의 사랑 모두를 가리킨다.", "heb": [["אַהֲבָה", "아하바"]], "hl": ["사랑"], "count": 104, "key": [{"r": "고린도전서 13:4–7", "t": "사랑은 오래 참고 사랑은 온유하며 투기하는 자가 되지 아니하며 사랑은 자랑하지 아니하며 교만하지 아니하며 무례히 행치 아니하며 자기의 유익을 구치 아니하며 성내지 아니하며 악한 것을 생각지 아니하며 불의를 기뻐하지 아니하며 진리와 함께 기뻐하고 모든 것을 참으며 모든 것을 믿으며 모든 것을 바라며 모든 것을 견디느니라"}, {"r": "요한일서 4:7–8", "t": "사랑하는 자들아 우리가 서로 사랑하자 사랑은 하나님께 속한 것이니 사랑하는 자마다 하나님께로 나서 하나님을 알고 사랑하지 아니하는 자는 하나님을 알지 못하나니 이는 하나님은 사랑이심이라"}, {"r": "로마서 5:8", "t": "우리가 아직 죄인 되었을 때에 그리스도께서 우리를 위하여 죽으심으로 하나님께서 우리에게 대한 자기의 사랑을 확증하셨느니라"}, {"r": "요한복음 13:34–35", "t": "새 계명을 너희에게 주노니 서로 사랑하라 내가 너희를 사랑한 것 같이 너희도 서로 사랑하라 너희가 서로 사랑하면 이로써 모든 사람이 너희가 내 제자인 줄 알리라"}], "all": [{"r": "마 24:12", "t": "불법이 성하므로 많은 사람의 사랑이 식어지리라"}, {"r": "눅 11:42", "t": "화 있을진저 너희 바리새인이여 너희가 박하와 운향과 모든 채소의 십일조를 드리되 공의와 하나님께 대한 사랑은 버리는도다 그러나 이것도 행하고 저것도 버리지 아니하여야 할지니라"}, {"r": "요 5:42", "t": "다만 하나님을 사랑하는 것이 너희 속에 없음을 알았노라"}, {"r": "요 13:35", "t": "너희가 서로 사랑하면 이로써 모든 사람이 너희가 내 제자인 줄 알리라"}, {"r": "요 15:9", "t": "아버지께서 나를 사랑하신 것 같이 나도 너희를 사랑하였으니 나의 사랑 안에 거하라"}, {"r": "요 15:10", "t": "내가 아버지의 계명을 지켜 그의 사랑 안에 거하는 것 같이 너희도 내 계명을 지키면 내 사랑 안에 거하리라"}, {"r": "요 15:13", "t": "사람이 친구를 위하여 자기 목숨을 버리면 이에서 더 큰 사랑이 없나니"}, {"r": "요 17:26", "t": "내가 아버지의 이름을 저희에게 알게 하였고 또 알게 하리니 이는 나를 사랑하신 사랑이 저희 안에 있고 나도 저희 안에 있게 하려 함이니이다"}, {"r": "롬 5:5", "t": "소망이 부끄럽게 아니함은 우리에게 주신 성령으로 말미암아 하나님의 사랑이 우리 마음에 부은 바 됨이니"}, {"r": "롬 5:8", "t": "우리가 아직 죄인 되었을 때에 그리스도께서 우리를 위하여 죽으심으로 하나님께서 우리에게 대한 자기의 사랑을 확증하셨느니라"}, {"r": "롬 8:35", "t": "누가 우리를 그리스도의 사랑에서 끊으리요 환난이나 곤고나 핍박이나 기근이나 적신이나 위협이나 칼이랴"}, {"r": "롬 8:39", "t": "높음이나 깊음이나 다른 아무 피조물이라도 우리를 우리 주 그리스도 예수 안에 있는 하나님의 사랑에서 끊을 수 없으리라"}, {"r": "롬 12:9", "t": "사랑엔 거짓이 없나니 악을 미워하고 선에 속하라"}, {"r": "롬 13:10", "t": "사랑은 이웃에게 악을 행치 아니하나니 그러므로 사랑은 율법의 완성이니라"}, {"r": "롬 14:15", "t": "만일 식물을 인하여 네 형제가 근심하게 되면 이는 네가 사랑으로 행치 아니함이라 그리스도께서 대신하여 죽으신 형제를 네 식물로 망케 하지 말라"}, {"r": "롬 15:30", "t": "형제들아 내가 우리 주 예수 그리스도로 말미암고 성령의 사랑으로 말미암아 너희를 권하노니 너희 기도에 나와 힘을 같이하여 나를 위하여 하나님께 빌어"}, {"r": "고전 4:21", "t": "너희가 무엇을 원하느냐 내가 매를 가지고 너희에게 나아가랴 사랑과 온유한 마음으로 나아가랴"}, {"r": "고전 8:1", "t": "우상의 제물에 대하여는 우리가 다 지식이 있는 줄을 아나 지식은 교만하게 하며 사랑은 덕을 세우나니"}, {"r": "고전 13:1", "t": "내가 사람의 방언과 천사의 말을 할지라도 사랑이 없으면 소리나는 구리와 울리는 꽹과리가 되고"}, {"r": "고전 13:2", "t": "내가 예언하는 능이 있어 모든 비밀과 모든 지식을 알고 또 산을 옮길 만한 모든 믿음이 있을지라도 사랑이 없으면 내가 아무 것도 아니요"}, {"r": "고전 13:3", "t": "내가 내게 있는 모든 것으로 구제하고 또 내 몸을 불사르게 내어 줄지라도 사랑이 없으면 내게 아무 유익이 없느니라"}, {"r": "고전 13:4", "t": "사랑은 오래 참고 사랑은 온유하며 투기하는 자가 되지 아니하며 사랑은 자랑하지 아니하며 교만하지 아니하며"}, {"r": "고전 13:8", "t": "사랑은 언제까지든지 떨어지지 아니하나 예언도 폐하고 방언도 그치고 지식도 폐하리라"}, {"r": "고전 13:13", "t": "그런즉 믿음, 소망, 사랑, 이 세가지는 항상 있을 것인데 그 중에 제일은 사랑이라"}, {"r": "고전 14:1", "t": "사랑을 따라 구하라 신령한 것을 사모하되 특별히 예언을 하려고 하라"}, {"r": "고전 16:14", "t": "너희 모든 일을 사랑으로 행하라"}, {"r": "고전 16:24", "t": "나의 사랑이 그리스도 예수의 안에서 너희 무리와 함께 할지어다"}, {"r": "고후 2:4", "t": "내가 큰 환난과 애통한 마음이 있어 많은 눈물로 너희에게 썼노니 이는 너희로 근심하게 하려 한 것이 아니요 오직 내가 너희를 향하여 넘치는 사랑이 있음을 너희로 알게 하려 함이라"}, {"r": "고후 2:8", "t": "그러므로 너희를 권하노니 사랑을 저희에게 나타내라"}, {"r": "고후 5:14", "t": "그리스도의 사랑이 우리를 강권하시는도다 우리가 생각건대 한 사람이 모든 사람을 대신하여 죽었은즉 모든 사람이 죽은 것이라"}, {"r": "고후 6:6", "t": "깨끗함과 지식과 오래 참음과 자비함과 성령의 감화와 거짓이 없는 사랑과"}, {"r": "고후 8:7", "t": "오직 너희는 믿음과 말과 지식과 모든 간절함과 우리를 사랑하는 이 모든 일에 풍성한 것 같이 이 은혜에도 풍성하게 할지니라"}, {"r": "고후 8:8", "t": "내가 명령으로 하는 말이 아니요 오직 다른 이들의 간절함을 가지고 너희의 사랑의 진실함을 증명코자 함이로라"}, {"r": "고후 8:24", "t": "그러므로 너희는 여러 교회 앞에서 너희의 사랑과 너희를 대한 우리 자랑의 증거를 저희에게 보이라"}, {"r": "고후 13:11", "t": "마지막으로 말하노니 형제들아 기뻐하라 온전케 되며 위로를 받으며 마음을 같이 하며 평안할지어다 또 사랑과 평강의 하나님이 너희와 함께 계시리라 거룩하게 입맞춤으로 서로 문안하라"}, {"r": "갈 5:6", "t": "그리스도 예수 안에서는 할례나 무할례가 효력이 없되 사랑으로써 역사하는 믿음뿐이니라"}, {"r": "갈 5:13", "t": "형제들아 너희가 자유를 위하여 부르심을 입었으나 그러나 그 자유로 육체의 기회를 삼지 말고 오직 사랑으로 서로 종 노릇 하라"}, {"r": "갈 5:22", "t": "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과"}, {"r": "엡 1:4", "t": "곧 창세 전에 그리스도 안에서 우리를 택하사 우리로 사랑 안에서 그 앞에 거룩하고 흠이 없게 하시려고"}, {"r": "엡 1:15", "t": "이를 인하여 주 예수 안에서 너희 믿음과 모든 성도를 향한 사랑을 나도 듣고"}, {"r": "엡 2:4", "t": "긍휼에 풍성하신 하나님이 우리를 사랑하신 그 큰 사랑을 인하여"}, {"r": "엡 3:17", "t": "믿음으로 말미암아 그리스도께서 너희 마음에 계시게 하옵시고 너희가 사랑 가운데서 뿌리가 박히고 터가 굳어져서"}, {"r": "엡 3:19", "t": "그 넓이와 길이와 높이와 깊이가 어떠함을 깨달아 하나님의 모든 충만하신 것으로 너희에게 충만하게 하시기를 구하노라"}, {"r": "엡 4:2", "t": "모든 겸손과 온유로 하고 오래 참음으로 사랑 가운데서 서로 용납하고"}, {"r": "엡 4:15", "t": "오직 사랑 안에서 참된 것을 하여 범사에 그에게까지 자랄지라 그는 머리니 곧 그리스도라"}, {"r": "엡 4:16", "t": "그에게서 온 몸이 각 마디를 통하여 도움을 입음으로 연락하고 상합하여 각 지체의 분량대로 역사하여 그 몸을 자라게 하며 사랑 안에서 스스로 세우느니라"}, {"r": "엡 5:2", "t": "그리스도께서 너희를 사랑하신 것 같이 너희도 사랑 가운데서 행하라 그는 우리를 위하여 자신을 버리사 향기로운 제물과 생축으로 하나님께 드리셨느니라"}, {"r": "엡 6:23", "t": "아버지 하나님과 주 예수 그리스도에게로부터 평안과 믿음을 겸한 사랑이 형제들에게 있을지어다"}, {"r": "빌 1:9", "t": "내가 기도하노라 너희 사랑을 지식과 모든 총명으로 점점 더 풍성하게 하사"}, {"r": "빌 2:1", "t": "그러므로 그리스도 안에 무슨 권면이나 사랑에 무슨 위로나 성령의 무슨 교제나 긍휼이나 자비가 있거든"}, {"r": "빌 2:2", "t": "마음을 같이 하여 같은 사랑을 가지고 뜻을 합하며 한 마음을 품어"}, {"r": "골 1:4", "t": "이는 그리스도 예수 안에 너희의 믿음과 모든 성도에 대한 사랑을 들음이요"}, {"r": "골 1:8", "t": "성령 안에서 너희 사랑을 우리에게 고한 자니라"}, {"r": "골 1:13", "t": "그가 우리를 흑암의 권세에서 건져내사 그의 사랑의 아들의 나라로 옮기셨으니"}, {"r": "골 2:2", "t": "이는 저희로 마음에 위안을 받고 사랑 안에서 연합하여 원만한 이해의 모든 부요에 이르러 하나님의 비밀인 그리스도를 깨닫게 하려 함이라"}, {"r": "골 3:14", "t": "이 모든 것 위에 사랑을 더하라 이는 온전하게 매는 띠니라"}, {"r": "살전 1:3", "t": "너희의 믿음의 역사와 사랑의 수고와 우리 주 예수 그리스도에 대한 소망의 인내를 우리 하나님 아버지 앞에서 쉬지 않고 기억함이니"}, {"r": "살전 3:6", "t": "지금은 디모데가 너희에게로부터 와서 너희 믿음과 사랑의 기쁜 소식을 우리에게 전하고 또 너희가 항상 우리를 잘 생각하여 우리가 너희를 간절히 보고자 함과 같이 너희도 우리를 간절히 보고자 한다 하니"}, {"r": "살전 3:12", "t": "또 주께서 우리가 너희를 사랑함과 같이 너희도 피차간과 모든 사람에 대한 사랑이 더욱 많아 넘치게 하사"}, {"r": "살전 5:8", "t": "우리는 낮에 속하였으니 근신하여 믿음과 사랑의 흉배를 붙이고 구원의 소망의 투구를 쓰자"}, {"r": "살전 5:13", "t": "저의 역사로 말미암아 사랑 안에서 가장 귀히 여기며 너희끼리 화목하라"}, {"r": "살후 1:3", "t": "형제들아 우리가 너희를 위하여 항상 하나님께 감사할지니 이것이 당연함은 너희 믿음이 더욱 자라고 너희가 다 각기 서로 사랑함이 풍성함이며"}, {"r": "살후 2:10", "t": "불의의 모든 속임으로 멸망하는 자들에게 임하리니 이는 저희가 진리의 사랑을 받지 아니하여 구원함을 얻지 못함이니라"}, {"r": "살후 3:5", "t": "주께서 너희 마음을 인도하여 하나님의 사랑과 그리스도의 인내에 들어가게 하시기를 원하노라"}, {"r": "딤전 1:5", "t": "경계의 목적은 청결한 마음과 선한 양심과 거짓이 없는 믿음으로 나는 사랑이거늘"}, {"r": "딤전 1:14", "t": "우리 주의 은혜가 그리스도 예수 안에 있는 믿음과 사랑과 함께 넘치도록 풍성하였도다"}, {"r": "딤전 2:15", "t": "그러나 여자들이 만일 정절로써 믿음과 사랑과 거룩함에 거하면 그 해산함으로 구원을 얻으리라"}, {"r": "딤전 4:12", "t": "누구든지 네 연소함을 업신여기지 못하게 하고 오직 말과 행실과 사랑과 믿음과 정절에 대하여 믿는 자에게 본이 되어"}, {"r": "딤전 6:11", "t": "오직 너 하나님의 사람아 이것들을 피하고 의와 경건과 믿음과 사랑과 인내와 온유를 좇으며"}, {"r": "딤후 1:7", "t": "하나님이 우리에게 주신 것은 두려워하는 마음이 아니요 오직 능력과 사랑과 근신하는 마음이니"}, {"r": "딤후 1:13", "t": "너는 그리스도 예수 안에 있는 믿음과 사랑으로써 내게 들은 바 바른 말을 본받아 지키고"}, {"r": "딤후 2:22", "t": "또한 네가 청년의 정욕을 피하고 주를 깨끗한 마음으로 부르는 자들과 함께 믿음과 사랑과 화평을 좇으라"}, {"r": "딤후 3:10", "t": "나의 교훈과 행실과 의향과 믿음과 오래 참음과 사랑과 인내와"}, {"r": "딛 2:2", "t": "늙은 남자로는 절제하며 경건하며 근신하며 믿음과 사랑과 인내함에 온전케 하고"}, {"r": "몬 1:5", "t": "주 예수와 및 모든 성도에 대한 네 사랑과 믿음이 있음을 들음이니"}, {"r": "몬 1:7", "t": "형제여 성도들의 마음이 너로 말미암아 평안함을 얻었으니 내가 너의 사랑으로 많은 기쁨과 위로를 얻었노라"}, {"r": "몬 1:9", "t": "사랑을 인하여 도리어 간구하노니 나이 많은 나 바울은 지금 또 예수 그리스도를 위하여 갇힌 자 되어"}, {"r": "히 6:10", "t": "하나님이 불의치 아니하사 너희 행위와 그의 이름을 위하여 나타낸 사랑으로 이미 성도를 섬긴 것과 이제도 섬기는 것을 잊어버리지 아니하시느니라"}, {"r": "히 10:24", "t": "서로 돌아보아 사랑과 선행을 격려하며"}, {"r": "벧전 4:8", "t": "무엇보다도 열심으로 서로 사랑할지니 사랑은 허다한 죄를 덮느니라"}, {"r": "벧전 5:14", "t": "너희는 사랑의 입맞춤으로 피차 문안하라 그리스도 안에 있는 너희 모든 이에게 평강이 있을지어다"}, {"r": "벧후 1:7", "t": "경건에 형제 우애를, 형제 우애에 사랑을 공급하라"}, {"r": "요일 2:5", "t": "누구든지 그의 말씀을 지키는 자는 하나님의 사랑이 참으로 그 속에서 온전케 되었나니 이로써 우리가 저 안에 있는 줄을 아노라"}, {"r": "요일 2:15", "t": "이 세상이나 세상에 있는 것들을 사랑치 말라 누구든지 세상을 사랑하면 아버지의 사랑이 그 속에 있지 아니하니"}, {"r": "요일 3:1", "t": "보라 아버지께서 어떠한 사랑을 우리에게 주사 하나님의 자녀라 일컬음을 얻게 하셨는고 우리가 그러하도다 그러므로 세상이 우리를 알지 못함은 그를 알지 못함이니라"}, {"r": "요일 3:16", "t": "그가 우리를 위하여 목숨을 버리셨으니 우리가 이로써 사랑을 알고 우리도 형제들을 위하여 목숨을 버리는 것이 마땅하니라"}, {"r": "요일 3:17", "t": "누가 이 세상 재물을 가지고 형제의 궁핍함을 보고도 도와 줄 마음을 막으면 하나님의 사랑이 어찌 그 속에 거할까 보냐"}, {"r": "요일 4:7", "t": "사랑하는 자들아 우리가 서로 사랑하자 사랑은 하나님께 속한 것이니 사랑하는 자마다 하나님께로 나서 하나님을 알고"}, {"r": "요일 4:8", "t": "사랑하지 아니하는 자는 하나님을 알지 못하나니 이는 하나님은 사랑이심이라"}, {"r": "요일 4:9", "t": "하나님의 사랑이 우리에게 이렇게 나타난 바 되었으니 하나님이 자기의 독생자를 세상에 보내심은 저로 말미암아 우리를 살리려 하심이니라"}, {"r": "요일 4:10", "t": "사랑은 여기 있으니 우리가 하나님을 사랑한 것이 아니요 오직 하나님이 우리를 사랑하사 우리 죄를 위하여 화목제로 그 아들을 보내셨음이니라"}, {"r": "요일 4:12", "t": "어느 때나 하나님을 본 사람이 없으되 만일 우리가 서로 사랑하면 하나님이 우리 안에 거하시고 그의 사랑이 우리 안에 온전히 이루느니라"}, {"r": "요일 4:16", "t": "하나님이 우리를 사랑하시는 사랑을 우리가 알고 믿었노니 하나님은 사랑이시라 사랑 안에 거하는 자는 하나님 안에 거하고 하나님도 그 안에 거하시느니라"}, {"r": "요일 4:17", "t": "이로써 사랑이 우리에게 온전히 이룬 것은 우리로 심판 날에 담대함을 가지게 하려 함이니 주의 어떠하심과 같이 우리도 세상에서 그러하니라"}, {"r": "요일 4:18", "t": "사랑 안에 두려움이 없고 온전한 사랑이 두려움을 내어 쫓나니 두려움에는 형벌이 있음이라 두려워하는 자는 사랑 안에서 온전히 이루지 못하였느니라"}, {"r": "요일 5:3", "t": "하나님을 사랑하는 것은 이것이니 우리가 그의 계명들을 지키는 것이라 그의 계명들은 무거운 것이 아니로다"}, {"r": "요이 1:3", "t": "은혜와 긍휼과 평강이 하나님 아버지와 아버지의 아들 예수 그리스도께로부터 진리와 사랑 가운데서 우리와 함께 있으리라"}, {"r": "요이 1:6", "t": "또 사랑은 이것이니 우리가 그 계명을 좇아 행하는 것이요 계명은 이것이니 너희가 처음부터 들은 바와 같이 그 가운데서 행하라 하심이라"}, {"r": "요삼 1:6", "t": "저희가 교회 앞에서 너의 사랑을 증거하였느니라 네가 하나님께 합당하게 저희를 전송하면 가하리로다"}, {"r": "유 1:2", "t": "긍휼과 평강과 사랑이 너희에게 더욱 많을지어다"}, {"r": "유 1:12", "t": "저희는 기탄 없이 너희와 함께 먹으니 너희 애찬의 암초요 자기 몸만 기르는 목자요 바람에 불려가는 물 없는 구름이요 죽고 또 죽어 뿌리까지 뽑힌 열매 없는 가을 나무요"}, {"r": "유 1:21", "t": "하나님의 사랑 안에서 자기를 지키며 영생에 이르도록 우리 주 예수 그리스도의 긍휼을 기다리라"}, {"r": "계 2:4", "t": "그러나 너를 책망할 것이 있나니 너의 처음 사랑을 버렸느니라"}, {"r": "계 2:19", "t": "내가 네게 사업과 사랑과 믿음과 섬김과 인내를 아노니 네 나중 행위가 처음 것보다 많도다"}], "line": "조건 없이 상대의 유익을 구하는 사랑", "root": "동사 아가파오(ἀγαπάω, 사랑하다)에서 나온 명사입니다. 그리스 사람들은 사랑을 말할 때 주로 에로스(끌림), 필리아(우정), 스토르게(가족애)를 썼고, 명사 아가페는 성경 밖 문헌에서 분명한 용례를 찾기 어려운 말입니다.", "use": "칠십인역(구약의 헬라어 번역)은 히브리어 아하바를 이 말로 옮겼습니다. 신약은 이 단어에 하나님의 사랑을 담았습니다. 하나님이 먼저 사랑하신 그 사랑(요일 4:8–10)이 우리 안에서 서로를 향한 사랑으로 흘러가는 것을 가리킵니다.", "bg": "바울은 아홉 열매 가운데 사랑을 맨 앞에 둡니다. 고린도전서 13장은 사랑을 감정이 아니라 오래 참고, 온유하고, 자기 유익을 구하지 않는 행동으로 그립니다. 나머지 여덟 열매가 모두 이 사랑의 모습이라고 읽는 해석이 많습니다."}, "chara": {"ko": "희락", "lemma": "χαρά", "tr": "chara", "strong": "G5479", "gloss": "joy", "kg": "기쁨", "ks": "기쁨, 즐거움을 뜻한다. 신약에서 성령의 열매 중 하나로 나오며 구원과 복음에서 오는 기쁨을 가리킨다.", "heb": [["שִׂמְחָה", "심하"], ["שָׂשׂוֹן", "사손"]], "hl": ["기쁨", "희락", "즐거움", "기뻐"], "count": 56, "key": [{"r": "요한복음 15:11", "t": "내가 이것을 너희에게 이름은 내 기쁨이 너희 안에 있어 너희 기쁨을 충만하게 하려 함이니라"}, {"r": "빌립보서 4:4", "t": "주 안에서 항상 기뻐하라 내가 다시 말하노니 기뻐하라"}, {"r": "로마서 15:13", "t": "소망의 하나님이 모든 기쁨과 평강을 믿음 안에서 너희에게 충만케 하사 성령의 능력으로 소망이 넘치게 하시기를 원하노라"}, {"r": "히브리서 12:2", "t": "믿음의 주요 또 온전케 하시는 이인 예수를 바라보자 저는 그 앞에 있는 즐거움을 위하여 십자가를 참으사 부끄러움을 개의치 아니하시더니 하나님 보좌 우편에 앉으셨느니라"}], "all": [{"r": "마 2:10", "t": "저희가 별을 보고 가장 크게 기뻐하고 기뻐하더라"}, {"r": "마 13:20", "t": "돌밭에 뿌리웠다는 것은 말씀을 듣고 즉시 기쁨으로 받되"}, {"r": "마 13:44", "t": "천국은 마치 밭에 감추인 보화와 같으니 사람이 이를 발견한 후 숨겨두고 기뻐하여 돌아가서 자기의 소유를 다 팔아 그 밭을 샀느니라"}, {"r": "마 25:21", "t": "그 주인이 이르되 잘 하였도다 착하고 충성된 종아 네가 작은 일에 충성하였으매 내가 많은 것으로 네게 맡기리니 네 주인의 즐거움에 참예할지어다 하고"}, {"r": "마 25:23", "t": "그 주인이 이르되 잘 하였도다 착하고 충성된 종아 네가 작은 일에 충성하였으매 내가 많은 것으로 네게 맡기리니 네 주인의 즐거움에 참예할지어다 하고"}, {"r": "마 28:8", "t": "그 여자들이 무서움과 큰 기쁨으로 무덤을 빨리 떠나 제자들에게 알게 하려고 달음질할새"}, {"r": "막 4:16", "t": "또 이와 같이 돌밭에 뿌리웠다는 것은 이들이니 곧 말씀을 들을 때에 즉시 기쁨으로 받으나"}, {"r": "눅 1:14", "t": "너도 기뻐하고 즐거워할 것이요 많은 사람도 그의 남을 기뻐하리니"}, {"r": "눅 2:10", "t": "천사가 이르되 무서워 말라 보라 내가 온 백성에게 미칠 큰 기쁨의 좋은 소식을 너희에게 전하노라"}, {"r": "눅 8:13", "t": "바위 위에 있다는 것은 말씀을 들을 때에 기쁨으로 받으나 뿌리가 없어 잠간 믿다가 시험을 받을 때에 배반하는 자요"}, {"r": "눅 10:17", "t": "칠십 인이 기뻐 돌아와 가로되 주여 주의 이름으로 귀신들도 우리에게 항복하더이다"}, {"r": "눅 15:7", "t": "내가 너희에게 이르노니 이와 같이 죄인 하나가 회개하면 하늘에서는 회개할 것 없는 의인 아흔아홉을 인하여 기뻐하는 것보다 더하리라"}, {"r": "눅 15:10", "t": "내가 너희에게 이르노니 이와 같이 죄인 하나가 회개하면 하나님의 사자들 앞에 기쁨이 되느니라"}, {"r": "눅 24:41", "t": "저희가 너무 기쁘므로 오히려 믿지 못하고 기이히 여길 때에 이르시되 여기 무슨 먹을 것이 있느냐 하시니"}, {"r": "눅 24:52", "t": "저희가 [그에게 경배하고] 큰 기쁨으로 예루살렘에 돌아가"}, {"r": "요 3:29", "t": "신부를 취하는 자는 신랑이나 서서 신랑의 음성을 듣는 친구가 크게 기뻐하나니 나는 이러한 기쁨이 충만하였노라"}, {"r": "요 15:11", "t": "내가 이것을 너희에게 이름은 내 기쁨이 너희 안에 있어 너희 기쁨을 충만하게 하려 함이니라"}, {"r": "요 16:20", "t": "내가 진실로 진실로 너희에게 이르노니 너희는 곡하고 애통하겠으나 세상은 기뻐하리라 너희는 근심하겠으나 너희 근심이 도리어 기쁨이 되리라"}, {"r": "요 16:21", "t": "여자가 해산하게 되면 그 때가 이르렀으므로 근심하나 아이를 낳으면 세상에 사람 난 기쁨을 인하여 그 고통을 다시 기억지 아니하느니라"}, {"r": "요 16:22", "t": "지금은 너희가 근심하나 내가 다시 너희를 보리니 너희 마음이 기쁠 것이요 너희 기쁨을 빼앗을 자가 없느니라"}, {"r": "요 16:24", "t": "지금까지는 너희가 내 이름으로 아무 것도 구하지 아니하였으나 구하라 그리하면 받으리니 너희 기쁨이 충만하리라"}, {"r": "요 17:13", "t": "지금 내가 아버지께로 가오니 내가 세상에서 이 말을 하옵는 것은 저희로 내 기쁨을 저희 안에 충만히 가지게 하려 함이니이다"}, {"r": "행 8:8", "t": "그 성에 큰 기쁨이 있더라"}, {"r": "행 12:14", "t": "베드로의 음성인 줄 알고 기뻐하여 문을 미처 열지 못하고 달려 들어가 말하되 베드로가 대문 밖에 섰더라 하니"}, {"r": "행 13:52", "t": "제자들은 기쁨과 성령이 충만하니라"}, {"r": "행 15:3", "t": "저희가 교회의 전송을 받고 베니게와 사마리아로 다녀가며 이방인들의 주께 돌아온 일을 말하여 형제들을 다 크게 기쁘게 하더라"}, {"r": "롬 14:17", "t": "하나님의 나라는 먹는 것과 마시는 것이 아니요 오직 성령 안에서 의와 평강과 희락이라"}, {"r": "롬 15:13", "t": "소망의 하나님이 모든 기쁨과 평강을 믿음 안에서 너희에게 충만케 하사 성령의 능력으로 소망이 넘치게 하시기를 원하노라"}, {"r": "롬 15:32", "t": "나로 하나님의 뜻을 좇아 기쁨으로 너희에게 나아가 너희와 함께 편히 쉬게 하라"}, {"r": "고후 1:24", "t": "우리가 너희 믿음을 주관하려는 것이 아니요 오직 너희 기쁨을 돕는 자가 되려 함이니 이는 너희가 믿음에 섰음이라"}, {"r": "고후 2:3", "t": "내가 이같이 쓴 것은 내가 갈 때에 마땅히 나를 기쁘게 할 자로부터 도리어 근심을 얻을까 염려함이요 또 너희 무리를 대하여 나의 기쁨이 너희 무리의 기쁨인 줄 확신함이로라"}, {"r": "고후 7:4", "t": "내가 너희를 향하여 하는 말이 담대한 것도 많고 너희를 위하여 자랑하는 것도 많으니 내가 우리의 모든 환난 가운데서도 위로가 가득하고 기쁨이 넘치는도다"}, {"r": "고후 7:13", "t": "이로 인하여 우리가 위로를 받았고 우리의 받은 위로 위에 디도의 기쁨으로 우리가 더욱 많이 기뻐함은 그의 마음이 너희 무리를 인하여 안심함을 얻었음이니라"}, {"r": "고후 8:2", "t": "환난의 많은 시련 가운데서 저희 넘치는 기쁨과 극한 가난이 저희로 풍성한 연보를 넘치도록 하게 하였느니라"}, {"r": "갈 5:22", "t": "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과"}, {"r": "빌 1:4", "t": "간구할 때마다 너희 무리를 위하여 기쁨으로 항상 간구함은"}, {"r": "빌 1:25", "t": "내가 살 것과 너희 믿음의 진보와 기쁨을 위하여 너희 무리와 함께 거할 이것을 확실히 아노니"}, {"r": "빌 2:2", "t": "마음을 같이 하여 같은 사랑을 가지고 뜻을 합하며 한 마음을 품어"}, {"r": "빌 2:29", "t": "이러므로 너희가 주 안에서 모든 기쁨으로 저를 영접하고 또 이와 같은 자들을 존귀히 여기라"}, {"r": "빌 4:1", "t": "그러므로 나의 사랑하고 사모하는 형제들, 나의 기쁨이요 면류관인 사랑하는 자들아 이와 같이 주 안에 서라"}, {"r": "살전 1:6", "t": "또 너희는 많은 환난 가운데서 성령의 기쁨으로 도를 받아 우리와 주를 본받은 자가 되었으니"}, {"r": "살전 2:19", "t": "우리의 소망이나 기쁨이나 자랑의 면류관이 무엇이냐 그의 강림하실 때 우리 주 예수 앞에 너희가 아니냐"}, {"r": "살전 2:20", "t": "너희는 우리의 영광이요 기쁨이니라"}, {"r": "살전 3:9", "t": "우리가 우리 하나님 앞에서 너희를 인하여 모든 기쁨으로 기뻐하니 너희를 위하여 능히 어떠한 감사함으로 하나님께 보답할꼬"}, {"r": "딤후 1:4", "t": "네 눈물을 생각하여 너 보기를 원함은 내 기쁨이 가득하게 하려 함이니"}, {"r": "몬 1:7", "t": "형제여 성도들의 마음이 너로 말미암아 평안함을 얻었으니 내가 너의 사랑으로 많은 기쁨과 위로를 얻었노라"}, {"r": "히 10:34", "t": "너희가 갇힌 자를 동정하고 너희 산업을 빼앗기는 것도 기쁘게 당한 것은 더 낫고 영구한 산업이 있는 줄 앎이라"}, {"r": "히 12:2", "t": "믿음의 주요 또 온전케 하시는 이인 예수를 바라보자 저는 그 앞에 있는 즐거움을 위하여 십자가를 참으사 부끄러움을 개의치 아니하시더니 하나님 보좌 우편에 앉으셨느니라"}, {"r": "히 12:11", "t": "무릇 징계가 당시에는 즐거워 보이지 않고 슬퍼 보이나 후에 그로 말미암아 연달한 자에게는 의의 평강한 열매를 맺나니"}, {"r": "히 13:17", "t": "너희를 인도하는 자들에게 순종하고 복종하라 저희는 너희 영혼을 위하여 경성하기를 자기가 회계할 자인 것 같이 하느니라 저희로 하여금 즐거움으로 이것을 하게 하고 근심으로 하게 말라 그렇지 않으면 너희에게 유익이 없느니라"}, {"r": "약 1:2", "t": "내 형제들아 너희가 여러 가지 시험을 만나거든 온전히 기쁘게 여기라"}, {"r": "약 4:9", "t": "슬퍼하며 애통하며 울지어다 너희 웃음을 애통으로, 너희 즐거움을 근심으로 바꿀지어다"}, {"r": "벧전 1:8", "t": "예수를 너희가 보지 못하였으나 사랑하는도다 이제도 보지 못하나 믿고 말할 수 없는 영광스러운 즐거움으로 기뻐하니"}, {"r": "요일 1:4", "t": "우리가 이것을 씀은 우리의 기쁨이 충만케 하려 함이로라"}, {"r": "요이 1:12", "t": "내가 너희에게 쓸 것이 많으나 종이와 먹으로 쓰기를 원치 아니하고 오히려 너희에게 가서 면대하여 말하려 하니 이는 너희 기쁨을 충만케 하려 함이라"}, {"r": "요삼 1:4", "t": "내가 내 자녀들이 진리 안에서 행한다 함을 듣는 것보다 더 즐거움이 없도다"}], "line": "상황이 아니라 하나님께 뿌리내린 기쁨", "root": "동사 카이로(χαίρω, 기뻐하다)에서 나온 말로, 은혜를 뜻하는 카리스(χάρις)와 뿌리가 같습니다. 받은 은혜가 마음에서 기쁨으로 피어나는 말의 결을 가지고 있습니다.", "use": "칠십인역에서 히브리어 심하와 사손, 곧 잔치와 축제의 기쁨을 옮긴 말입니다. 신약에서는 복음과 구원에서 오는 기쁨, 예수님이 주시는 충만한 기쁨(요 15:11)을 가리킵니다.", "bg": "빌립보서는 바울이 감옥에서 쓴 편지인데도 기쁨과 ‘기뻐하라’는 말이 유난히 자주 나오는 편지입니다. 성경의 희락은 형편이 좋아서 생기는 즐거움보다, 형편과 상관없이 주 안에서 누리는 기쁨입니다."}, "eirene": {"ko": "화평", "lemma": "εἰρήνη", "tr": "eirēnē", "strong": "G1515", "gloss": "peace", "kg": "평강, 평화", "ks": "전쟁이 없는 평화와 사람 사이의 화목을 뜻한다. 구약 שָׁלוֹם(샬롬)에 해당하는 대표적인 단어이다.", "heb": [["שָׁלוֹם", "샬롬"]], "hl": ["평강", "화평", "평안", "화목"], "count": 84, "key": [{"r": "요한복음 14:27", "t": "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 내가 너희에게 주는 것은 세상이 주는 것 같지 아니하니라 너희는 마음에 근심도 말고 두려워하지도 말라"}, {"r": "로마서 5:1", "t": "그러므로 우리가 믿음으로 의롭다 하심을 얻었은즉 우리 주 예수 그리스도로 말미암아 하나님으로 더불어 화평을 누리자"}, {"r": "에베소서 2:14", "t": "그는 우리의 화평이신지라 둘로 하나를 만드사 중간에 막힌 담을 허시고"}, {"r": "빌립보서 4:7", "t": "그리하면 모든 지각에 뛰어난 하나님의 평강이 그리스도 예수 안에서 너희 마음과 생각을 지키시리라"}], "all": [{"r": "마 10:13", "t": "그 집이 이에 합당하면 너희 빈 평안이 거기 임할 것이요 만일 합당치 아니하면 그 평안이 너희에게 돌아올 것이니라"}, {"r": "마 10:34", "t": "내가 세상에 화평을 주러 온 줄로 생각지 말라 화평이 아니요 검을 주러 왔노라"}, {"r": "막 5:34", "t": "예수께서 가라사대 딸아 네 믿음이 너를 구원하였으니 평안히 가라 네 병에서 놓여 건강할지어다"}, {"r": "눅 1:79", "t": "어두움과 죽음의 그늘에 앉은 자에게 비취고 우리 발을 평강의 길로 인도하시리로다 하니라"}, {"r": "눅 2:14", "t": "지극히 높은 곳에서는 하나님께 영광이요 땅에서는 기뻐하심을 입은 사람들 중에 평화로다 하니라"}, {"r": "눅 2:29", "t": "주재여 이제는 말씀하신 대로 종을 평안히 놓아 주시는도다"}, {"r": "눅 7:50", "t": "예수께서 여자에게 이르시되 네 믿음이 너를 구원하였으니 평안히 가라 하시니라"}, {"r": "눅 8:48", "t": "예수께서 이르시되 딸아 네 믿음이 너를 구원하였으니 평안히 가라 하시더라"}, {"r": "눅 10:5", "t": "어느 집에 들어가든지 먼저 말하되 이 집이 평안할지어다 하라"}, {"r": "눅 10:6", "t": "막일 평안을 받을 사람이 거기 있으면 너희 빈 평안이 그에게 머물 것이요 그렇지 않으면 너희에게로 돌아오리라"}, {"r": "눅 11:21", "t": "강한 자가 무장을 하고 자기 집을 지킬 때에는 그 소유가 안전하되"}, {"r": "눅 12:51", "t": "내가 세상에 화평을 주려고 온 줄로 아느냐 내가 너희에게 이르노니 아니라 도리어 분쟁케 하려 함이로라"}, {"r": "눅 14:32", "t": "만일 못할 터이면 저가 아직 멀리 있을 동안에 사신을 보내어 화친을 청할지니라"}, {"r": "눅 19:38", "t": "가로되 찬송하리로다 주의 이름으로 오시는 왕이여 하늘에는 평화요 가장 높은 곳에는 영광이로다 하니"}, {"r": "눅 19:42", "t": "가라사대 너도 오늘날 평화에 관한 일을 알았더면 좋을 뻔하였거니와 지금 네 눈에 숨기웠도다"}, {"r": "눅 24:36", "t": "이 말을 할 때에 예수께서 친히 그 가운데 서서 가라사대 너희에게 평강이 있을지어다 하시니"}, {"r": "요 14:27", "t": "평안을 너희에게 끼치노니 곧 나의 평안을 너희에게 주노라 내가 너희에게 주는 것은 세상이 주는 것 같지 아니하니라 너희는 마음에 근심도 말고 두려워하지도 말라"}, {"r": "요 16:33", "t": "이것을 너희에게 이름은 너희로 내 안에서 평안을 누리게 하려 함이라 세상에서는 너희가 환난을 당하나 담대하라 내가 세상을 이기었노라 하시니라"}, {"r": "요 20:19", "t": "이 날 곧 안식 후 첫날 저녁 때에 제자들이 유대인들을 두려워하여 모인 곳에 문들을 닫았더니 예수께서 오사 가운데 서서 가라사대 너희에게 평강이 있을지어다"}, {"r": "요 20:21", "t": "예수께서 또 가라사대 너희에게 평강이 있을지어다 아버지께서 나를 보내신 것 같이 나도 너희를 보내노라"}, {"r": "요 20:26", "t": "여드레를 지나서 제자들이 다시 집 안에 있을 때에 도마도 함께 있고 문들이 닫혔는데 예수께서 오사 가운데 서서 가라사대 너희에게 평강이 있을지어다 하시고"}, {"r": "행 7:26", "t": "이튿날 이스라엘 사람이 싸울 때에 모세가 와서 화목시키려 하여 가로되 너희는 형제라 어찌 서로 해하느냐 하니"}, {"r": "행 9:31", "t": "그리하여 온 유대와 갈릴리와 사마리아 교회가 평안하여 든든히 서 가고 주를 경외함과 성령의 위로로 진행하여 수가 더 많아지니라"}, {"r": "행 10:36", "t": "만유의 주 되신 예수 그리스도로 말미암아 화평의 복음을 전하사 이스라엘 자손들에게 보내신 말씀"}, {"r": "행 12:20", "t": "헤롯이 두로와 시돈 사람들을 대단히 노여워하나 저희 지방이 왕국에서 나는 양식을 쓰는고로 일심으로 그에게 나아와 왕의 침소 맡은 신하 블라스도를 친하여 화목하기를 청한지라"}, {"r": "행 15:33", "t": "얼마 있다가 평안히 가라는 전송을 형제들에게 받고 자기를 보내던 사람들에게로 돌아가되"}, {"r": "행 16:36", "t": "간수가 이 말대로 바울에게 고하되 상관들이 사람을 보내어 너희를 놓으라 하였으니 이제는 나가서 평안히 가라 하거늘"}, {"r": "행 24:2", "t": "바울을 부르매 더둘로가 송사하여 가로되"}, {"r": "롬 1:7", "t": "로마에 있어 하나님의 사랑하심을 입고 성도로 부르심을 입은 모든 자에게 하나님 우리 아버지와 주 예수 그리스도로 좇아 은혜와 평강이 있기를 원한노라"}, {"r": "롬 2:10", "t": "선을 행하는 각 사람에게는 영광과 존귀와 평강이 있으리니 첫째는 유대인에게요 또한 헬라인에게라"}, {"r": "롬 3:17", "t": "평강의 길을 알지 못하였고"}, {"r": "롬 5:1", "t": "그러므로 우리가 믿음으로 의롭다 하심을 얻었은즉 우리 주 예수 그리스도로 말미암아 하나님으로 더불어 화평을 누리자"}, {"r": "롬 8:6", "t": "육신의 생각은 사망이요 영의 생각은 생명과 평안이니라"}, {"r": "롬 14:17", "t": "하나님의 나라는 먹는 것과 마시는 것이 아니요 오직 성령 안에서 의와 평강과 희락이라"}, {"r": "롬 14:19", "t": "이러므로 우리가 화평의 일과 서로 덕을 세우는 일을 힘쓰나니"}, {"r": "롬 15:13", "t": "소망의 하나님이 모든 기쁨과 평강을 믿음 안에서 너희에게 충만케 하사 성령의 능력으로 소망이 넘치게 하시기를 원하노라"}, {"r": "롬 15:33", "t": "평강의 하나님께서 너희 모든 사람과 함께 계실지어다 아멘"}, {"r": "롬 16:20", "t": "평강의 하나님께서 속히 사단을 너희 발 아래서 상하게 하시리라 우리 주 예수의 은혜가 너희에게 있을지어다"}, {"r": "고전 1:3", "t": "하나님 우리 아버지와 주 예수 그리스도로 좇아 은혜와 평강이 있기를 원하노라"}, {"r": "고전 7:15", "t": "혹 믿지 아니하는 자가 갈리거든 갈리게 하라 형제나 자매나 이런 일에 구속 받을 것이 없느니라 그러나 하나님은 화평 중에서 너희를 부르셨느니라"}, {"r": "고전 14:33", "t": "하나님은 어지러움의 하나님이 아니시요 오직 화평의 하나님이시니라"}, {"r": "고전 16:11", "t": "그러므로 누구든지 저를 멸시하지 말고 평안히 보내어 내게로 오게 하라 나는 저가 형제들과 함께 오기를 기다리노라"}, {"r": "고후 1:2", "t": "하나님 우리 아버지와 주 예수 그리스도로 좇아 은혜와 평강이 있기를 원하노라"}, {"r": "고후 13:11", "t": "마지막으로 말하노니 형제들아 기뻐하라 온전케 되며 위로를 받으며 마음을 같이 하며 평안할지어다 또 사랑과 평강의 하나님이 너희와 함께 계시리라 거룩하게 입맞춤으로 서로 문안하라"}, {"r": "갈 1:3", "t": "우리 하나님 아버지와 주 예수 그리스도로 좇아 은혜와 평강이 있기를 원하노라"}, {"r": "갈 5:22", "t": "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과"}, {"r": "갈 6:16", "t": "무릇 이 규례를 행하는 자에게와 하나님의 이스라엘에게 평강과 긍휼이 있을지어다"}, {"r": "엡 1:2", "t": "하나님 우리 아버지와 주 예수 그리스도로 좇아 은혜와 평강이 너희에게 있을지어다"}, {"r": "엡 2:14", "t": "그는 우리의 화평이신지라 둘로 하나를 만드사 중간에 막힌 담을 허시고"}, {"r": "엡 2:15", "t": "원수 된 것 곧 의문에 속한 계명의 율법을 자기 육체로 폐하셨으니 이는 이 둘로 자기의 안에서 한 새 사람을 지어 화평하게 하시고"}, {"r": "엡 2:17", "t": "또 오셔서 먼 데 있는 너희에게 평안을 전하고 가까운 데 있는 자들에게 평안을 전하셨으니"}, {"r": "엡 4:3", "t": "평안의 매는 줄로 성령의 하나 되게 하신 것을 힘써 지키라"}, {"r": "엡 6:15", "t": "평안의 복음의 예비한 것으로 신을 신고"}, {"r": "엡 6:23", "t": "아버지 하나님과 주 예수 그리스도에게로부터 평안과 믿음을 겸한 사랑이 형제들에게 있을지어다"}, {"r": "빌 1:2", "t": "하나님 우리 아버지와 주 예수 그리스도에게로서 은혜와 평강이 너희에게 있을지어다"}, {"r": "빌 4:7", "t": "그리하면 모든 지각에 뛰어난 하나님의 평강이 그리스도 예수 안에서 너희 마음과 생각을 지키시리라"}, {"r": "빌 4:9", "t": "너희는 내게 배우고 받고 듣고 본 바를 행하라 그리하면 평강의 하나님이 너희와 함께 계시리라"}, {"r": "골 1:2", "t": "골로새에 있는 성도들 곧 그리스도 안에서 신실한 형제들에게 편지하노니 우리 아버지 하나님으로부터 은혜와 평강이 너희에게 있을지어다"}, {"r": "골 3:15", "t": "그리스도의 평강이 너희 마음을 주장하게 하라 평강을 위하여 너희가 한 몸으로 부르심을 받았나니 또한 너희는 감사하는 자가 되라"}, {"r": "살전 1:1", "t": "바울과 실루아노와 디모데는 하나님 아버지와 주 예수 그리스도 안에 있는 데살로니가인의 교회에 편지하노니 은혜와 평강이 너희에게 있을지어다"}, {"r": "살전 5:3", "t": "저희가 평안하다, 안전하다 할 그 때에 잉태된 여자에게 해산 고통이 이름과 같이 멸망이 홀연히 저희에게 이르리니 결단코 피하지 못하리라"}, {"r": "살전 5:23", "t": "평강의 하나님이 친히 너희로 온전히 거룩하게 하시고 또 너희 온 영과 혼과 몸이 우리 주 예수 그리스도 강림하실 때에 흠 없게 보전되기를 원하노라"}, {"r": "살후 1:2", "t": "하나님 아버지와 주 예수 그리스도로부터 은혜와 평강이 너희에게 있을지어다"}, {"r": "살후 3:16", "t": "평강의 주께서 친히 때마다 일마다 너희에게 평강을 주시기를 원하노라 주는 너희 모든 사람과 함께 하실지어다"}, {"r": "딤전 1:2", "t": "믿음 안에서 참 아들 된 디모데에게 편지하노니 하나님 아버지와 그리스도 예수 우리 주께로부터 은혜와 긍휼과 평강이 네게 있을지어다"}, {"r": "딤후 1:2", "t": "사랑하는 아들 디모데에게 편지하노니 하나님 아버지와 그리스도 예수 우리 주께로부터 은혜와 긍휼과 평강이 네게 있을지어다"}, {"r": "딤후 2:22", "t": "또한 네가 청년의 정욕을 피하고 주를 깨끗한 마음으로 부르는 자들과 함께 믿음과 사랑과 화평을 좇으라"}, {"r": "딛 1:4", "t": "같은 믿음을 따라 된 나의 참 아들 디도에게 편지하노니 하나님 아버지와 그리스도 예수 우리 구주로 좇아 은혜와 평강이 네게 있을지어다"}, {"r": "몬 1:3", "t": "하나님 우리 아버지와 주 예수 그리스도로 좇아 은혜와 평강이 너희에게 있을지어다"}, {"r": "히 7:2", "t": "아브라함이 일체 십분의 일을 그에게 나눠 주니라 그 이름을 번역한즉 첫째 의의 왕이요 또 살렘 왕이니 곧 평강의 왕이요"}, {"r": "히 11:31", "t": "믿음으로 기생 라합은 정탐꾼을 평안히 영접하였으므로 순종치 아니한 자와 함께 멸망치 아니하였도다"}, {"r": "히 12:14", "t": "모든 사람으로 더불어 화평함과 거룩함을 좆으라 이것이 없이는 아무도 주를 보지 못하리라"}, {"r": "히 13:20", "t": "양의 큰 목자이신 우리 주 예수를 영원한 언약의 피로 죽은 자 가운데서 이끌어 내신 평강의 하나님이"}, {"r": "약 2:16", "t": "너희 중에 누구든지 그에게 이르되 평안히 가라, 더웁게 하라, 배 부르게 하라 하며 그 몸에 쓸 것을 주지 아니하면 무슨 이익이 있으리요"}, {"r": "약 3:18", "t": "화평케 하는 자들은 화평으로 심어 의의 열매를 거두느니라"}, {"r": "벧전 1:2", "t": "곧 하나님 아버지의 미리 아심을 따라 성령의 거룩하게 하심으로 순종함과 예수 그리스도의 피 뿌림을 얻기 위하여 택하심을 입은 자들에게 편지하노니 은혜와 평강이 너희에게 더욱 많을지어다"}, {"r": "벧전 3:11", "t": "악에서 떠나 선을 행하고 화평을 구하여 이를 좇으라"}, {"r": "벧전 5:14", "t": "너희는 사랑의 입맞춤으로 피차 문안하라 그리스도 안에 있는 너희 모든 이에게 평강이 있을지어다"}, {"r": "벧후 1:2", "t": "하나님과 우리 주 예수를 앎으로 은혜와 평강이 너희에게 더욱 많을지어다"}, {"r": "벧후 3:14", "t": "그러므로 사랑하는 자들아 너희가 이것을 바라보나니 주 앞에서 점도 없고 흠도 없이 평강 가운데서 나타나기를 힘쓰라"}, {"r": "요이 1:3", "t": "은혜와 긍휼과 평강이 하나님 아버지와 아버지의 아들 예수 그리스도께로부터 진리와 사랑 가운데서 우리와 함께 있으리라"}, {"r": "유 1:2", "t": "긍휼과 평강과 사랑이 너희에게 더욱 많을지어다"}, {"r": "계 1:4", "t": "요한은 아시아에 있는 일곱 교회에 편지하노니 이제도 계시고 전에도 계시고 장차 오실 이와 그 보좌 앞에 일곱 영과"}, {"r": "계 6:4", "t": "이에 붉은 다른 말이 나오더라 그 탄 자가 허락을 받아 땅에서 화평을 제하여 버리며 서로 죽이게 하고 또 큰 칼을 받았더라"}], "line": "하나님과 사람 사이에 깨진 것이 없는 상태", "root": "헬라어 에이레네는 본래 전쟁이 없는 상태, 질서와 안정을 뜻하는 말이었습니다.", "use": "칠십인역이 히브리어 샬롬을 이 말로 옮기면서 뜻이 깊어졌습니다. 샬롬은 ‘온전하다, 빠짐없이 갖춰지다’라는 뜻의 뿌리에서 나온 말로, 몸과 관계와 삶 전체가 온전한 상태를 말합니다. 신약에서는 하나님과의 화목(롬 5:1)과 사람 사이의 화목(엡 2:14)을 함께 가리킵니다.", "bg": "이스라엘 사람들은 지금도 ‘샬롬’으로 인사합니다. 예수님도 부활 후 제자들에게 ‘평강이 있을지어다’로 인사하셨습니다. 화평은 내 마음이 고요한 것에서 그치지 않고, 막힌 관계를 잇는 사람이 되는 데까지 이어집니다(마 5:9)."}, "makrothumia": {"ko": "오래 참음", "lemma": "μακροθυμία", "tr": "makrothumia", "strong": "G3115", "gloss": "patience", "kg": "오래 참음, 인내", "ks": "오래 참음. 사람이 어려움 중에 참는 일과 하나님이 죄인에 대해 참으시는 일에 쓰이며 성령의 열매 가운데 하나다.", "heb": [["אֶרֶךְ אַפַּיִם", "에레크 압파임"]], "hl": ["오래 참", "길이 참"], "count": 14, "key": [{"r": "에베소서 4:2", "t": "모든 겸손과 온유로 하고 오래 참음으로 사랑 가운데서 서로 용납하고"}, {"r": "골로새서 3:12", "t": "그러므로 너희는 하나님의 택하신 거룩하고 사랑하신 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷입고"}, {"r": "베드로후서 3:15", "t": "또 우리 주의 오래 참으심이 구원이 될 줄로 여기라 우리 사랑하는 형제 바울도 그 받은 지혜대로 너희에게 이같이 썼고"}, {"r": "디모데전서 1:16", "t": "그러나 내가 긍휼을 입은 까닭은 예수 그리스도께서 내게 먼저 일절 오래 참으심을 보이사 후에 주를 믿어 영생 얻는 자들에게 본이 되게 하려 하심이니라"}], "all": [{"r": "롬 2:4", "t": "혹 네가 하나님의 인자하심이 너를 인도하여 회개케 하심을 알지 못하여 그의 인자하심과 용납하심과 길이 참으심의 풍성함을 멸시하느뇨"}, {"r": "롬 9:22", "t": "만일 하나님이 그 진노를 보이시고 그 능력을 알게 하고자 하사 멸하기로 준비된 진노의 그릇을 오래 참으심으로 관용하시고"}, {"r": "고후 6:6", "t": "깨끗함과 지식과 오래 참음과 자비함과 성령의 감화와 거짓이 없는 사랑과"}, {"r": "갈 5:22", "t": "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과"}, {"r": "엡 4:2", "t": "모든 겸손과 온유로 하고 오래 참음으로 사랑 가운데서 서로 용납하고"}, {"r": "골 1:11", "t": "그 영광의 힘을 좇아 모든 능력으로 능하게 하시며 기쁨으로 모든 견딤과 오래 참음에 이르게 하시고"}, {"r": "골 3:12", "t": "그러므로 너희는 하나님의 택하신 거룩하고 사랑하신 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷입고"}, {"r": "딤전 1:16", "t": "그러나 내가 긍휼을 입은 까닭은 예수 그리스도께서 내게 먼저 일절 오래 참으심을 보이사 후에 주를 믿어 영생 얻는 자들에게 본이 되게 하려 하심이니라"}, {"r": "딤후 3:10", "t": "나의 교훈과 행실과 의향과 믿음과 오래 참음과 사랑과 인내와"}, {"r": "딤후 4:2", "t": "너는 말씀을 전파하라 때를 얻든지 못 얻든지 항상 힘쓰라 범사에 오래 참음과 가르침으로 경책하며 경계하며 권하라"}, {"r": "히 6:12", "t": "게으르지 아니하고 믿음과 오래 참음으로 말미암아 약속들을 기업으로 받는 자들을 본받는 자 되게 하려는 것이니라"}, {"r": "약 5:10", "t": "형제들아 주의 이름으로 말한 선지자들로 고난과 오래 참음의 본을 삼으라"}, {"r": "벧전 3:20", "t": "그들은 전에 노아의 날 방주 예비할 동안 하나님이 오래 참고 기다리실 때에 순종치 아니하던 자들이라 방주에서 물로 말미암아 구원을 얻은 자가 몇 명뿐이니 겨우 여덟 명이라"}, {"r": "벧후 3:15", "t": "또 우리 주의 오래 참으심이 구원이 될 줄로 여기라 우리 사랑하는 형제 바울도 그 받은 지혜대로 너희에게 이같이 썼고"}], "line": "화가 나기까지의 거리가 긴 마음", "root": "마크로스(μακρός, 길다)와 튀모스(θυμός, 격정·분노)가 합쳐진 말입니다. 글자 그대로 ‘분노에 이르기까지가 길다’는 뜻입니다.", "use": "칠십인역은 히브리어 ‘에레크 압파임’, 곧 ‘코가 길다’는 표현을 이 계열의 말로 옮겼습니다. 히브리 사람들은 화가 나면 콧김이 거칠어진다고 보아, 쉽게 화내지 않는 것을 ‘코가 길다’고 했습니다. 출애굽기 34:6에서 하나님이 자신을 ‘노하기를 더디 하는’ 분으로 소개하실 때 쓰인 표현입니다.", "bg": "신약은 비슷한 말인 휘포모네(인내)와 구분해 씁니다. 휘포모네가 힘든 상황을 견디는 것이라면, 마크로튀미아는 나를 힘들게 하는 사람을 오래 참아 주는 것입니다. 하나님이 죄인을 오래 참으시는 것(롬 2:4, 벧후 3:15)도 이 말로 표현됩니다."}, "chrestotes": {"ko": "자비", "lemma": "χρηστότης", "tr": "chrēstotēs", "strong": "G5544", "gloss": "kindness", "kg": "인자, 친절", "ks": "마음이 선하고 친절함을 뜻한다. 성령의 열매 중 하나로 나오며 하나님이 우리에게 베푸신 인자하심을 가리킨다.", "heb": [["טוּב", "투브"]], "hl": ["인자", "자비", "선을 행", "착"], "count": 8, "key": [{"r": "에베소서 2:7", "t": "이는 그리스도 예수 안에서 우리에게 자비하심으로써 그 은혜의 지극히 풍성함을 오는 여러 세대에 나타내려 하심이니라"}, {"r": "디도서 3:4", "t": "우리 구주 하나님의 자비와 사람 사랑하심을 나타내실 때에"}, {"r": "로마서 2:4", "t": "혹 네가 하나님의 인자하심이 너를 인도하여 회개케 하심을 알지 못하여 그의 인자하심과 용납하심과 길이 참으심의 풍성함을 멸시하느뇨"}, {"r": "골로새서 3:12", "t": "그러므로 너희는 하나님의 택하신 거룩하고 사랑하신 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷입고"}], "all": [{"r": "롬 2:4", "t": "혹 네가 하나님의 인자하심이 너를 인도하여 회개케 하심을 알지 못하여 그의 인자하심과 용납하심과 길이 참으심의 풍성함을 멸시하느뇨"}, {"r": "롬 3:12", "t": "다 치우쳐 한가지로 무익하게 되고 선을 행하는 자는 없나니 하나도 없도다"}, {"r": "롬 11:22", "t": "그러므로 하나님의 인자와 엄위를 보라 넘어지는 자들에게는 엄위가 있으니 너희가 만일 하나님의 인자에 거하면 그 인자가 너희에게 있으리라 그렇지 않으면 너도 찍히는 바 되리라"}, {"r": "고후 6:6", "t": "깨끗함과 지식과 오래 참음과 자비함과 성령의 감화와 거짓이 없는 사랑과"}, {"r": "갈 5:22", "t": "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과"}, {"r": "엡 2:7", "t": "이는 그리스도 예수 안에서 우리에게 자비하심으로써 그 은혜의 지극히 풍성함을 오는 여러 세대에 나타내려 하심이니라"}, {"r": "골 3:12", "t": "그러므로 너희는 하나님의 택하신 거룩하고 사랑하신 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷입고"}, {"r": "딛 3:4", "t": "우리 구주 하나님의 자비와 사람 사랑하심을 나타내실 때에"}], "line": "상대에게 꼭 맞고 유익이 되는 친절", "root": "형용사 크레스토스(χρηστός)에서 나온 말입니다. 크레스토스는 ‘쓸모 있다, 잘 맞다, 부드럽다’는 뜻이어서 잘 익은 포도주나 몸에 잘 맞는 물건에도 썼습니다.", "use": "칠십인역에서 히브리어 투브, 곧 ‘좋음, 선함’을 옮긴 말입니다. 시편 34:8의 ‘여호와의 선하심을 맛보아 알지어다’가 칠십인역에서 이 단어로 되어 있습니다. 신약에서는 주로 하나님이 우리에게 베푸신 인자하심(엡 2:7, 딛 3:4)을 가리킵니다.", "bg": "예수님은 ‘내 멍에는 쉽고’(마 11:30)라고 하실 때 이 형용사를 쓰셨습니다. 목수가 소의 목에 꼭 맞게 깎은 멍에처럼, 성경의 자비는 상대에게 부담이 아니라 꼭 맞는 도움이 되는 친절입니다."}, "agathosune": {"ko": "양선", "lemma": "ἀγαθωσύνη", "tr": "agathōsunē", "strong": "G0019", "gloss": "goodness", "kg": "선함, 착함", "ks": "선한 성품을 가리키며, 성령의 열매 가운데 하나로 나온다(갈 5:22). 롬 15:14, 살후 1:11에도 쓰인다.", "heb": [["טוֹב", "토브"], ["טוֹבָה", "토바"]], "hl": ["착함", "선함", "양선", "선"], "count": 4, "key": [{"r": "로마서 15:14", "t": "내 형제들아 너희가 스스로 선함이 가득하고 모든 지식이 차서 능히 서로 권하는 자임을 나도 확신하노라"}, {"r": "에베소서 5:9", "t": "빛의 열매는 모든 착함과 의로움과 진실함에 있느니라"}, {"r": "데살로니가후서 1:11", "t": "이러므로 우리도 항상 너희를 위하여 기도함은 우리 하나님이 너희를 그 부르심에 합당한 자로 여기시고 모든 선을 기뻐함과 믿음의 역사를 능력으로 이루게 하시고"}], "all": [{"r": "롬 15:14", "t": "내 형제들아 너희가 스스로 선함이 가득하고 모든 지식이 차서 능히 서로 권하는 자임을 나도 확신하노라"}, {"r": "갈 5:22", "t": "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과"}, {"r": "엡 5:9", "t": "빛의 열매는 모든 착함과 의로움과 진실함에 있느니라"}, {"r": "살후 1:11", "t": "이러므로 우리도 항상 너희를 위하여 기도함은 우리 하나님이 너희를 그 부르심에 합당한 자로 여기시고 모든 선을 기뻐함과 믿음의 역사를 능력으로 이루게 하시고"}], "line": "선을 행동으로 옮기는 적극적인 착함", "root": "‘선한’을 뜻하는 아가토스(ἀγαθός)에 명사 어미가 붙은 말입니다. 일반 헬라어 문헌에서는 거의 보이지 않고 성경과 교회 문헌에서 쓰인 단어입니다.", "use": "칠십인역에서 히브리어 토브와 토바를 옮겼고, 신약에는 네 번만 나옵니다(롬 15:14, 갈 5:22, 엡 5:9, 살후 1:11).", "bg": "학자들은 바로 앞의 자비(크레스토테스)가 부드러운 친절이라면, 양선(아가토쉬네)은 필요하면 바로잡고 맞서기까지 하는 적극적인 선이라고 구분합니다. 예수님이 아이들을 품으신 것이 자비의 모습이라면, 성전에서 장사하는 상을 엎으신 것은 양선의 모습으로 설명하곤 합니다."}, "pistis": {"ko": "충성", "lemma": "πίστις", "tr": "pistis", "strong": "G4102", "gloss": "faith: faithfulness", "kg": "신실함, 진실함", "ks": "믿음직함, 곧 신실함의 뜻으로 쓰인 용법이다. 로마서 3:3에서 하나님의 '미쁘심'을 가리키는 표현에 쓰였다.", "heb": [["אֱמוּנָה", "에무나"]], "hl": ["미쁘", "충성", "신실", "믿음"], "count": 3, "key": [{"r": "로마서 3:3", "t": "어떤 자들이 믿지 아니하였으면 어찌하리요 그 믿지 아니함이 하나님의 미쁘심을 폐하겠느뇨"}, {"r": "마태복음 23:23", "t": "화 있을진저 외식하는 서기관들과 바리새인들이여 너희가 박하와 회향과 근채의 십일조를 드리되 율법의 더 중한 바 의와 인과 신은 버렸도다 그러나 이것도 행하고 저것도 버리지 말아야 할지니라"}, {"r": "디도서 2:10", "t": "떼어 먹지 말고 오직 선한 충성을 다하게 하라 이는 범사에 우리 구주 하나님의 교훈을 빛나게 하려 함이라"}, {"r": "마태복음 25:21", "t": "그 주인이 이르되 잘 하였도다 착하고 충성된 종아 네가 작은 일에 충성하였으매 내가 많은 것으로 네게 맡기리니 네 주인의 즐거움에 참예할지어다 하고"}], "all": [{"r": "마 23:23", "t": "화 있을진저 외식하는 서기관들과 바리새인들이여 너희가 박하와 회향과 근채의 십일조를 드리되 율법의 더 중한 바 의와 인과 신은 버렸도다 그러나 이것도 행하고 저것도 버리지 말아야 할지니라"}, {"r": "롬 3:3", "t": "어떤 자들이 믿지 아니하였으면 어찌하리요 그 믿지 아니함이 하나님의 미쁘심을 폐하겠느뇨"}, {"r": "갈 5:22", "t": "오직 성령의 열매는 사랑과 희락과 화평과 오래 참음과 자비와 양선과 충성과"}], "line": "맡겨도 되는 사람, 믿을 만한 사람", "root": "동사 페이토(πείθω, 설득하다·신뢰하다)에서 나온 말입니다. 피스티스는 ‘믿음’과 ‘신실함(믿을 만함)’ 두 뜻을 모두 가집니다.", "use": "칠십인역에서 히브리어 에무나를 옮긴 말입니다. 에무나는 ‘단단하다, 흔들리지 않다’는 뜻의 뿌리에서 나왔고, ‘아멘’도 같은 뿌리입니다. 갈라디아서 5:22에서는 하나님을 믿는 믿음보다 사람됨의 신실함을 뜻하는 쪽으로 읽으며, 개역한글은 ‘충성’으로 옮겼습니다.", "bg": "같은 단어 피스티스는 신약에 200번 넘게 나오는데, 대부분은 ‘믿음’으로 번역됩니다. 신실함의 뜻이 분명한 구절은 몇 곳뿐입니다. 하나님이 신실하시기에(롬 3:3, ‘미쁘심’) 그분을 믿는 사람도 신실해집니다. 달란트 비유의 ‘착하고 충성된 종’(마 25:21)이 그 모습입니다."}, "prautes": {"ko": "온유", "lemma": "πραΰτης", "tr": "prautēs", "strong": "G4240", "gloss": "gentleness", "kg": "온유", "ks": "부드럽고 온유한 성품을 뜻하는 명사. 갈라디아서 5장 23절 등에서 성령의 열매로 나온다.", "heb": [["עֲנָוָה", "아나와"]], "hl": ["온유"], "count": 10, "key": [{"r": "마태복음 11:29", "t": "나는 마음이 온유하고 겸손하니 나의 멍에를 메고 내게 배우라 그러면 너희 마음이 쉼을 얻으리니"}, {"r": "에베소서 4:2", "t": "모든 겸손과 온유로 하고 오래 참음으로 사랑 가운데서 서로 용납하고"}, {"r": "갈라디아서 6:1", "t": "형제들아 사람이 만일 무슨 범죄한 일이 드러나거든 신령한 너희는 온유한 심령으로 그러한 자를 바로 잡고 네 자신을 돌아보아 너도 시험을 받을까 두려워하라"}, {"r": "야고보서 1:21", "t": "그러므로 모든 더러운 것과 넘치는 악을 내어 버리고 능히 너희 영혼을 구원할 바 마음에 심긴 도를 온유함으로 받으라"}], "all": [{"r": "고전 4:21", "t": "너희가 무엇을 원하느냐 내가 매를 가지고 너희에게 나아가랴 사랑과 온유한 마음으로 나아가랴"}, {"r": "고후 10:1", "t": "너희를 대하여 대면하면 겸비하고 떠나 있으면 담대한 나 바울은 이제 그리스도의 온유와 관용으로 친히 너희를 권하고"}, {"r": "갈 5:23", "t": "온유와 절제니 이같은 것을 금지할 법이 없느니라"}, {"r": "갈 6:1", "t": "형제들아 사람이 만일 무슨 범죄한 일이 드러나거든 신령한 너희는 온유한 심령으로 그러한 자를 바로 잡고 네 자신을 돌아보아 너도 시험을 받을까 두려워하라"}, {"r": "엡 4:2", "t": "모든 겸손과 온유로 하고 오래 참음으로 사랑 가운데서 서로 용납하고"}, {"r": "골 3:12", "t": "그러므로 너희는 하나님의 택하신 거룩하고 사랑하신 자처럼 긍휼과 자비와 겸손과 온유와 오래 참음을 옷입고"}, {"r": "딤후 2:25", "t": "거역하는 자를 온유함으로 징계할지니 혹 하나님이 저희에게 회개함을 주사 진리를 알게 하실까 하며"}, {"r": "딛 3:2", "t": "아무도 훼방하지 말며 다투지 말며 관용하며 범사에 온유함을 모든 사람에게 나타낼 것을 기억하게 하라"}, {"r": "약 1:21", "t": "그러므로 모든 더러운 것과 넘치는 악을 내어 버리고 능히 너희 영혼을 구원할 바 마음에 심긴 도를 온유함으로 받으라"}, {"r": "약 3:13", "t": "너희 중에 지혜와 총명이 있는 자가 누구뇨 그는 선행으로 말미암아 지혜의 온유함으로 그 행함을 보일지니라"}], "line": "힘을 내려놓을 줄 아는 부드러움", "root": "형용사 프라위스(πραΰς, 온유한)의 명사입니다. 그리스 문헌에서는 길들여진 짐승이나 노여움을 가라앉히는 부드러운 말에도 썼습니다. 아리스토텔레스는 화를 지나치게 내지도, 마땅할 때 전혀 내지 않지도 않는 중용의 덕으로 설명했습니다.", "use": "칠십인역에서 히브리어 아나와, 곧 겸손을 옮긴 말입니다. 민수기 12:3의 ‘모세는 온유함이 지면의 모든 사람보다 승하더라’에서 쓰인 형용사가 칠십인역에서 이 계열의 말입니다.", "bg": "예수님은 자신을 ‘마음이 온유하고 겸손하니’(마 11:29)라고 소개하셨습니다. 성경의 온유는 약해서 참는 것이 아니라, 힘이 있어도 하나님 앞에서 그 힘을 다스리고 내려놓는 것입니다."}, "egkrateia": {"ko": "절제", "lemma": "ἐγκράτεια", "tr": "egkrateia", "strong": "G1466", "gloss": "self-control", "kg": "절제", "ks": "자기를 다스림, 곧 절제를 뜻한다. 갈라디아서 5:23의 성령의 열매 중 하나로 나온다.", "heb": [], "hl": ["절제"], "count": 3, "key": [{"r": "베드로후서 1:6", "t": "지식에 절제를, 절제에 인내를, 인내에 경건을,"}, {"r": "사도행전 24:25", "t": "바울이 의와 절제와 장차 오는 심판을 강론하니 벨릭스가 두려워하여 대답하되 시방은 가라 내가 틈이 있으면 너를 부르리라 하고"}, {"r": "고린도전서 9:25", "t": "이기기를 다투는 자마다 모든 일에 절제하나니 저희는 썩을 면류관을 얻고자 하되 우리는 썩지 아니할 것을 얻고자 하노라"}], "all": [{"r": "행 24:25", "t": "바울이 의와 절제와 장차 오는 심판을 강론하니 벨릭스가 두려워하여 대답하되 시방은 가라 내가 틈이 있으면 너를 부르리라 하고"}, {"r": "갈 5:23", "t": "온유와 절제니 이같은 것을 금지할 법이 없느니라"}, {"r": "벧후 1:6", "t": "지식에 절제를, 절제에 인내를, 인내에 경건을,"}], "line": "내 안을 다스리는 힘", "root": "엔(ἐν, 안에)과 크라토스(κράτος, 힘·다스림)가 합쳐진 말로, ‘자기 안을 붙잡아 다스리는 힘’이라는 뜻입니다.", "use": "소크라테스와 플라톤, 아리스토텔레스 같은 그리스 철학자들이 중요하게 다룬 덕목입니다. 히브리어 구약 본문에는 이 말에 해당하는 단어가 없고, 칠십인역의 외경 몇 곳에만 나옵니다. 신약에는 명사로 세 번(행 24:25, 갈 5:23, 벧후 1:6) 나옵니다.", "bg": "바울은 고린도전서 9:25에서 상을 얻으려고 모든 일에 절제하는 운동선수를 예로 듭니다. 철학자들에게 절제는 스스로 이루는 의지력이었지만, 바울은 이것을 성령의 열매로 아홉 열매의 마지막에 둡니다. 내 힘으로 버티는 것이 아니라 성령께서 맺게 하시는 다스림입니다."}};
 const FORDER=["agape","chara","eirene","makrothumia","chrestotes","agathosune","pistis","prautes","egkrateia"];
-const FID={}; FORDER.forEach(id=>FID[FR[id].ko]=id);
 const plaques=(list,col)=>`<div class="plaques" style="color:${col}">${list.map(f=>FID[f]?`<a class="plaque" href="#fruit-${FID[f]}">${f}</a>`:`<span class="plaque">${f}</span>`).join("")}</div><p class="sub" style="margin-top:-4px">열매 이름을 누르면 원어 뜻과 성경 구절을 볼 수 있습니다.</p>`;
 const markHl=(t,hl)=>{let x=esc(t);hl.forEach(w=>{x=x.split(w).join(`<mark>${w}</mark>`)});return x};
 const BLEND_ORDER=["SC","SM","SP","CS","CM","CP","MS","MC","MP","PS","PC","PM"];
@@ -375,57 +471,17 @@ const vcard=(v,col)=>`<div class="vcard frame" style="border-left-color:${col||"
 const bandBg=code=>`linear-gradient(0deg,${COLOR[code[1]]} 0 16px,${COLOR[code[0]]} 16px 100%)`;
 
 /* 검사 결과 화면에서 쓰는 보충 설명 (모임용으로 정리) */
-const EXTRA={
- S:{core:"분노 · 절제 부족",treat:["반응해 주고 함께 웃어 주세요. 칭찬과 인정이 큰 힘이 됩니다.","긴 설명보다 짧게, 중요한 건 한 번 더 알려 주세요.","약속은 메모로 남겨 주면 고마워합니다."]},
- C:{core:"분노 · 교만",treat:["결론부터, 핵심만 말해 주세요.","선택권과 맡을 일을 주면 힘을 냅니다.","부딪혀도 정면으로 솔직하게 이야기하는 편이 낫습니다."]},
- M:{core:"두려움 · 염려 · 자기 연민",treat:["생각할 시간을 주세요. 즉석 대답을 재촉하지 마세요.","진지하게 들어 주고, 구체적으로 인정해 주세요.","약속한 시간과 계획을 지켜 주면 신뢰가 쌓입니다."]},
- P:{core:"두려움 · 소극성",treat:["의견을 직접 물어봐 주세요. 묻지 않으면 말하지 않습니다.","재촉하기보다 함께 시작해 주세요.","작은 결정 하나씩 맡겨 주면 자라 갑니다."]}
-};
 
 /* ---------- 문항 (이 검사를 위해 새로 쓴 것) ---------- */
-const Q=[
- {part:1,t:"나를 가장 잘 나타내는 단어는?",o:{S:"명랑한",C:"추진력 있는",M:"꼼꼼한",P:"온화한"}},
- {part:1,t:"나를 가장 잘 나타내는 단어는?",o:{S:"말재주 있는",C:"결단력 있는",M:"사려 깊은",P:"차분한"}},
- {part:1,t:"나를 가장 잘 나타내는 단어는?",o:{S:"사람을 좋아하는",C:"목표 지향적인",M:"완벽을 추구하는",P:"잘 들어주는"}},
- {part:1,t:"나를 가장 잘 나타내는 단어는?",o:{S:"즉흥적인",C:"독립적인",M:"계획적인",P:"무던한"}},
- {part:1,t:"여럿이 함께 있을 때 나는 주로…",o:{S:"분위기 메이커",C:"앞장서는 리더",M:"꼼꼼한 분석가",P:"갈등을 푸는 중재자"}},
- {part:1,t:"나를 가장 잘 나타내는 단어는?",o:{S:"낙천적인",C:"자신감 있는",M:"헌신적인",P:"한결같은"}},
- {part:1,t:"나를 가장 잘 나타내는 단어는?",o:{S:"표현이 풍부한",C:"실용적인",M:"감수성이 깊은",P:"은근히 웃긴"}},
- {part:1,t:"나를 가장 잘 나타내는 단어는?",o:{S:"정이 많은",C:"일을 잘 해내는",M:"신중한",P:"참을성 있는"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"산만하다",C:"고집이 세다",M:"비판적이다",P:"미룬다"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"말이 많다",C:"성급하다",M:"비관적이다",P:"무관심해 보인다"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"약속을 잘 잊는다",C:"남을 밀어붙인다",M:"쉽게 상처받는다",P:"결정을 잘 못 내린다"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"충동적이다",C:"화를 잘 낸다",M:"걱정이 많다",P:"의욕이 적다"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"기분이 들떴다 가라앉는다",C:"참을성이 없다",M:"서운한 게 오래 간다",P:"부딪히는 걸 피한다"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"정리를 잘 못한다",C:"차갑다는 말을 듣는다",M:"혼자 있으려 한다",P:"느긋해서 답답하다는 말을 듣는다"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"이야기를 부풀린다",C:"일 욕심이 지나치다",M:"완벽하려다 지친다",P:"변화가 귀찮다"}},
- {part:2,t:"솔직히, 나에게 더 가까운 모습은?",o:{S:"관심받고 싶어 한다",C:"지는 걸 못 참는다",M:"자기 연민에 빠진다",P:"돈과 시간을 잘 안 쓴다"}},
- {part:3,t:"처음 가는 자리(회식·동창회·학부모 모임 등)에서 나는?",o:{S:"먼저 다가가 말을 걸고 분위기를 띄운다",C:"자연스럽게 대화를 이끌고 자리를 정리한다",M:"분위기를 살피며 아는 사람 곁에 조용히 있는다",P:"편하게 있다가 말을 걸어오면 잘 받아준다"}},
- {part:3,t:"주말 계획이 갑자기 틀어졌다.",o:{S:"오히려 좋다. 다른 재밌는 걸 찾는다",C:"바로 대안을 정해서 움직인다",M:"아쉬움이 오래 남고, 다음엔 더 꼼꼼히 챙기기로 한다",P:"뭐 어때, 쉬면 된다"}},
- {part:3,t:"아내나 가족과 의견이 부딪칠 때 나는 주로…",o:{S:"농담으로 분위기부터 풀려고 한다",C:"내 생각이 맞다는 걸 논리로 설득한다",M:"말은 아끼지만 속으로 오래 곱씹는다",P:"일단 알았다고 하고 넘어간다"}},
- {part:3,t:"일터에서 새 프로젝트를 맡았다.",o:{S:"사람들과 아이디어부터 신나게 나눈다",C:"목표와 마감부터 정하고 역할을 나눈다",M:"자료를 모으고 계획부터 빈틈없이 세운다",P:"무리하지 않는 선에서 차근차근 한다"}},
- {part:3,t:"스트레스가 쌓이면 나는…",o:{S:"사람을 만나 수다를 떤다",C:"일이나 운동에 더 몰두한다",M:"혼자 생각을 정리하거나 음악을 듣는다",P:"잠을 자거나 TV·유튜브를 본다"}},
- {part:3,t:"친구가 힘든 고민을 털어놓을 때 나는…",o:{S:"같이 속상해하고, 기분 풀어 주려고 밖으로 데리고 나간다",C:"상황을 정리해서 바로 해결 방법을 알려 준다",M:"끝까지 깊이 들어주고, 그 얘기가 며칠씩 마음에 남는다",P:"말없이 들어주며 옆에 있어 준다"}},
- {part:3,t:"가족 여행을 간다면…",o:{S:"일단 출발, 가서 정하면 된다",C:"일정을 정하고 운전과 진행을 맡는다",M:"숙소·동선·식당을 표로 정리한다",P:"누가 짠 일정대로 편하게 따라간다"}},
- {part:3,t:"누군가 나에게 피해를 주는 실수를 했다.",o:{S:"금방 잊고 웃어넘긴다",C:"바로 짚고 고칠 방법을 말한다",M:"말은 안 해도 실망이 마음에 남는다",P:"괜히 일 만들기 싫어 그냥 넘어간다"}}
-];
 const PART_LABEL={1:"1부 · 나의 강점",2:"2부 · 나의 약점",3:"3부 · 이런 상황에서"};
 const PART_HINT={1:"가장 가까운 하나만 고르세요.",2:"좋은 모습이 아니어도 괜찮습니다. 솔직할수록 정확합니다.",3:"실제로 내가 할 법한 반응을 고르세요."};
 
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-let answers=new Array(Q.length).fill(null),idx=0,userName="",current="intro",blendFilter="all";
+let answers=[],idx=0,userName="",current="intro",blendFilter="all";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const num=i=>String(i+1).padStart(2,"0");
 function toast(m){const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(toast._t);toast._t=setTimeout(()=>t.hidden=true,2000)}
-function show(view){
-  current=view;
-  ["intro","quiz","result","types","room","blends","blend","fruits","fruit","map"].forEach(v=>$("#v-"+v).hidden=v!==view);
-  const tab=["types","room","blends","blend","fruits","fruit"].includes(view)?"types":view==="map"?"map":"test";
-  ["test","types","map"].forEach(t=>{const a=$("#tab-"+t);if(t===tab)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
-  window.scrollTo(0,0);
-}
-
 /* ---------- 검사 ---------- */
 function shuffled(i){const a=[...K];let s=(i+3)*2654435761>>>0;for(let j=a.length-1;j>0;j--){s=(s*1103515245+12345)>>>0;const r=s%(j+1);[a[j],a[r]]=[a[r],a[j]]}return a}
 function renderQ(){
@@ -480,7 +536,7 @@ function renderResult(res){
     <section class="wall">
       <header><h2>성령께 맡겨 드릴 부분</h2><p class="sub">걸려 넘어지기 쉬운 것: ${X.core}</p></header>
       <p class="frame label-card t" style="font-family:var(--display);font-size:17px">${esc(bl.growth)}</p>
-      <p class="sub">책이 ${A.name}에게 권하는 성령의 열매 (갈라디아서 5:22–23)</p>
+      <p class="sub">${A.name}에게 필요한 성령의 열매 (갈라디아서 5:22–23)</p>
       ${plaques(A.spirit.fruits,COLOR[a])}
     </section>
     <section class="wall">
@@ -499,106 +555,6 @@ function copyText(text){
 }
 
 /* ---------- 전시관 로비 ---------- */
-function renderLobby(){
-  const tile=k=>`<a class="tile" href="#room-${k.toLowerCase()}" style="background:${COLOR[k]}"><span class="n">제${ROOMNO[k]}전시실</span><b>${BOOK[k].name}</b><span>${BOOK[k].nickname} · ${AXIS[k]}</span></a>`;
-  const I=INTRO;
-  $("#v-types").innerHTML=`<div class="wrap view">
-    <div class="stack" style="gap:10px">
-      <p class="eyebrow">기질 전시관 · 『성령과 기질』에서</p>
-      <h1 style="font-size:clamp(30px,8vw,40px)">기질을 보는 눈,<br>네 개의 전시실</h1>
-      <div class="jump">${["S","C","M","P"].map(k=>`<a href="#room-${k.toLowerCase()}" style="background:${COLOR[k]}">${BOOK[k].name}</a>`).join("")}<a href="#blends" style="background:var(--ink);color:var(--wall)">열두 조합</a><a href="#fruits" style="background:var(--f)">아홉 열매</a></div>
-    </div>
-
-    <section class="wall" style="padding-top:18px">
-      <header><p class="eyebrow">도입 전시 1</p><h2>기질 · 인격 · 성격은 다릅니다</h2><p class="sub"><span class="src-tag">책 1장</span></p></header>
-      <div class="triad">${I.triad.map((t,i)=>`<div class="tri frame" style="border-top:5px solid ${[COLOR.S,COLOR.M,COLOR.P][i]}"><span class="k">${t.k}</span><p class="d">${esc(t.d)}</p><p class="eq">${t.eq}</p></div>`).join("")}</div>
-      ${vcard(I.v1)}
-    </section>
-
-    <section class="wall">
-      <header><p class="eyebrow">도입 전시 2</p><h2>기질은 바뀌지 않지만, 다듬어집니다</h2><p class="sub"><span class="src-tag">책 2장</span></p></header>
-      <div class="prose">${I.change.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
-      <div class="vstack">${I.v2.map(v=>vcard(v,COLOR.C)).join("")}</div>
-    </section>
-
-    <section class="wall">
-      <header><p class="eyebrow">도입 전시 3</p><h2>왜 서로 다르게 지으셨을까</h2><p class="sub"><span class="src-tag bible">성경으로 보충</span> 책에 직접 나오지 않는 부분을 말씀으로 채웠습니다</p></header>
-      <div class="prose">${I.diff.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
-      <div class="vstack">${I.v3.map(v=>vcard(v,COLOR.M)).join("")}</div>
-    </section>
-
-    <section class="wall">
-      <header><p class="eyebrow">도입 전시 4</p><h2>네 기질이라는 이름</h2><p class="sub"><span class="src-tag">책 3장</span></p></header>
-      <div class="frame label-card"><p class="t">${esc(BOOK.intro)}</p></div>
-    </section>
-
-    <section class="wall">
-      <header><h2>전시실 입장</h2><p class="sub">내 방뿐 아니라 가족과 친구의 방도 둘러보면 서로가 더 잘 보입니다.</p></header>
-      <div class="axes"><span>사람 중심 ←</span><span>외향</span><span>→ 일 중심</span></div>
-      <div class="lobby-grid">${tile("S")}${tile("C")}${tile("P")}${tile("M")}
-        <a class="tile wide" href="#blends"><span class="n">특별전 1</span><b>열두 가지 기질 조합</b><span>주 기질 + 보조 기질로 보는 나</span></a>
-        <a class="tile wide" href="#fruits" style="background:var(--f);color:var(--on-band)"><span class="n">특별전 2</span><b>성령의 아홉 열매</b><span>원어로 읽는 갈라디아서 5:22–23</span></a>
-      </div>
-      <div class="axes" style="justify-content:center"><span>위: 외향 · 아래: 내향</span></div>
-    </section>
-  </div>`;
-}
-
-/* ---------- 전시실 ---------- */
-function renderRoom(k){
-  const t=BOOK[k],c=COLOR[k],order=["S","C","M","P"],i=order.indexOf(k);
-  const prev=order[(i+3)%4],next=order[(i+1)%4];
-  const blends=K.filter(x=>x!==k).map(x=>k+x);
-  $("#v-room").innerHTML=`
-  <section class="band" style="background:${c}"><div class="wrap">
-    <p class="room-no">제${ROOMNO[k]}전시실 · ${AXIS[k]}</p>
-    <h1>${t.name}</h1>
-    <p class="nick">${esc(t.nickname)}</p>
-    <p class="quote">“${esc(t.quote)}”</p>
-  </div></section>
-  <div class="wrap">
-    <section class="wall">
-      <header><p class="eyebrow">작품 해설</p></header>
-      <div class="frame label-card"><p class="t">${esc(t.summary)}</p><p class="cap">『성령과 기질』 ${esc(t.pages)}</p></div>
-    </section>
-    <section class="wall">
-      <header><h2>이런 모습이에요</h2><p class="sub">일상 속 ${t.name}의 장면들</p></header>
-      <div class="salon">${t.portrait.map((p,j)=>`<div class="vign frame"><i>장면 ${num(j)}</i>${esc(p)}</div>`).join("")}</div>
-    </section>
-    <section class="wall">
-      <header><h2>하나님이 주신 강점</h2></header>
-      <div class="works">${t.strengths.map((s,j)=>`<div class="work frame"><span class="no" style="color:${c}">${num(j)}</span><b>${esc(s.title)}</b><p>${esc(s.desc)}</p></div>`).join("")}</div>
-    </section>
-    <section class="wall">
-      <header><h2>다듬어져야 할 약점</h2><p class="sub">강점의 뒷면입니다. 정죄가 아니라 성령께 맡길 목록입니다.</p></header>
-      <div class="works">${t.weaknesses.map((s,j)=>`<div class="work dim"><span class="no" style="color:var(--muted)">${num(j)}</span><b>${esc(s.title)}</b><p>${esc(s.desc)}</p></div>`).join("")}</div>
-    </section>
-    <section class="wall">
-      <header><h2>어울리는 일</h2><p class="sub">책에서 이 기질이 빛난다고 꼽은 분야</p></header>
-      <div class="chips">${t.careers.map(x=>`<span>${esc(x)}</span>`).join("")}</div>
-    </section>
-    <section class="wall">
-      <header><p class="eyebrow">소장품 · 성경 속 ${t.name}</p></header>
-      <div class="spot frame" style="border-top:6px solid ${c}"><p class="who">${esc(t.bible.split(" — ")[0])}</p><p>${esc(t.bible.split(" — ").slice(1).join(" — "))}</p></div>
-    </section>
-    <section class="wall">
-      <header><h2>성령의 열매</h2><p class="sub">책이 ${t.name}의 약점을 위해 권하는 열매 (갈라디아서 5:22–23)</p></header>
-      ${plaques(t.spirit.fruits,c)}
-      <p class="frame label-card t" style="font-family:var(--display);font-size:17px">${esc(t.spirit.note)}</p>
-    </section>
-    <section class="wall">
-      <header><h2>${t.name}이 주 기질인 조합</h2></header>
-      <div class="blend-mini">${blends.map(code=>`<a class="frame" href="#blend-${code.toLowerCase()}"><span class="twotone"><i style="flex:6;background:${COLOR[code[0]]}"></i><i style="flex:4;background:${COLOR[code[1]]}"></i></span><b>${BL[code].name}</b>${esc(BL[code].tagline)}</a>`).join("")}</div>
-    </section>
-    <div class="roomnav">
-      <a class="btn ghost small" href="#room-${prev.toLowerCase()}">← ${BOOK[prev].name}</a>
-      <a class="btn ghost small" href="#types">로비</a>
-      <a class="btn ghost small" href="#room-${next.toLowerCase()}">${BOOK[next].name} →</a>
-    </div>
-    <p class="source">전시 내용은 팀 라헤이 『성령과 기질』 3·5·6장을 요약한 것입니다.</p>
-  </div>`;
-}
-
 /* ---------- 특별전 ---------- */
 function renderBlends(){
   const codes=BLEND_ORDER.filter(c=>blendFilter==="all"||c[0]===blendFilter);
@@ -664,7 +620,7 @@ function renderBlendRoom(code){
       ${FIGV[code]?vcard(FIGV[code],cp):""}
     </section>
     <section class="wall">
-      <header><h2>성장 포인트</h2><p class="sub">주 기질 ${BOOK[p].name}에게 책이 권하는 성령의 열매</p></header>
+      <header><h2>성장 포인트</h2><p class="sub">주 기질 ${BOOK[p].name}에게 필요한 성령의 열매</p></header>
       <p class="frame label-card t" style="font-family:var(--display);font-size:17px">${esc(b.growth)}</p>
       ${plaques(BOOK[p].spirit.fruits,cp)}
     </section>
@@ -674,7 +630,7 @@ function renderBlendRoom(code){
       <a class="btn ghost small" href="#blend-${next.toLowerCase()}">${BL[next].name} →</a>
     </div>
     <div class="row" style="padding-top:12px;justify-content:center"><a class="btn ghost small" href="#room-${p.toLowerCase()}">${BOOK[p].name} 전시실</a><a class="btn ghost small" href="#room-${q.toLowerCase()}">${BOOK[q].name} 전시실</a></div>
-    <p class="source">전시 내용은 팀 라헤이 『성령과 기질』 4장을 요약했고, 말씀은 개역한글로 옮겼습니다.</p>
+    <p class="source">조합 해설은 『성령과 기질』 4장을 바탕으로 새로 풀어 썼고, 말씀은 개역한글입니다.</p>
   </div>`;
 }
 
@@ -803,23 +759,292 @@ $("#clearBtn").addEventListener("click",()=>{$("#clearConfirm").hidden=false});
 $("#clearNo").addEventListener("click",()=>{$("#clearConfirm").hidden=true});
 $("#clearYes").addEventListener("click",()=>{members=[];saveMap();renderMap();$("#clearConfirm").hidden=true});
 
-function route(){
+/* ---------- 열람권 · 내용 불러오기 ---------- */
+let gjResolve; const GJready=new Promise(r=>gjResolve=r); window.gjResolve=gjResolve;
+let PASS_TOKEN=new URLSearchParams(location.search).get("pass");
+const CREDIT="이 앱의 내용은 『성령과 기질』(팀 라헤이 지음, 생명의말씀사)을 바탕으로, 셀 모임에서 함께 읽기 좋게 새로 풀어 쓴 것입니다. 원문 그대로가 아니니, 더 깊이 알고 싶은 분은 책을 직접 읽어 보시길 권합니다.";
+async function loadAll(){
+  if(BOOK) return true;
+  try{
+    const GJ=await GJready; const c=await GJ.loadContent();
+    BOOK=c.core.T; EXTRA=c.core.EXTRA; FIGV=c.core.FIGV; Q=c.core.Q; INTRO2=c.core.I;
+    BL=c.blends.BL; DETAIL=c.detail.D; FR=c.fruits.FR;
+    FID={}; FORDER.forEach(id=>FID[FR[id].ko]=id);
+    answers=new Array(Q.length).fill(null);
+    store.set("bn_pass",1); return true;
+  }catch(e){ store.set("bn_pass",0); return false; }
+}
+
+/* ---------- 그림: 사진 파일이 있으면 사진, 없으면 대체 그림 ---------- */
+const HEX={S:"#C9581E",C:"#A82A35",M:"#2A5592",P:"#3F7F67"};
+const IMG=n=>`img/${n}.webp`;
+const VASE="M37 18h26v6c0 3 2 4 5 6 9 6 14 15 14 26 0 17-13 28-32 28S18 73 18 56c0-11 5-20 14-26 3-2 5-3 5-6z";
+let _vid=0;
+function vaseSVG(cols,cls=""){const id="vz"+(_vid++),h=66/cols.length;
+  return `<svg class="vase ${cls}" viewBox="0 0 100 100" aria-hidden="true"><defs><clipPath id="${id}"><path d="${VASE}"/></clipPath><radialGradient id="${id}g" cx=".35" cy=".3" r=".85"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></radialGradient></defs><g clip-path="url(#${id})">${cols.map((c,i)=>`<rect x="0" y="${18+i*h}" width="100" height="${h+.6}" fill="${c}"/>`).join("")}<rect width="100" height="100" fill="url(#${id}g)"/></g><rect x="34" y="15" width="32" height="5" rx="2.5" fill="#2b2018"/></svg>`}
+function pic(name,fallback,cls="",alt=""){
+  return `<div class="pic ${cls}"><div class="fb">${fallback}</div><img src="${IMG(name)}" data-n="${name}" alt="${esc(alt)}" loading="lazy" decoding="async" onerror="picNext(this)" onload="this.parentNode.classList.add('has')"></div>`}
+// webp가 없으면 jpg, png 순서로 찾아보고, 다 없으면 대체 그림을 그대로 둡니다
+const PEXT=["webp","jpg","png"];
+function picNext(img){const i=+(img.dataset.i||0)+1;if(i<PEXT.length){img.dataset.i=i;img.src=`img/${img.dataset.n}.${PEXT[i]}`}else img.remove()}
+const FB={
+  hero:()=>`<div class="heroFb"><div class="wheel"></div>${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P],"heroVase")}</div>`,
+  shelves:()=>`<div class="shelfFb">${[["#B98A62"],[HEX.S],["#C9A27E"],[HEX.M],["#A8805E"],[HEX.P],[HEX.C],["#BF9670"]].map((c,i)=>`<span style="--h:${[58,74,50,80,62,54,70,46][i]}%">${vaseSVG(c)}</span>`).join("")}<div class="board"></div></div>`,
+  stages:()=>`<div class="stageFb"><span>${vaseSVG(["#B98A62"])}<i>기질 · 타고난 흙</i></span><span>${vaseSVG(["#CDA987"])}<i>인격 · 빚은 모양</i></span><span>${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}<i>성격 · 겉의 유약</i></span></div>`,
+  twotone:()=>`<div class="oneFb">${vaseSVG([HEX.P,HEX.P,HEX.S])}</div>`,
+  kiln:()=>`<div class="kilnFb"><div class="arch"></div>${vaseSVG(["#C9A27E"])}</div>`,
+  four:()=>`<div class="shelfFb four">${["S","C","M","P"].map(k=>`<span>${vaseSVG([HEX[k]])}</span>`).join("")}<div class="board"></div></div>`
+};
+const STORY=[
+  {t:"사람은 모두 다르게 빚어졌습니다",d:"눈송이가 하나도 같지 않듯 사람도 저마다 다릅니다. 그 다름을 만드는 보이지 않는 힘을 ‘기질’이라고 부릅니다. 기질은 우리에게 강점을 주기도 하고 약점을 남기기도 합니다.",img:"intro_shelves",fb:"shelves"},
+  {t:"흙과 모양과 유약",d:"타고난 흙의 성질이 기질이라면, 그 흙을 빚어 만든 모양은 인격이고, 겉에 입힌 유약은 성격입니다. 하나님은 겉모습이 아니라 중심을 보십니다(삼상 16:7).",img:"intro_stages",fb:"stages"},
+  {t:"누구나 두 가지 색이 섞여 있습니다",d:"기질은 다혈 · 담즙 · 우울 · 점액 네 가지입니다. 누구나 가장 강한 주 기질과 그다음인 보조 기질이 섞여 있어서, 열두 가지 조합이 나옵니다.",img:"intro_twotone",fb:"twotone"},
+  {t:"가마 속에서 다듬어지는 그릇",d:"기질은 평생 바뀌지 않지만 다듬어집니다. 성령께서 약점을 보완하시고 강점을 더 빛나게 하십니다. 그것이 우리가 함께 기질을 공부하는 이유입니다.",img:"intro_kiln",fb:"kiln"}
+];
+
+/* ---------- 화면 전환 ---------- */
+let gateFrom="";
+function show(view){
+  current=view;
+  ["home","story","about","gate","loading","intro","quiz","result","types","room","blends","blend","fruits","fruit","map"].forEach(v=>{const e=$("#v-"+v);if(e)e.hidden=v!==view});
+  const tab=view==="home"?"home":["story","about"].includes(view)?"story":["types","room","blends","blend","fruits","fruit"].includes(view)?"types":["intro","quiz","result","map"].includes(view)?"test":view==="gate"?gateTab(gateFrom):"";
+  ["home","story","types","test"].forEach(t=>{const a=$("#tab-"+t);if(t===tab)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  window.scrollTo(0,0);
+}
+const gateTab=h=>!h?"":h.startsWith("about")?"story":["test","map"].includes(h)?"test":"types";
+const lockMark=()=>store.get("bn_pass",0)?"":`<span class="lock" aria-label="열람권 필요">🔒</span>`;
+
+/* ---------- 홈 ---------- */
+function renderHome(){
+  const locked=!BOOK&&!store.get("bn_pass",0);
+  $("#v-home").innerHTML=`
+  <section class="hero">${pic("hero_home",FB.hero(),"heroPic","물레 위에서 흙을 빚는 손")}<div class="heroShade"></div>
+    <div class="wrap heroTxt"><p class="eyebrow light">성령과 기질 · 셀 전시관</p><h1>하나님이<br>빚으신 나</h1></div></section>
+  <div class="wrap view">
+    <p class="potter">“이제 여호와여 주는 우리 아버지시니이다 우리는 진흙이요 주는 토기장이시니 우리는 다 주의 손으로 지으신 것이니이다”<span>이사야 64:8</span></p>
+    <a class="cta" href="#story"><span><b>처음이세요?</b><i>3분이면 읽는 기질 이야기</i></span><span class="arr" aria-hidden="true">→</span></a>
+    <div class="hgrid">
+      <a class="hcard" href="#types">${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}<b>네 기질 전시실</b><i>다혈 · 담즙 · 우울 · 점액</i>${lockMark()}</a>
+      <a class="hcard" href="#about"><span class="hnum">10</span><b>자세한 소개</b><i>열 장으로 읽는 기질 이야기</i>${lockMark()}</a>
+      <a class="hcard" href="#test"><span class="hnum">36</span><b>기질 검사</b><i>나는 어떤 그릇일까</i>${lockMark()}</a>
+      <a class="hcard" href="#blends">${vaseSVG([HEX.P,HEX.P,HEX.S])}<b>열두 조합</b><i>주 기질 + 보조 기질</i>${lockMark()}</a>
+      <a class="hcard" href="#fruits"><span class="hnum f">9</span><b>성령의 열매</b><i>원어로 읽는 갈 5:22–23</i>${lockMark()}</a>
+      <a class="hcard" href="room.html"><span class="hnum">⌂</span><b>모임방</b><i>입장 코드 · 링크로 입장</i></a>
+    </div>
+    ${locked?`<div class="frame keybox"><p style="font-weight:700">자세한 전시는 셀 모임 안에서 함께 봅니다</p><p class="mut">모임방에 들어오거나 셀리더에게 받은 초대 링크로 열면 전시실과 검사가 열립니다.</p><a class="btn small" href="#gate">열람권 받는 방법</a></div>`:""}
+    <p class="credit">${esc(CREDIT)}</p>
+  </div>`;
+}
+
+/* ---------- 소개 (공개, 넘겨 보는 이야기) ---------- */
+function renderStory(){
+  const n=STORY.length+1;
+  $("#v-story").innerHTML=`<div class="wrap view">
+    <div class="stack" style="gap:8px"><p class="eyebrow">소개</p><h1 class="big">흙과 토기장이의 이야기</h1><p class="mut">옆으로 넘기며 3분 동안 기질의 큰 그림을 봅니다.</p></div>
+    <div class="rail" id="rail">${STORY.map((c,i)=>`<article class="scard frame">${pic(c.img,FB[c.fb](),"spic")}<div class="sbody"><span class="eyebrow">${i+1} / ${STORY.length}</span><h2>${c.t}</h2><p>${c.d}</p></div></article>`).join("")}
+      <article class="scard frame endcard"><div class="sbody"><span class="eyebrow">이어서</span><h2>더 깊이 보기</h2><p>책이 말하는 기질 이야기를 열 개의 장으로 정리했습니다. 이 책이 어떻게 시작되었는지, 기질과 인격은 어떻게 다른지, 성령께서 우리를 어떻게 다듬으시는지 차례로 읽어 보세요.</p>
+        <a class="btn block" href="#about">자세한 소개 읽기 →</a><a class="btn ghost block" href="#types">전시실로 바로 가기</a></div></article></div>
+    <div class="dots" id="dots">${Array.from({length:n},(_,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>
+    <div class="row" style="justify-content:space-between"><button class="btn ghost small" id="stPrev" type="button">← 이전</button><button class="btn small" id="stNext" type="button">다음 →</button></div>
+  </div>`;
+  const rail=$("#rail"),dots=[...document.querySelectorAll("#dots i")];
+  const at=()=>Math.round(rail.scrollLeft/(rail.firstElementChild.offsetWidth+14));
+  rail.addEventListener("scroll",()=>{const i=at();dots.forEach((d,j)=>d.classList.toggle("on",j===i))},{passive:true});
+  const go=d=>rail.scrollTo({left:(at()+d)*(rail.firstElementChild.offsetWidth+14),behavior:"smooth"});
+  $("#stPrev").addEventListener("click",()=>go(-1)); $("#stNext").addEventListener("click",()=>go(1));
+}
+
+/* ---------- 열람권 안내 · 신청 · 초대 링크 ---------- */
+function renderGate(target){
+  gateFrom=target||"";
+  $("#v-gate").innerHTML=`<div class="wrap view">
+    <div class="stack" style="gap:10px"><p class="eyebrow">열람권</p><h1 class="big">이 전시는 셀 모임 안에서<br>함께 봅니다</h1>
+    <p>책을 바탕으로 한 자세한 전시와 기질 검사는 셀 모임과 그 가족에게만 열어 두었습니다. 아래 가운데 한 가지 방법으로 열람권을 받으세요.</p></div>
+    <div class="gopt frame"><span class="gn">1</span><div><b>모임방으로 들어오기</b><p>셀리더가 연 모임방에 링크나 입장 코드로 들어오면 30일 동안 열립니다.</p><a class="btn small" href="room.html">입장 코드 넣기</a></div></div>
+    <div class="gopt frame"><span class="gn">2</span><div><b>초대 링크 열기</b><p>셀리더나 진행자가 보낸 초대 링크를 이 휴대폰에서 누르면 바로 열립니다.</p></div></div>
+    <div class="gopt frame"><span class="gn">3</span><div><b>구글 계정으로 신청하기</b><p>신청하면 셀리더가 확인하고 열어 드립니다. 구글 계정으로 받은 열람권은 어느 기기에서든 열립니다.</p><div id="reqBox" class="stack" style="gap:8px;margin-top:6px"><button class="btn small" id="reqLogin" type="button">구글로 로그인하고 신청</button></div></div></div>
+    <p class="mut" style="font-size:13.5px">열람권을 받았는데도 이 화면이 보인다면, 처음 열람권을 받은 곳(카톡 안 · 사파리 등)에서 열어 보세요. 다른 앱에서 열면 다른 사람으로 알아봅니다.</p>
+    <a class="btn ghost small" href="#" style="align-self:flex-start">← 홈으로</a></div>`;
+  $("#reqLogin").addEventListener("click",async()=>{
+    try{ const GJ=await GJready; const u=await GJ.google(); if(!u) return;
+      BOOK=null; if(await loadAll()){ toast("열람권이 확인되었습니다"); location.hash=target?"#"+target:"#types"; route(); return; }
+      const r=await GJ.myRequest(); reqForm(u,r);
+    }catch(e){ toast("로그인하지 못했습니다"); }
+  });
+}
+function reqForm(u,r){
+  const box=$("#reqBox");
+  if(r){ box.innerHTML=`<p class="okline">신청을 받았습니다 (${esc(u.email)}). 셀리더가 확인하면 열립니다. 승인되면 이 화면을 새로 고쳐 주세요.</p>`; return; }
+  box.innerHTML=`<p class="mut" style="font-size:13.5px">${esc(u.email)}</p><label class="field">이름<input type="text" id="rqName" maxlength="20" value="${esc((u.displayName||"").slice(0,20))}"></label>
+    <label class="field">셀리더에게 한마디 (선택)<input type="text" id="rqNote" maxlength="100" placeholder="예: 김요한 형제 아내입니다"></label><button class="btn small" id="rqSend" type="button">열람 신청 보내기</button>`;
+  $("#rqSend").addEventListener("click",async()=>{const name=$("#rqName").value.trim();if(!name){toast("이름을 넣어 주세요");return}
+    try{await (await GJready).sendRequest(name,$("#rqNote").value.trim());reqForm(u,{})}catch(e){toast("신청하지 못했습니다")}});
+}
+function renderClaim(){
+  $("#v-gate").innerHTML=`<div class="wrap view">
+    <div class="claimArt">${vaseSVG([HEX.S,HEX.C,HEX.M,HEX.P])}</div>
+    <div class="stack" style="gap:10px;text-align:center"><p class="eyebrow">초대 링크</p><h1 class="big">빚으신 나 전시관에<br>초대받으셨어요</h1><p class="mut">이름을 남기면 초대한 분이 누가 열었는지 알 수 있습니다.</p></div>
+    <label class="field" for="clName">이름 (선택)<input type="text" id="clName" maxlength="20" placeholder="예: 이마리아"></label>
+    <p class="err" id="clErr" hidden></p>
+    <button class="btn block" id="clBtn" type="button">전시관 열기</button></div>`;
+  $("#clBtn").addEventListener("click",async()=>{
+    $("#clBtn").disabled=true; $("#clErr").hidden=true;
+    try{ const until=await (await GJready).claim(PASS_TOKEN,$("#clName").value.trim());
+      PASS_TOKEN=null; history.replaceState(null,"",location.pathname+"#story"); BOOK=null; await loadAll();
+      toast(`${until.getMonth()+1}월 ${until.getDate()}일까지 열람할 수 있습니다`); route();
+    }catch(e){ $("#clBtn").disabled=false; $("#clErr").textContent=e.message==="expired"?"초대 링크 기간이 지났습니다. 초대한 분에게 새 링크를 부탁해 주세요.":e.message==="no"?"없는 초대 링크입니다. 링크를 다시 확인해 주세요.":"열지 못했습니다. 인터넷 연결을 확인하고 다시 눌러 주세요."; $("#clErr").hidden=false; }
+  });
+}
+
+/* ---------- 자세한 소개 (열 장) ---------- */
+function renderAbout(){
+  const I=INTRO2;
+  const four=`<div class="lobby-grid" style="margin-top:6px">${["S","C","P","M"].map(k=>`<a class="tile" href="#room-${k.toLowerCase()}" style="background:${COLOR[k]}"><span class="n">${AXIS[k]}</span><b>${BOOK[k].name}</b><span>${esc(DETAIL[k].bible.name.split(" (")[0])}</span></a>`).join("")}</div>`;
+  $("#v-about").innerHTML=`<section class="aboutHead">${pic("intro_stages",FB.stages(),"aboutPic","흙, 빚은 그릇, 유약을 입힌 그릇")}</section>
+  <div class="wrap view">
+    <div class="stack" style="gap:8px"><p class="eyebrow">자세한 소개</p><h1 class="big">책이 말하는 기질 이야기</h1><p class="mut">『성령과 기질』의 흐름을 열 장으로 정리했습니다.</p></div>
+    <nav class="toc2 frame" aria-label="목차">${I.chapters.map(c=>`<a href="#about-${c.id}"><span>${c.no}</span>${esc(c.t)}</a>`).join("")}</nav>
+    ${I.chapters.map(c=>`<section class="chap" id="about-${c.id}"><header><span class="cno">${c.no}</span><div><h2>${esc(c.t)}</h2><span class="src-tag ${c.src.includes("성경")?"bible":""}">${esc(c.src)}</span></div></header>
+      <div class="prose">${c.body.map(p=>`<p>${esc(p)}</p>`).join("")}</div>${c.id==="four"?four:""}${c.id==="blend"?pic("intro_twotone",FB.twotone(),"wide","두 색이 섞인 그릇"):""}${c.id==="change"?pic("intro_kiln",FB.kiln(),"wide","가마 속 그릇"):""}</section>`).join("")}
+    <section class="chap"><header><span class="cno">✦</span><div><h2>함께하는 약속</h2></div></header><ul class="promise">${I.promise.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>
+    <a class="cta" href="#types"><span><b>전시실로 들어가기</b><i>네 기질의 방을 하나씩 둘러봅니다</i></span><span class="arr" aria-hidden="true">→</span></a>
+    <p class="credit">${esc(I.credit)}</p>
+  </div>`;
+}
+
+/* ---------- 전시관 로비 ---------- */
+function renderLobby(){
+  $("#v-types").innerHTML=`<section class="lobbyHead">${pic("lobby_four",FB.four(),"lobbyPic","선반 위 네 그릇")}</section>
+  <div class="wrap view">
+    <div class="stack" style="gap:8px"><p class="eyebrow">기질 전시관</p><h1 class="big">네 개의 그릇,<br>네 개의 전시실</h1><p class="mut">내 방뿐 아니라 가족과 친구의 방도 둘러보면 서로가 더 잘 보입니다.</p></div>
+    <div class="axes"><span>사람 중심 ←</span><span>위 외향 · 아래 내향</span><span>→ 일 중심</span></div>
+    <div class="vgrid">${["S","C","P","M"].map(k=>`<a class="vroom frame" href="#room-${k.toLowerCase()}" style="--rc:${HEX[k]}">${pic("vessel_"+k.toLowerCase(),vaseSVG([HEX[k]]),"vpic",BOOK[k].name+" 그릇")}<span class="n">제${ROOMNO[k]}전시실</span><b>${BOOK[k].name}</b><i>${esc(BOOK[k].nickname)}</i></a>`).join("")}</div>
+    <div class="wides">
+      <a class="wcard frame" href="#blends">${vaseSVG([HEX.C,HEX.C,HEX.M])}<span><b>특별전 1 · 열두 가지 조합</b><i>주 기질 + 보조 기질로 보는 나</i></span><span class="arr">›</span></a>
+      <a class="wcard frame" href="#fruits"><span class="hnum f">9</span><span><b>특별전 2 · 성령의 아홉 열매</b><i>원어로 읽는 갈라디아서 5:22–23</i></span><span class="arr">›</span></a>
+      <a class="wcard frame" href="#about"><span class="hnum">10</span><span><b>자세한 소개</b><i>책이 말하는 기질 이야기 열 장</i></span><span class="arr">›</span></a>
+      <a class="wcard frame" href="#map"><span class="hnum">⌖</span><span><b>우리 셀 지도</b><i>결과를 손으로 넣어 보는 지도</i></span><span class="arr">›</span></a>
+    </div>
+    <p class="credit">${esc(CREDIT)}</p>
+  </div>`;
+}
+
+/* ---------- 전시실 (책 내용을 빠짐없이) ---------- */
+const RTABS=[["ov","개요"],["st","강점"],["wk","약점"],["life","생활"],["work","일"],["emo","감정"],["bible","성경 인물"],["spirit","성령"],["treat","대하기"]];
+let roomShown="";
+function renderRoom(k){
+  roomShown=k;
+  const t=BOOK[k],d=DETAIL[k],c=COLOR[k],kl=k.toLowerCase(),order=["S","C","M","P"],i=order.indexOf(k);
+  const prev=order[(i+3)%4],next=order[(i+1)%4],blends=K.filter(x=>x!==k).map(x=>k+x);
+  $("#v-room").innerHTML=`
+  <section class="rhead" style="background:${c}"><div class="wrap rhin">
+    <div class="rtxt"><p class="room-no">제${ROOMNO[k]}전시실 · ${AXIS[k]}</p><h1>${t.name}</h1><p class="nick">${esc(t.nickname)}</p></div>
+    ${pic("vessel_"+kl,vaseSVG([HEX[k]]),"rvase",t.name+" 그릇")}</div></section>
+  <nav class="rtabs" id="rtabs" aria-label="전시실 안내"><div class="wrap">${RTABS.map(([id,l])=>`<a href="#room-${kl}-${id}" data-id="${id}">${l}</a>`).join("")}</div></nav>
+  <div class="wrap">
+    <section class="wall sect" id="r-ov"><p class="lead">${esc(d.lead)}</p><div class="prose">${d.intro.map(p=>`<p>${esc(p)}</p>`).join("")}</div>
+      <h3 class="h3">이런 장면, 익숙한가요?</h3><div class="salon">${t.portrait.map((p,j)=>`<div class="vign frame"><i>장면 ${num(j)}</i>${esc(p)}</div>`).join("")}</div>
+      <p class="quoteline" style="border-color:${c}">“${esc(t.quote)}”</p></section>
+    <section class="wall sect" id="r-st"><header><h2>하나님이 주신 강점</h2><p class="sub">${d.strengths.length}가지 · 눌러서 펼쳐 보세요</p></header>
+      <div class="works">${d.strengths.map((x,j)=>`<details class="work frame" ${j<2?"open":""}><summary><span class="no" style="color:${c}">${num(j)}</span><b>${esc(x.t)}</b></summary><p>${esc(x.d)}</p></details>`).join("")}</div></section>
+    <section class="wall sect" id="r-wk"><header><h2>다듬어져야 할 약점</h2><p class="sub">강점의 뒷면입니다. 정죄가 아니라 성령께 맡길 목록입니다.</p></header>
+      <div class="works">${d.weaknesses.map((x,j)=>`<details class="work dim" ${j<2?"open":""}><summary><span class="no">${num(j)}</span><b>${esc(x.t)}</b></summary><p>${esc(x.d)}</p></details>`).join("")}</div></section>
+    <section class="wall sect" id="r-life"><header><h2>생활 속 모습</h2><p class="sub">운전 · 정원 · 식사 · 돈 관리에서도 기질이 보입니다</p></header>
+      <div class="habits">${d.habits.map(h=>`<div class="hab frame"><b style="color:${c}">${esc(h.t)}</b><p>${esc(h.d)}</p></div>`).join("")}</div></section>
+    <section class="wall sect" id="r-work"><header><h2>어울리는 일</h2></header><p class="prose1">${esc(d.work.lead)}</p>
+      <ul class="worklist">${d.work.items.map(x=>{const [a,...b]=x.split(" — ");return `<li><b>${esc(a)}</b>${b.length?`<span>${esc(b.join(" — "))}</span>`:""}</li>`}).join("")}</ul>${d.work.note?`<div class="frame note">${esc(d.work.note)}</div>`:""}</section>
+    <section class="wall sect" id="r-emo"><header><h2>분노 · 두려움 · 우울</h2><p class="sub">그리고 모든 약점의 뿌리, 이기심</p></header>
+      <div class="emos">${d.emotion.map(e=>`<div class="emo frame"><b>${esc(e.t)}</b><p>${esc(e.d)}</p></div>`).join("")}</div></section>
+    <section class="wall sect" id="r-bible"><header><p class="eyebrow">성경 속 ${t.name}</p></header>
+      <div class="spot frame" style="border-top:6px solid ${c}"><p class="who">${esc(d.bible.name)}</p><p>${esc(d.bible.d)}</p></div></section>
+    <section class="wall sect" id="r-spirit"><header><h2>성령으로 달라진 ${t.name}</h2></header><p class="prose1">${esc(d.spirit.lead)}</p>
+      <p class="sub" style="margin:16px 0 8px">${esc(d.spirit.fruitsNote)}</p>${plaques(d.spirit.fruits,c)}
+      <div class="works" style="margin-top:14px">${d.spirit.items.map(x=>`<div class="work plain frame"><b style="color:${c}">${esc(x.t)}</b><p>${esc(x.d)}</p></div>`).join("")}</div>
+      <div class="spot frame" style="border-top:6px solid ${c};margin-top:14px"><p class="who">대표적인 인물</p><p>${esc(d.spirit.figure)}</p></div>
+      ${d.spirit.stories.map(x=>`<div class="story1 frame"><p>${esc(x)}</p></div>`).join("")}</section>
+    <section class="wall sect" id="r-treat"><header><h2>이렇게 대해 주세요</h2><p class="sub">모임에서 서로 돕도록 덧붙인 내용입니다</p></header>
+      <ul class="treat">${EXTRA[k].treat.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>
+    <section class="wall"><header><h2>${t.name}이 주 기질인 조합</h2></header>
+      <div class="blend-mini">${blends.map(code=>`<a class="frame" href="#blend-${code.toLowerCase()}"><span class="twotone"><i style="flex:6;background:${COLOR[code[0]]}"></i><i style="flex:4;background:${COLOR[code[1]]}"></i></span><b>${BL[code].name}</b>${esc(BL[code].tagline)}</a>`).join("")}</div></section>
+    <div class="roomnav"><a class="btn ghost small" href="#room-${prev.toLowerCase()}">← ${BOOK[prev].name}</a><a class="btn ghost small" href="#types">로비</a><a class="btn ghost small" href="#room-${next.toLowerCase()}">${BOOK[next].name} →</a></div>
+    <p class="credit">${esc(CREDIT)}</p>
+  </div>`;
+  const links=[...document.querySelectorAll("#rtabs a")];
+  if(window.IntersectionObserver){const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id.slice(2);links.forEach(a=>{const on=a.dataset.id===id;a.classList.toggle("on",on);if(on)a.scrollIntoView({block:"nearest",inline:"center"})})}})},{rootMargin:"-45% 0px -50% 0px"});
+    document.querySelectorAll("#v-room .sect").forEach(s=>io.observe(s));}
+}
+function scrollToId(id){ const e=document.getElementById(id); if(e) setTimeout(()=>e.scrollIntoView({behavior:"smooth",block:"start"}),30); }
+
+/* ---------- 길 찾기 ---------- */
+async function route(){
   const h=location.hash.replace("#","");
-  const rm=h.match(/^room-([scmp])$/);
-  const bm=h.match(/^blend-([scmp]{2})$/);
-  if(rm){renderRoom(rm[1].toUpperCase());show("room")}
-  else if(bm&&BL[bm[1].toUpperCase()]){renderBlendRoom(bm[1].toUpperCase());show("blend")}
-  else if(h==="fruits"){renderFruits();show("fruits")}
-  else if(h.startsWith("fruit-")&&FR[h.slice(6)]){renderFruit(h.slice(6));show("fruit")}
-  else if(h==="types"){renderLobby();show("types")}
-  else if(h==="blends"){renderBlends();show("blends")}
-  else if(h==="map"){renderMap();show("map")}
-  else{ if(current==="quiz"||current==="result")show(current); else show("intro") }
+  if(PASS_TOKEN){ renderClaim(); show("gate"); return; }
+  if(h===""||h==="home"){ renderHome(); show("home"); return; }
+  if(h==="story"){ renderStory(); show("story"); return; }
+  if(h==="gate"){ renderGate(""); show("gate"); return; }
+  if(!BOOK){ show("loading"); if(!await loadAll()){ renderGate(h); show("gate"); return; } }
+  const rm=h.match(/^room-([scmp])(?:-(\w+))?$/), bm=h.match(/^blend-([scmp]{2})$/), am=h.match(/^about(?:-(\w+))?$/);
+  if(rm){ const k=rm[1].toUpperCase(); if(current!=="room"||roomShown!==k){ renderRoom(k); show("room"); } if(rm[2]) scrollToId("r-"+rm[2]); }
+  else if(am){ if(current!=="about"){ renderAbout(); show("about"); } if(am[1]) scrollToId("about-"+am[1]); }
+  else if(bm&&BL[bm[1].toUpperCase()]){ renderBlendRoom(bm[1].toUpperCase()); show("blend"); }
+  else if(h==="fruits"){ renderFruits(); show("fruits"); }
+  else if(h.startsWith("fruit-")&&FR[h.slice(6)]){ renderFruit(h.slice(6)); show("fruit"); }
+  else if(h==="types"){ renderLobby(); show("types"); }
+  else if(h==="blends"){ renderBlends(); show("blends"); }
+  else if(h==="map"){ renderMap(); show("map"); }
+  else if(h==="test"){ if(current==="quiz"||current==="result") show(current); else show("intro"); }
+  else { renderHome(); show("home"); }
 }
 if(store.get("bn_last",null))$("#lastBtn").hidden=false;
 window.addEventListener("hashchange",route);
 route();
+
+{let i=0;const tx=new Image();tx.onload=()=>{document.body.style.setProperty("--tex",`url(img/texture_plaster.${PEXT[i]})`);document.body.classList.add("tex")};tx.onerror=()=>{if(++i<PEXT.length)tx.src=`img/texture_plaster.${PEXT[i]}`};tx.src=IMG("texture_plaster");}
 </script>
+<script type="module">
+// 파이어베이스: 열람권 확인 · 내용 받아 오기 · 초대 링크 · 열람 신청
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInAnonymously, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signInWithCredential, connectAuthEmulator } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, Timestamp, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { firebaseConfig } from "./firebase-config.js";
+const app = initializeApp(firebaseConfig), auth = getAuth(app), db = getFirestore(app);
+const LOCAL = ["localhost", "127.0.0.1"].includes(location.hostname);
+if (LOCAL) { connectAuthEmulator(auth, "http://127.0.0.1:9099", { disableWarnings: true }); connectFirestoreEmulator(db, "127.0.0.1", 8080); }
+getRedirectResult(auth).catch(() => {});
+const first = new Promise(res => { const off = onAuthStateChanged(auth, u => { off(); res(u); }); });
+async function user() { await first; if (!auth.currentUser) await signInAnonymously(auth); return auth.currentUser; }
+const PARTS = ["core", "blends", "detail", "fruits"];
+const GJ = {
+  async loadContent() {
+    await user(); const out = {};
+    const snaps = await Promise.all(PARTS.map(p => getDoc(doc(db, "content", p))));
+    snaps.forEach((s, i) => { if (!s.exists()) throw new Error("empty"); out[PARTS[i]] = JSON.parse(s.data().data); });
+    return out;
+  },
+  async claim(token, name) {
+    const u = await user();
+    const iv = await getDoc(doc(db, "invites", token)).catch(() => null);
+    if (!iv || !iv.exists()) throw new Error("no");
+    const d = iv.data(); if (d.expiresAt.toDate() < new Date()) throw new Error("expired");
+    const until = new Date(Date.now() + d.days * 864e5 - 60000);
+    await setDoc(doc(db, "passes", u.uid), { via: "invite", ref: token, name: (name || "").slice(0, 20), until: Timestamp.fromDate(until), at: serverTimestamp() });
+    return until;
+  },
+  async google() {
+    await first;
+    const q = new URLSearchParams(location.search).get("testlogin");
+    if (LOCAL && q) { await signInWithCredential(auth, GoogleAuthProvider.credential(JSON.stringify({ sub: "t-" + q, email: q, email_verified: true }))); return auth.currentUser; }
+    const pv = new GoogleAuthProvider(); pv.setCustomParameters({ prompt: "select_account" });
+    try { await signInWithPopup(auth, pv); }
+    catch (e) { if (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment") { await signInWithRedirect(auth, pv); return null; } throw e; }
+    return auth.currentUser;
+  },
+  async myRequest() { const u = auth.currentUser; const s = await getDoc(doc(db, "requests", u.uid)).catch(() => null); return s && s.exists() ? s.data() : null; },
+  async sendRequest(name, note) { const u = auth.currentUser; await setDoc(doc(db, "requests", u.uid), { email: u.email.toLowerCase(), name: name.slice(0, 20), note: note.slice(0, 100), at: serverTimestamp() }); }
+};
+window.gjResolve(GJ);
+</script>
+
 
 <script>if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}</script>
 </body>

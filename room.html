@@ -115,6 +115,31 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
 .big-map{position:fixed;inset:0;background:var(--wall);z-index:30;display:flex;flex-direction:column;padding:max(16px,env(safe-area-inset-top)) 16px 16px}
 .big-map .mapbox{flex:1;display:flex;align-items:center;justify-content:center}
 .big-map svg{max-height:100%;width:auto;max-width:100%}
+/* 점수 막대 */
+.bars{display:flex;flex-direction:column;gap:7px}
+.bar{display:grid;grid-template-columns:40px minmax(0,1fr) 42px;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+.bar i{height:10px;background:var(--line);border-radius:6px;overflow:hidden;display:block}
+.bar b{display:block;height:100%;border-radius:6px}
+.bar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+.bar.on{color:var(--ink);font-weight:700}
+.mini{display:flex;height:6px;border-radius:4px;overflow:hidden;margin-top:6px;background:var(--line)}
+.mini i{display:block;height:100%}
+.mi .sc{display:block;font-size:12px;color:var(--muted);font-weight:400;font-variant-numeric:tabular-nums}
+/* 부부 · 가정 */
+.pair{padding:18px;display:flex;flex-direction:column;gap:14px}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.duo>div{padding:12px;border-radius:10px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.duo b{font-family:var(--display);font-size:17px;line-height:1.3}
+.duo .bar{grid-template-columns:30px minmax(0,1fr) 34px;font-size:12px;gap:5px}
+.lbl{font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+.talk{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 8px;-webkit-overflow-scrolling:touch}
+.talk>div{flex:0 0 84%;scroll-snap-align:start;padding:20px;min-height:180px;display:flex;flex-direction:column;gap:10px}
+.talk b{font-family:var(--display);font-size:19px;line-height:1.45}
+.src{font-size:12px;color:var(--muted)}
+.guess{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.kindseg button{padding:14px 0;font-weight:600}
+.badge{font-size:11.5px;padding:2px 8px;border-radius:999px;background:var(--line);color:var(--muted);margin-left:6px;font-weight:600;vertical-align:2px}
+input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1.5px solid var(--line);border-radius:10px;padding:12px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -133,8 +158,8 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
   <p class="err" id="codeErr" hidden></p>
   <button class="btn block" id="codeBtn" type="button">입장하기</button>
   <div class="frame card" style="margin-top:20px">
-    <p style="font-weight:700">셀리더이신가요?</p>
-    <p class="note">구글 계정으로 로그인하면 모임방을 열고 진행할 수 있습니다.</p>
+    <p style="font-weight:700">모임을 여는 분이신가요?</p>
+    <p class="note">셀리더나 초대받은 분은 구글 계정으로 로그인하면 모임을 열고 진행할 수 있습니다.</p>
     <button class="btn ghost" id="loginBtn" type="button">구글로 로그인</button>
     <p class="err" id="loginErr" hidden></p>
   </div>
@@ -142,18 +167,76 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
 
 <!-- 운영자: 내 방 목록 -->
 <main id="v-home" hidden><div class="wrap view">
-  <p class="eyebrow">운영자 · <span id="adminEmail"></span></p>
-  <h1 style="font-size:30px">모임방</h1>
+  <p class="eyebrow"><span id="roleLbl">운영자</span> · <span id="adminEmail"></span></p>
+  <h1 style="font-size:30px">모임 열기</h1>
+  <p class="note" id="untilNote" hidden></p>
   <div class="frame card">
-    <label class="field" for="titleInput">새 방 이름
+    <div class="field"><span>어떤 모임인가요?</span><div class="seg kindseg" id="kindSeg" role="group" aria-label="모임 종류"></div></div>
+    <p class="note" id="kindNote"></p>
+    <label class="field" for="titleInput">모임 이름
       <input type="text" id="titleInput" maxlength="40">
     </label>
-    <button class="btn" id="openBtn" type="button">모임방 열기</button>
+    <button class="btn" id="openBtn" type="button">모임 열기</button>
     <p class="err" id="openErr" hidden></p>
   </div>
-  <p style="font-weight:700;margin-top:6px">지난 방</p>
+  <a class="frame card" id="hostsLink" href="?admin=1" hidden style="text-decoration:none;flex-direction:row;justify-content:space-between;align-items:center"><span><b>진행자 초대 관리</b><br><span class="note">구글 계정을 등록해 기간 동안 모임을 열 수 있게 합니다</span></span><span>›</span></a>
+  <a class="frame card" id="passLink" href="?admin=passes" style="text-decoration:none;flex-direction:row;justify-content:space-between;align-items:center"><span><b>열람권 · 초대 링크</b><br><span class="note">배우자나 가족에게 전시관을 열어 줄 링크를 만듭니다</span></span><span>›</span></a>
+  <p style="font-weight:700;margin-top:6px">지난 모임</p>
   <div class="mlist" id="roomList"></div>
   <button class="btn ghost small" id="logoutBtn" type="button" style="align-self:flex-start">로그아웃</button>
+</div></main>
+
+<!-- 관리자: 진행자 초대 -->
+<main id="v-hosts" hidden><div class="wrap view">
+  <p class="eyebrow">관리자</p>
+  <h1 style="font-size:30px">진행자 초대</h1>
+  <p class="note">셀원의 구글 계정을 등록하면 정한 기간 동안 모임(부부·가정 모임, 셀 모임)을 열 수 있습니다. 기간이 끝나면 새 모임은 못 열지만, 이미 연 모임은 계속 볼 수 있습니다.</p>
+  <div class="frame card">
+    <label class="field" for="hEmail">구글 계정 (gmail)
+      <input type="email" id="hEmail" placeholder="example@gmail.com" autocomplete="off" autocapitalize="off">
+    </label>
+    <label class="field" for="hName">이름 (메모)
+      <input type="text" id="hName" maxlength="20" placeholder="예: 김요한 형제">
+    </label>
+    <div class="field"><span>사용 기간</span><div class="seg" id="hDays" role="group" aria-label="사용 기간"></div></div>
+    <p class="err" id="hErr" hidden></p>
+    <button class="btn" id="hAdd" type="button">초대하기</button>
+  </div>
+  <p style="font-weight:700;margin-top:6px">초대한 진행자</p>
+  <div class="mlist" id="hostList"></div>
+  <a class="btn ghost small" href="room.html" style="align-self:flex-start">← 모임 열기</a>
+</div></main>
+
+<!-- 열람권 · 초대 링크 -->
+<main id="v-passes" hidden><div class="wrap view">
+  <p class="eyebrow" id="psRole">열람권</p>
+  <h1 style="font-size:30px">열람권 · 초대 링크</h1>
+  <p class="note">전시관의 자세한 내용과 기질 검사는 열람권이 있어야 열립니다. 모임방에 들어온 사람은 자동으로 30일 열람권을 받습니다. 모임 밖의 사람(배우자 등)에게는 초대 링크를 보내 주세요.</p>
+  <div class="seg" id="psTabs" role="tablist" aria-label="열람권 메뉴"></div>
+  <div id="psBody" class="stack" style="gap:12px"></div>
+  <a class="btn ghost small" href="room.html" style="align-self:flex-start">← 모임 열기</a>
+</div></main>
+
+<!-- 초대받지 않은 구글 계정 -->
+<main id="v-noinvite" hidden><div class="wrap view">
+  <p class="eyebrow">모임 열기</p>
+  <h1 style="font-size:28px">아직 초대받지 않은<br>계정입니다</h1>
+  <p class="note" id="niBody"></p>
+  <div class="frame card"><p class="note">로그인한 계정</p><p style="font-weight:700;word-break:break-all" id="niEmail"></p></div>
+  <p class="note">셀리더에게 위 이메일을 알려 주시면 초대해 드립니다. 모임에 참석만 하실 때는 로그인하지 않고 입장 코드나 링크로 들어오면 됩니다.</p>
+  <button class="btn ghost" id="niLogout" type="button">로그아웃하고 처음으로</button>
+</div></main>
+
+<!-- 참석 기록을 못 찾았을 때 (다른 앱 · 다른 브라우저로 연 경우) -->
+<main id="v-find" hidden><div class="wrap view">
+  <p class="eyebrow" id="fdRoom"></p>
+  <h1 style="font-size:28px">결과가 공개된 모임입니다</h1>
+  <p class="note">이 기기(또는 이 앱)에서는 참석 기록을 찾지 못했습니다. 카톡 안에서 열었다가 사파리로 다시 여는 것처럼 다른 곳에서 열면 이렇게 보일 수 있습니다. 아래에서 <b>내 이름</b>을 누르면 내 결과와 지도를 다시 볼 수 있습니다.</p>
+  <div class="mlist" id="findList"></div>
+  <div class="stack" style="gap:8px">
+    <button class="btn ghost" id="findMap" type="button">지도만 보기</button>
+    <button class="btn" id="findNew" type="button" hidden>처음 왔어요 · 검사하기</button>
+  </div>
 </div></main>
 
 <!-- 운영자: 방 진행 -->
@@ -170,7 +253,7 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
   <div class="field"><span>성별 (선택)</span><div class="seg" id="genSeg" role="group" aria-label="성별"></div></div>
   <p class="note">결과는 이 방에 함께 있는 사람들과 셀리더만 봅니다. 생년월일이나 연락처는 받지 않습니다.</p>
   <p class="err" id="pfErr" hidden></p>
-  <button class="btn block" id="joinBtn" type="button">검사 시작하기 (24문항)</button>
+  <button class="btn block" id="joinBtn" type="button">검사 시작하기 (36문항)</button>
 </div></main>
 
 <!-- 참석자: 검사 -->
@@ -187,8 +270,10 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
 <main id="v-sealed" hidden><div class="wrap view" style="text-align:center;align-items:center">
   <div class="seal" id="seal"><span>당신의<br>기질</span></div>
   <h2 style="font-size:26px;margin-top:10px">결과가 봉인되었습니다</h2>
-  <p class="note" style="font-size:15px">셀리더가 공개하면 모두 함께 열립니다.<br>그동안 네 기질 설명을 들으며<br>내 기질을 짐작해 보세요.</p>
+  <p class="note" style="font-size:15px" id="sealNote">셀리더가 공개하면 모두 함께 열립니다.<br>그동안 네 기질 설명을 들으며<br>내 기질을 짐작해 보세요.</p>
+  <div id="guessBox" class="stack" style="width:100%;gap:10px;margin-top:8px"></div>
   <a class="btn ghost block" href="index.html#types" target="_blank" rel="noopener" style="margin-top:12px">기질 전시관 둘러보기</a>
+  <a class="btn ghost block" id="toAdmin1" href="#" hidden>운영 화면으로</a>
 </div></main>
 
 <!-- 참석자: 결과 + 지도 -->
@@ -205,10 +290,11 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
 import { firebaseConfig } from "./firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInAnonymously, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, connectAuthEmulator, signInWithCredential } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, onSnapshot, serverTimestamp, writeBatch, connectFirestoreEmulator } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, onSnapshot, serverTimestamp, writeBatch, connectFirestoreEmulator, Timestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-const D = {"Q":[{"t":"나를 가장 잘 나타내는 단어는?","o":{"S":"명랑한","C":"추진력 있는","M":"꼼꼼한","P":"온화한"},"part":1},{"t":"나를 가장 잘 나타내는 단어는?","o":{"S":"말재주 있는","C":"결단력 있는","M":"사려 깊은","P":"차분한"},"part":1},{"t":"나를 가장 잘 나타내는 단어는?","o":{"S":"사람을 좋아하는","C":"목표 지향적인","M":"완벽을 추구하는","P":"잘 들어주는"},"part":1},{"t":"나를 가장 잘 나타내는 단어는?","o":{"S":"즉흥적인","C":"독립적인","M":"계획적인","P":"무던한"},"part":1},{"t":"여럿이 함께 있을 때 나는 주로…","o":{"S":"분위기 메이커","C":"앞장서는 리더","M":"꼼꼼한 분석가","P":"갈등을 푸는 중재자"},"part":1},{"t":"나를 가장 잘 나타내는 단어는?","o":{"S":"낙천적인","C":"자신감 있는","M":"헌신적인","P":"한결같은"},"part":1},{"t":"나를 가장 잘 나타내는 단어는?","o":{"S":"표현이 풍부한","C":"실용적인","M":"감수성이 깊은","P":"은근히 웃긴"},"part":1},{"t":"나를 가장 잘 나타내는 단어는?","o":{"S":"정이 많은","C":"일을 잘 해내는","M":"신중한","P":"참을성 있는"},"part":1},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"산만하다","C":"고집이 세다","M":"비판적이다","P":"미룬다"},"part":2},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"말이 많다","C":"성급하다","M":"비관적이다","P":"무관심해 보인다"},"part":2},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"약속을 잘 잊는다","C":"남을 밀어붙인다","M":"쉽게 상처받는다","P":"결정을 잘 못 내린다"},"part":2},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"충동적이다","C":"화를 잘 낸다","M":"걱정이 많다","P":"의욕이 적다"},"part":2},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"기분이 들떴다 가라앉는다","C":"참을성이 없다","M":"서운한 게 오래 간다","P":"부딪히는 걸 피한다"},"part":2},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"정리를 잘 못한다","C":"차갑다는 말을 듣는다","M":"혼자 있으려 한다","P":"느긋해서 답답하다는 말을 듣는다"},"part":2},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"이야기를 부풀린다","C":"일 욕심이 지나치다","M":"완벽하려다 지친다","P":"변화가 귀찮다"},"part":2},{"t":"솔직히, 나에게 더 가까운 모습은?","o":{"S":"관심받고 싶어 한다","C":"지는 걸 못 참는다","M":"자기 연민에 빠진다","P":"돈과 시간을 잘 안 쓴다"},"part":2},{"t":"처음 가는 자리(회식·동창회·학부모 모임 등)에서 나는?","o":{"S":"먼저 다가가 말을 걸고 분위기를 띄운다","C":"자연스럽게 대화를 이끌고 자리를 정리한다","M":"분위기를 살피며 아는 사람 곁에 조용히 있는다","P":"편하게 있다가 말을 걸어오면 잘 받아준다"},"part":3},{"t":"주말 계획이 갑자기 틀어졌다.","o":{"S":"오히려 좋다. 다른 재밌는 걸 찾는다","C":"바로 대안을 정해서 움직인다","M":"아쉬움이 오래 남고, 다음엔 더 꼼꼼히 챙기기로 한다","P":"뭐 어때, 쉬면 된다"},"part":3},{"t":"아내나 가족과 의견이 부딪칠 때 나는 주로…","o":{"S":"농담으로 분위기부터 풀려고 한다","C":"내 생각이 맞다는 걸 논리로 설득한다","M":"말은 아끼지만 속으로 오래 곱씹는다","P":"일단 알았다고 하고 넘어간다"},"part":3},{"t":"일터에서 새 프로젝트를 맡았다.","o":{"S":"사람들과 아이디어부터 신나게 나눈다","C":"목표와 마감부터 정하고 역할을 나눈다","M":"자료를 모으고 계획부터 빈틈없이 세운다","P":"무리하지 않는 선에서 차근차근 한다"},"part":3},{"t":"스트레스가 쌓이면 나는…","o":{"S":"사람을 만나 수다를 떤다","C":"일이나 운동에 더 몰두한다","M":"혼자 생각을 정리하거나 음악을 듣는다","P":"잠을 자거나 TV·유튜브를 본다"},"part":3},{"t":"친구가 힘든 고민을 털어놓을 때 나는…","o":{"S":"같이 속상해하고, 기분 풀어 주려고 밖으로 데리고 나간다","C":"상황을 정리해서 바로 해결 방법을 알려 준다","M":"끝까지 깊이 들어주고, 그 얘기가 며칠씩 마음에 남는다","P":"말없이 들어주며 옆에 있어 준다"},"part":3},{"t":"가족 여행을 간다면…","o":{"S":"일단 출발, 가서 정하면 된다","C":"일정을 정하고 운전과 진행을 맡는다","M":"숙소·동선·식당을 표로 정리한다","P":"누가 짠 일정대로 편하게 따라간다"},"part":3},{"t":"누군가 나에게 피해를 주는 실수를 했다.","o":{"S":"금방 잊고 웃어넘긴다","C":"바로 짚고 고칠 방법을 말한다","M":"말은 안 해도 실망이 마음에 남는다","P":"괜히 일 만들기 싫어 그냥 넘어간다"},"part":3}],"BL":{"SC":{"name":"다혈담즙질","tagline":"무대 위의 추진가","bible":"시몬 베드로","st":["사람을 끄는 카리스마","열정과 결단력","다혈질보다 나은 조직력"],"wk":["앞서 나가는 입","대화 독점과 강한 자의식","쉽게 터지는 분노"]},"SM":{"name":"다혈우울질","tagline":"눈물 많은 감성가","bible":"다윗 왕","st":["깊은 공감 능력","따뜻한 가르침과 돌봄","표현력과 예술성"],"wk":["심한 감정 기복","완벽주의에서 나오는 비판","자의식과 오만"]},"SP":{"name":"다혈점액질","tagline":"모두의 유쾌한 친구","bible":"아볼로","st":["누구나 좋아하는 성품","낙천성과 유머","남을 돕는 마음"],"wk":["의욕과 자제력 부족","진지함의 부족","상황에 끌려가는 수동성"]},"CS":{"name":"담즙다혈질","tagline":"멈추지 않는 기관차","bible":"야고보(야고보서의 저자)","st":["타고난 설득력","동기 부여의 달인","지치지 않는 에너지"],"wk":["적대감과 앙심","날카롭고 가혹한 말","느린 사람에 대한 조급함"]},"CM":{"name":"담즙우울질","tagline":"치밀한 전략가 리더","bible":"사도 바울","st":["근면함과 유능함","목표 지향과 꼼꼼함","날카로운 분석력과 결단"],"wk":["독재자 성향","이기기 위한 논쟁","상처 주는 빈정거림"]},"CP":{"name":"담즙점액질","tagline":"열 사람을 움직이는 행정가","bible":"디도","st":["신중한 계획과 꾸준함","사람을 살리는 리더십","함께 일하는 지혜"],"wk":["속으로 품는 적개심","유머로 포장한 비꼼","누구보다 강한 고집"]},"MS":{"name":"우울다혈질","tagline":"무대에 선 학자","bible":"침례 요한","st":["학자다운 정확성","가르치는 은사","공연과 예술적 재능"],"wk":["자기 연민","지나친 비판과 가혹함","고집과 비협조"]},"MC":{"name":"우울담즙질","tagline":"완벽을 향한 설립자","bible":"누가","st":["완벽주의와 추진력","철저한 준비","강한 리더십"],"wk":["만족시키기 어려움","생각을 따라가는 감정","깊어지는 자기 비난"]},"MP":{"name":"우울점액질","tagline":"조용한 천재 장인","bible":"사도 요한","st":["탁월한 지적 능력","꼼꼼함과 정확성","창의적 발견"],"wk":["쉽게 낙담함","두려움과 낮은 자화상","조용한 복수심"]},"PS":{"name":"점액다혈질","tagline":"편안한 이웃집 형","bible":"디모데","st":["함께하기 편한 성품","유쾌함과 유머","사람을 소중히 여김"],"wk":["의욕 부족","자제력 부족","노력 회피"]},"PC":{"name":"점액담즙질","tagline":"묵묵한 실무형 상담가","bible":"아브라함","st":["편안한 리더십","경청과 진심 어린 관심","부드러운 태도"],"wk":["안주와 두려움","완강한 고집","침묵 속의 분노"]},"PM":{"name":"점액우울질","tagline":"조용한 섬김의 장인","bible":"바나바","st":["온화함과 품위","긍휼과 돕는 은사","믿음직함과 정확성"],"wk":["훈육을 미루는 아버지","두려움과 비관","건강한 자아상의 결핍"]}}};
+let D = null;   // 문항 · 조합 이름 · 대하는 법: 열람권으로 파이어베이스에서 받아 옴 (loadD)
 const K = ["S","C","M","P"];
+let NQ = 36;    // 문항 수 (내용을 받은 뒤 다시 맞춤)
 const NAME = {S:"다혈",C:"담즙",M:"우울",P:"점액"};
 const COLOR = {S:"var(--s)",C:"var(--c)",M:"var(--m)",P:"var(--p)"};
 const SOFT = {S:"var(--s-soft)",C:"var(--c-soft)",M:"var(--m-soft)",P:"var(--p-soft)"};
@@ -216,6 +302,32 @@ const AGES = ["20대","30대","40대","50대","60대 이상"], GENS = ["남","�
 const PART_LABEL = {1:"1부 · 나의 강점",2:"2부 · 나의 약점",3:"3부 · 이런 상황에서"};
 const PART_HINT = {1:"가장 가까운 하나만 고르세요.",2:"좋은 모습이 아니어도 괜찮습니다. 솔직할수록 정확합니다.",3:"실제로 내가 할 법한 반응을 고르세요."};
 const CODE_WORDS = ["토기","그릇","항아리","물병"];
+const SUPER = ["artist4rhythm@gmail.com"];   // 화면 표시용. 실제 권한은 보안 규칙이 정합니다.
+const KINDS = {cell:{label:"셀 모임",note:"셀리더가 진행하고, 셀원들이 각자 휴대폰으로 검사합니다. 결과는 셀리더가 공개합니다.",title:d=>`${d.getMonth()+1}월 ${d.getDate()}일 셀모임`},
+               couple:{label:"부부 · 가정 모임",note:"나도 함께 검사하고, 배우자(가족)에게 링크를 보냅니다. 둘 다 끝나면 함께 열고, ‘우리 둘’ 비교와 대화 카드를 봅니다.",title:d=>`우리 부부 기질 (${d.getMonth()+1}/${d.getDate()})`}};
+const DAYS = [["1주",7],["2주",14],["1달",30],["3달",90]];
+
+/* 두 주 기질의 만남 — 책의 강점·약점과 ‘정반대 기질끼리 끌린다’(5장), 분노 다루기(9장)를 바탕으로 정리 */
+const PAIR = {
+ SS:{like:"둘 다 사람을 좋아하고 밝아서 함께 있으면 웃음이 많고, 손님 맞는 일을 즐깁니다.",clash:"둘 다 계획과 마무리가 약해 약속 · 돈 · 집안일이 흐지부지되기 쉽습니다. 기분이 오를 때도 내려갈 때도 함께 출렁입니다.",tip:"중요한 일은 달력에 함께 적고, 끝까지 챙길 사람을 정해 두세요."},
+ SC:{like:"둘 다 외향적이고 활동적이라 함께 일을 벌이고 사람을 모을 때 힘이 납니다.",clash:"다혈은 즐거움을, 담즙은 목표를 앞세웁니다. 담즙의 직설이 다혈에게 상처가 되고, 다혈의 즉흥이 담즙을 답답하게 합니다. 둘 다 화를 겉으로 터뜨립니다.",tip:"담즙은 칭찬을 먼저 하고, 다혈은 약속한 일을 끝까지 해 주세요. 화가 나면 10분 쉬었다가 다시 이야기하세요."},
+ SM:{like:"정반대라 서로에게 끌립니다. 다혈은 우울에게 웃음을, 우울은 다혈에게 깊이와 질서를 줍니다.",clash:"다혈의 즉흥과 늦음이 우울에게는 무심함으로 보이고, 우울의 비판과 침묵이 다혈에게는 차가움으로 느껴집니다.",tip:"다혈은 계획과 시간을 지켜 주고, 우울은 고칠 점보다 고마운 점을 먼저 말해 주세요."},
+ SP:{like:"둘 다 사람 중심이라 다정하고 다툼이 적습니다. 다혈은 활기를, 점액은 편안함을 줍니다.",clash:"다혈은 반응을 원하는데 점액은 무덤덤해 보입니다. 둘 다 결정을 미뤄 중요한 일이 밀리기 쉽습니다.",tip:"점액은 마음을 말로 표현해 주고, 다혈은 점액의 속도를 기다려 주세요. 결정할 일은 날짜를 정하세요."},
+ CC:{like:"둘 다 추진력이 있어 같은 목표를 세우면 무섭게 해냅니다.",clash:"둘 다 주도권을 쥐려 해서 의견이 갈리면 정면으로 부딪힙니다. 지기 싫어 사과가 늦어집니다.",tip:"맡을 영역을 나눠 각자 책임지고, ‘먼저 사과하는 쪽이 이긴다’고 정해 두세요."},
+ CM:{like:"담즙의 실행력과 우울의 계획력이 만나면 일을 탁월하게 해냅니다. 둘 다 일 중심입니다.",clash:"담즙의 성급함과 날카로운 말이 예민한 우울에게 오래 남는 상처가 되고, 우울의 신중함은 담즙에게 발목 잡기로 보입니다.",tip:"담즙은 말의 온도를 낮추고, 우울은 서운한 마음을 쌓아 두지 말고 그날 말해 주세요."},
+ CP:{like:"정반대라 서로 끌립니다. 담즙은 방향을, 점액은 평안과 균형을 줍니다.",clash:"담즙은 밀어붙이고 점액은 버팁니다. 담즙에게 점액은 느리고, 점액에게 담즙은 몰아세우는 사람입니다. 점액은 겉으로 따르고 속으로 고집을 부리기도 합니다.",tip:"담즙은 재촉하지 말고 의견을 물어 주고, 점액은 싫은 것을 미루지 말고 그때 말해 주세요."},
+ MM:{like:"둘 다 깊고 성실해서 서로를 깊이 이해하고 약속을 잘 지킵니다.",clash:"둘 다 상처를 안으로 삼켜 침묵이 길어지고, 서로의 부족함을 따지다 함께 가라앉기 쉽습니다.",tip:"하루 한 가지씩 고마운 점을 말로 나누고, 서운한 일은 ‘나는 ~해서 속상했어’로 꺼내 보세요."},
+ MP:{like:"둘 다 내향적이라 조용하고 안정된 가정을 이룹니다. 우울은 계획을, 점액은 여유를 줍니다.",clash:"우울은 완벽을 원하고 점액은 ‘이만하면 됐다’고 합니다. 우울의 잔소리와 점액의 미루기가 맞물리고, 둘 다 갈등을 피해 말하지 않고 넘어갑니다.",tip:"기준을 함께 정해 하나씩 맡고, 일주일에 한 번은 피하지 말고 마음 이야기를 하세요."},
+ PP:{like:"둘 다 온화하고 참을성이 많아 다투는 일이 거의 없습니다.",clash:"둘 다 결정을 미루고 앞장서지 않아 중요한 일이 흘러가 버립니다. 서운함을 말하지 않아 거리가 생깁니다.",tip:"이번 주에 할 일 하나와 먼저 할 사람을 정하세요. 서로의 마음을 먼저 물어봐 주세요."}
+};
+const ANGER = {S:"겉으로 크게 터뜨리고 금방 잊는 편",C:"날카롭게 터뜨리고 오래 품는 편",M:"속으로 삼키고 마음에 오래 담아 두는 편",P:"말없이 버티거나 피하는 편"};
+const TALK = [
+ "당신의 기질 강점 가운데 내가 가장 고마웠던 것은?",
+ "우리가 자주 부딪히는 장면 하나. 기질로 보면 왜 그럴까?",
+ "상대 결과의 ‘이렇게 대해 주세요’ 가운데 내가 제일 못 해 준 것은?",
+ "상대에게 필요한 성령의 열매 하나를 골라 주고, 그 이유를 말해 주세요.",
+ "서로의 강점으로 축복하며 함께 기도해요.<br><span class='note' style='font-family:var(--body);font-size:14px'>“주님, 저희를 서로 다르게 빚으셔서 감사합니다. 서로의 강점으로 우리 가정을 세워 주시고, 약한 곳에는 성령의 열매를 맺게 하소서. 예수님의 이름으로 기도합니다. 아멘.”</span>"
+];
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -227,15 +339,18 @@ const $ = s => document.querySelector(s);
 const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const params = new URLSearchParams(location.search);
 const roomId = params.get("r");
-let me = null, room = null, unsub = [], answers = [], idx = 0, profile = {age:"", gender:""};
+let me = null, room = null, unsub = [], answers = [], idx = 0, profile = {age:"", gender:""}, role = {super:false, host:false, until:null};
 const store = {get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}, set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}}};
 
-function show(v){ ["loading","start","home","admin","profile","quiz","sealed","result","msg"].forEach(x => $("#v-"+x).hidden = x !== v); window.scrollTo(0,0); }
-function toast(m){ const t=$("#toast"); t.textContent=m; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,2200); }
+function show(v){ ["loading","start","home","hosts","passes","noinvite","admin","profile","quiz","sealed","find","result","msg"].forEach(x => $("#v-"+x).hidden = x !== v); window.scrollTo(0,0); }
+function toast(m){ const t=$("#toast"); t.textContent=m; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>t.hidden=true,2400); }
 function msg(t,b){ $("#msgTitle").textContent=t; $("#msgBody").textContent=b; show("msg"); }
 function stopAll(){ unsub.forEach(u=>u()); unsub=[]; }
-const isAdminUser = u => u && !u.isAnonymous && u.email;
+const isGoogle = u => u && !u.isAnonymous && u.email;
 const link = id => location.origin + location.pathname + "?r=" + id;
+const fmtDate = d => `${d.getFullYear()}. ${d.getMonth()+1}. ${d.getDate()}.`;
+const isOwnerNow = () => me && room && room.ownerUid===me.uid;
+const isCouple = () => room && room.kind==="couple";
 
 /* ---------- 점수 (index.html과 같은 방식) ---------- */
 function shuffled(i){const a=[...K];let s=(i+3)*2654435761>>>0;for(let j=a.length-1;j>0;j--){s=(s*1103515245+12345)>>>0;const r=s%(j+1);[a[j],a[r]]=[a[r],a[j]]}return a}
@@ -246,6 +361,12 @@ function score(ans){
   const rank=[...K].sort((a,b)=>tot[b]-tot[a]||sit[b]-sit[a]||K.indexOf(a)-K.indexOf(b));
   return {code:rank[0]+rank[1], pct};
 }
+/* 네 기질 점수 막대 */
+function bars(pct, code){
+  return `<div class="bars">${K.map(k=>`<div class="bar ${code&&code.includes(k)?"on":""}"><span>${NAME[k]}</span><i><b style="width:${pct[k]||0}%;background:${COLOR[k]}"></b></i><em>${pct[k]||0}%</em></div>`).join("")}</div>`;
+}
+const mini = pct => `<span class="mini" aria-hidden="true">${K.map(k=>`<i style="width:${pct[k]||0}%;background:${COLOR[k]}"></i>`).join("")}</span>`;
+const scoreLine = pct => K.map(k=>`${NAME[k]} ${pct[k]||0}`).join(" · ");
 
 /* ---------- 지도 SVG ---------- */
 function mapSVG(people, big){
@@ -274,7 +395,7 @@ $("#codeBtn").addEventListener("click", async ()=>{
   try{
     if(!auth.currentUser) await signInAnonymously(auth);
     const s=await getDoc(doc(db,"codes",c));
-    if(!s.exists()){ $("#codeErr").textContent="이 코드로 열린 방이 없습니다. 셀리더에게 코드를 다시 확인해 주세요."; $("#codeErr").hidden=false; return; }
+    if(!s.exists()){ $("#codeErr").textContent="이 코드로 열린 모임이 없습니다. 코드를 다시 확인해 주세요. (닫힌 모임은 링크로 들어가 주세요)"; $("#codeErr").hidden=false; return; }
     location.href="?r="+s.data().roomId;
   }catch(e){ $("#codeErr").textContent="연결이 원활하지 않습니다. 잠시 후 다시 눌러 주세요."; $("#codeErr").hidden=false; }
 });
@@ -282,7 +403,7 @@ $("#loginBtn").addEventListener("click", async ()=>{
   $("#loginErr").hidden=true;
   const pv=new GoogleAuthProvider(); pv.setCustomParameters({prompt:"select_account"});
   try{
-    if(LOCAL && params.get("testadmin")){ await signInWithCredential(auth, GoogleAuthProvider.credential(JSON.stringify({sub:"admin-test",email:"artist4rhythm@gmail.com",email_verified:true}))); return; }
+    if(LOCAL && params.get("testadmin")){ const em=params.get("testadmin")==="1"?"artist4rhythm@gmail.com":params.get("testadmin"); if(auth.currentUser) await signOut(auth); await signInWithCredential(auth, GoogleAuthProvider.credential(JSON.stringify({sub:"t-"+em,email:em,email_verified:true}))); return; }
     if(auth.currentUser && auth.currentUser.isAnonymous) await signOut(auth);
     await signInWithPopup(auth, pv);
   }catch(e){
@@ -290,23 +411,45 @@ $("#loginBtn").addEventListener("click", async ()=>{
     $("#loginErr").textContent="로그인하지 못했습니다. ("+(e.code||"오류")+")"; $("#loginErr").hidden=false;
   }
 });
-$("#logoutBtn").addEventListener("click", async ()=>{ stopAll(); await signOut(auth); location.href="room.html"; });
+async function logout(){ stopAll(); await signOut(auth); location.href="room.html"; }
+$("#logoutBtn").addEventListener("click", logout);
+$("#niLogout").addEventListener("click", logout);
 
-/* ---------- 운영자: 방 목록 · 새 방 ---------- */
+/* ---------- 권한 확인: 관리자 / 초대받은 진행자 ---------- */
+async function loadRole(u){
+  const em=(u.email||"").toLowerCase();
+  role={super:SUPER.includes(em), host:false, until:null};
+  if(role.super){ role.host=true; return role; }
+  try{ const s=await getDoc(doc(db,"hosts",em)); if(s.exists()){ const d=s.data().expiresAt?.toDate?.(); role.until=d||null; role.host=!!d && d>new Date(); } }catch(e){}
+  return role;
+}
+
+/* ---------- 운영자: 모임 목록 · 새 모임 ---------- */
+let kind="cell";
+function kindSeg(){
+  const el=$("#kindSeg");
+  el.innerHTML=Object.entries(KINDS).map(([k,v])=>`<button type="button" aria-pressed="${kind===k}" data-k="${k}">${v.label}</button>`).join("");
+  el.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ kind=b.dataset.k; kindSeg(); $("#titleInput").value=KINDS[kind].title(new Date()); }));
+  $("#kindNote").textContent=KINDS[kind].note;
+}
 async function adminHome(){
   stopAll(); show("home");
   $("#adminEmail").textContent=me.email;
-  const d=new Date(); $("#titleInput").value=`${d.getMonth()+1}월 ${d.getDate()}일 셀모임`;
+  $("#roleLbl").textContent=role.super?"관리자":"진행자";
+  $("#hostsLink").hidden=!role.super;
+  if(!role.super && role.until){ $("#untilNote").textContent=`${fmtDate(role.until)}까지 모임을 열 수 있습니다.`; $("#untilNote").hidden=false; }
+  if(!role.super) kind="couple";
+  kindSeg(); $("#titleInput").value=KINDS[kind].title(new Date());
   try{
     const s=await getDocs(query(collection(db,"rooms"),where("ownerUid","==",me.uid)));
     const rows=s.docs.map(x=>({id:x.id,...x.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
     const ST={open:"진행 중",revealed:"결과 공개됨",closed:"닫힘"};
-    $("#roomList").innerHTML=rows.length?rows.map(r=>`<a class="mi frame" style="text-decoration:none" href="?r=${r.id}"><span>${esc(r.title)}<small>코드 ${esc(r.code)}</small></span><span class="pill ${r.status==="closed"?"ing":"done"}">${ST[r.status]||""}</span></a>`).join(""):`<p class="note">아직 연 방이 없습니다.</p>`;
-  }catch(e){ $("#roomList").innerHTML=`<p class="err">방 목록을 불러오지 못했습니다. 보안 규칙의 운영자 이메일을 확인해 주세요.</p>`; }
+    $("#roomList").innerHTML=rows.length?rows.map(r=>`<a class="mi frame" style="text-decoration:none" href="?r=${r.id}"><span>${esc(r.title)}<span class="badge">${r.kind==="couple"?"부부·가정":"셀"}</span>${r.status!=="closed"?`<small>코드 ${esc(r.code)}</small>`:""}</span><span class="pill ${r.status==="closed"?"ing":"done"}">${ST[r.status]||""}</span></a>`).join(""):`<p class="note">아직 연 모임이 없습니다.</p>`;
+  }catch(e){ $("#roomList").innerHTML=`<p class="err">모임 목록을 불러오지 못했습니다. 잠시 후 다시 열어 주세요.</p>`; }
 }
 $("#openBtn").addEventListener("click", async ()=>{
   const title=$("#titleInput").value.trim(); $("#openErr").hidden=true;
-  if(!title){ $("#openErr").textContent="방 이름을 넣어 주세요."; $("#openErr").hidden=false; return; }
+  if(!title){ $("#openErr").textContent="모임 이름을 넣어 주세요."; $("#openErr").hidden=false; return; }
   $("#openBtn").disabled=true;
   try{
     let num=null;
@@ -315,64 +458,196 @@ $("#openBtn").addEventListener("click", async ()=>{
     const word=CODE_WORDS[Math.floor(Math.random()*CODE_WORDS.length)];
     const ref=doc(collection(db,"rooms"));
     const b=writeBatch(db);
-    b.set(ref,{ownerUid:me.uid,status:"open",kind:"cell",title,code:`${word} ${num}`,createdAt:serverTimestamp()});
+    b.set(ref,{ownerUid:me.uid,status:"open",kind,title,code:`${word} ${num}`,createdAt:serverTimestamp()});
     b.set(doc(db,"codes",num),{roomId:ref.id,ownerUid:me.uid,createdAt:serverTimestamp()});
     await b.commit();
     location.href=`?r=${ref.id}&new=1`;
-  }catch(e){ $("#openBtn").disabled=false; $("#openErr").textContent="방을 열지 못했습니다. 이 계정이 보안 규칙의 운영자 목록에 있는지 확인해 주세요."; $("#openErr").hidden=false; }
+  }catch(e){ $("#openBtn").disabled=false; $("#openErr").textContent="모임을 열지 못했습니다. 초대 기간이 끝났을 수 있습니다. 셀리더에게 문의해 주세요."; $("#openErr").hidden=false; }
 });
 
-/* ---------- 운영자: 방 진행 ---------- */
+/* ---------- 관리자: 진행자 초대 ---------- */
+let hDays=14;
+function hostsView(){
+  stopAll(); show("hosts"); $("#topRight").textContent="관리자";
+  const seg=$("#hDays");
+  const draw=()=>{ seg.innerHTML=DAYS.map(([l,d])=>`<button type="button" aria-pressed="${hDays===d}" data-d="${d}">${l}</button>`).join(""); seg.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{hDays=+b.dataset.d;draw();})); };
+  draw(); loadHosts();
+}
+async function loadHosts(){
+  try{
+    const s=await getDocs(collection(db,"hosts")); const now=new Date();
+    const rows=s.docs.map(x=>({email:x.id,...x.data(),until:x.data().expiresAt?.toDate?.()})).sort((a,b)=>(b.until||0)-(a.until||0));
+    $("#hostList").innerHTML=rows.length?rows.map(h=>{const live=h.until&&h.until>now;return `<div class="mi frame" style="grid-template-columns:minmax(0,1fr)"><div><b>${esc(h.name||"(이름 없음)")}</b><span class="pill ${live?"done":"ing"}" style="margin-left:8px">${live?"사용 중":"기간 끝남"}</span><span class="sc" style="word-break:break-all">${esc(h.email)}</span><span class="sc">${h.until?fmtDate(h.until)+"까지":""}</span></div>
+      <div class="row"><button class="btn small" data-act="share" data-e="${esc(h.email)}" type="button">초대 메시지 보내기</button><button class="btn small ghost" data-act="ext" data-e="${esc(h.email)}" type="button">2주 연장</button><button class="btn small ghost" data-act="del" data-e="${esc(h.email)}" type="button">초대 취소</button></div></div>`}).join(""):`<p class="note">아직 초대한 진행자가 없습니다.</p>`;
+    $("#hostList").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>hostAct(b.dataset.act,b.dataset.e,rows.find(r=>r.email===b.dataset.e))));
+  }catch(e){ $("#hostList").innerHTML=`<p class="err">목록을 불러오지 못했습니다.</p>`; }
+}
+function inviteText(h){
+  const url=location.origin+location.pathname;
+  return `[빚으신 나] ${h.name||""}님, 기질 모임을 열 수 있게 초대했어요.\n\n1) 아래 링크를 열고 ‘구글로 로그인’ (${h.email} 계정)\n2) ‘부부 · 가정 모임’을 고르고 ‘모임 열기’\n3) ‘입장 링크 보내기’로 배우자에게 링크를 보내고, ‘나도 검사하기’로 함께 검사\n4) 둘 다 끝나면 ‘함께 열기’\n\n사용 기간: ${h.until?fmtDate(h.until):""}까지\n${url}`;
+}
+async function hostAct(act,email,h){
+  if(act==="share"){ const text=inviteText(h); if(navigator.share){ try{ await navigator.share({title:"빚으신 나 초대",text}); }catch(e){} } else copy(text); return; }
+  if(act==="ext"){ const base=Math.max(Date.now(), h.until?h.until.getTime():0); try{ await updateDoc(doc(db,"hosts",email),{expiresAt:Timestamp.fromDate(new Date(base+14*864e5))}); toast("2주 연장했습니다"); loadHosts(); }catch(e){ toast("연장하지 못했습니다"); } return; }
+  if(act==="del"){ if(!confirmTwice(email)) return; try{ await deleteDoc(doc(db,"hosts",email)); toast("초대를 취소했습니다"); loadHosts(); }catch(e){ toast("취소하지 못했습니다"); } }
+}
+const _armed={}; function confirmTwice(k){ if(_armed[k]){ delete _armed[k]; return true; } _armed[k]=1; toast("한 번 더 누르면 실행합니다"); setTimeout(()=>delete _armed[k],3000); return false; }
+$("#hAdd").addEventListener("click", async ()=>{
+  const email=$("#hEmail").value.trim().toLowerCase(), name=$("#hName").value.trim(); $("#hErr").hidden=true;
+  if(!/^[^\s@\/]+@[^\s@\/]+\.[^\s@\/]+$/.test(email)){ $("#hErr").textContent="구글 계정 이메일을 정확히 넣어 주세요."; $("#hErr").hidden=false; return; }
+  $("#hAdd").disabled=true;
+  try{
+    const until=new Date(Date.now()+hDays*864e5); until.setHours(23,59,0,0);
+    await setDoc(doc(db,"hosts",email),{name,expiresAt:Timestamp.fromDate(until),addedAt:serverTimestamp()});
+    $("#hEmail").value=""; $("#hName").value=""; toast("초대했습니다. ‘초대 메시지 보내기’로 알려 주세요"); loadHosts();
+  }catch(e){ $("#hErr").textContent="초대하지 못했습니다. 관리자 계정인지 확인해 주세요."; $("#hErr").hidden=false; }
+  $("#hAdd").disabled=false;
+});
+
+/* ---------- 열람권 · 초대 링크 · 신청 승인 · 내용 올리기 ---------- */
+const SITE_INDEX=location.origin+location.pathname.replace(/room\.html$/,"index.html");
+let psTab="invite", ivDays=30;
+function passesView(){
+  stopAll(); show("passes"); $("#topRight").textContent=role.super?"관리자":"진행자";
+  $("#psRole").textContent=(role.super?"관리자":"진행자")+" · "+me.email;
+  const tabs=[["invite","초대 링크"]].concat(role.super?[["req","열람 신청"],["list","열람 중"],["upload","내용 올리기"]]:[]);
+  const draw=()=>{ $("#psTabs").innerHTML=tabs.map(([k,l])=>`<button type="button" role="tab" aria-pressed="${psTab===k}" data-k="${k}">${l}</button>`).join("");
+    $("#psTabs").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{psTab=b.dataset.k;draw();}));
+    ({invite:psInvite,req:psReq,list:psList,upload:psUpload})[psTab](); };
+  draw();
+}
+const rand=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return [...a].map(x=>"abcdefghijkmnpqrstuvwxyz23456789"[x%32]).join("")};
+const ivLink=t=>SITE_INDEX+"?pass="+t;
+async function psInvite(){
+  const B=$("#psBody");
+  B.innerHTML=`<div class="frame card">
+    <label class="field" for="ivLabel">누구에게 보내나요? (메모)<input type="text" id="ivLabel" maxlength="30" placeholder="예: 이마리아 (김요한 형제 아내)"></label>
+    <div class="field"><span>열람 기간</span><div class="seg" id="ivDays"></div></div>
+    <p class="note">링크 자체는 7일 안에 열어야 합니다. 링크를 연 사람은 위 기간 동안 전시관과 검사를 볼 수 있습니다.</p>
+    <button class="btn" id="ivMake" type="button">초대 링크 만들기</button><div id="ivOut"></div></div>
+    <p style="font-weight:700;margin-top:6px">${role.super?"만든 초대 링크 (전체)":"내가 만든 초대 링크"}</p><div class="mlist" id="ivList"><p class="note">불러오는 중…</p></div>`;
+  const seg=$("#ivDays"); const dr=()=>{seg.innerHTML=[7,30,90].map(d=>`<button type="button" aria-pressed="${ivDays===d}" data-d="${d}">${d}일</button>`).join("");seg.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ivDays=+b.dataset.d;dr();}))}; dr();
+  $("#ivMake").addEventListener("click",async()=>{
+    const label=$("#ivLabel").value.trim()||"초대"; const t=rand(24);
+    try{ await setDoc(doc(db,"invites",t),{ownerUid:me.uid,label,days:ivDays,expiresAt:Timestamp.fromDate(new Date(Date.now()+7*864e5-60000)),createdAt:serverTimestamp()});
+      $("#ivOut").innerHTML=`<div class="confirm" style="margin-top:10px"><p style="font-weight:700">링크를 만들었습니다</p><p class="note" style="word-break:break-all">${esc(ivLink(t))}</p><div class="row"><button class="btn small" id="ivShare" type="button">보내기</button><button class="btn small ghost" id="ivCopy" type="button">복사</button></div></div>`;
+      const text=`[빚으신 나] ${label}님, 하나님이 빚으신 나 — 기질 전시관에 초대합니다. 아래 링크를 눌러 열어 주세요. (${ivDays}일 동안 볼 수 있어요)`;
+      $("#ivShare").addEventListener("click",async()=>{if(navigator.share){try{await navigator.share({title:"빚으신 나 초대",text,url:ivLink(t)})}catch(e){}}else copy(text+"\n"+ivLink(t));});
+      $("#ivCopy").addEventListener("click",()=>copy(ivLink(t)));
+      loadInvites();
+    }catch(e){ toast("만들지 못했습니다. 초대 기간이 끝났을 수 있습니다"); }
+  });
+  loadInvites();
+}
+async function loadInvites(){
+  try{
+    const qy=role.super?collection(db,"invites"):query(collection(db,"invites"),where("ownerUid","==",me.uid));
+    const s=await getDocs(qy); const now=new Date();
+    const rows=s.docs.map(x=>({id:x.id,...x.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    if(!$("#ivList")) return;
+    $("#ivList").innerHTML=rows.length?rows.map(r=>{const live=r.expiresAt?.toDate()>now;return `<div class="mi frame" style="grid-template-columns:minmax(0,1fr)"><div><b>${esc(r.label)}</b><span class="pill ${live?"done":"ing"}" style="margin-left:8px">${live?"열 수 있음":"링크 마감"}</span><span class="sc">열람 ${r.days}일 · 링크 마감 ${r.expiresAt?fmtDate(r.expiresAt.toDate()):""}</span></div>
+      <div class="row">${live?`<button class="btn small" data-a="send" data-t="${r.id}" type="button">다시 보내기</button>`:""}<button class="btn small ghost" data-a="del" data-t="${r.id}" type="button">링크 지우기</button></div></div>`}).join(""):`<p class="note">아직 만든 링크가 없습니다.</p>`;
+    $("#ivList").querySelectorAll("button").forEach(b=>b.addEventListener("click",async()=>{const t=b.dataset.t;
+      if(b.dataset.a==="send"){ if(navigator.share){try{await navigator.share({title:"빚으신 나 초대",url:ivLink(t)})}catch(e){}} else copy(ivLink(t)); return; }
+      if(!confirmTwice("iv"+t)) return; try{await deleteDoc(doc(db,"invites",t));toast("링크를 지웠습니다. 이미 받은 열람권은 그대로입니다");loadInvites();}catch(e){toast("지우지 못했습니다");}}));
+  }catch(e){ if($("#ivList")) $("#ivList").innerHTML=`<p class="err">목록을 불러오지 못했습니다.</p>`; }
+}
+async function psReq(){
+  const B=$("#psBody"); B.innerHTML=`<p class="note">구글 계정으로 열람을 신청한 사람들입니다. 승인하면 그 구글 계정으로 어느 기기에서든 열립니다.</p><div class="mlist" id="rqList"><p class="note">불러오는 중…</p></div>`;
+  try{
+    const s=await getDocs(collection(db,"requests"));
+    const rows=s.docs.map(x=>({uid:x.id,...x.data()}));
+    if(!$("#rqList")) return;
+    $("#rqList").innerHTML=rows.length?rows.map(r=>`<div class="mi frame" style="grid-template-columns:minmax(0,1fr)"><div><b>${esc(r.name)}</b><span class="sc" style="word-break:break-all">${esc(r.email)}</span>${r.note?`<span class="sc">“${esc(r.note)}”</span>`:""}</div>
+      <div class="row"><button class="btn small" data-a="30" data-u="${r.uid}" type="button">30일 승인</button><button class="btn small ghost" data-a="90" data-u="${r.uid}" type="button">90일 승인</button><button class="btn small ghost" data-a="no" data-u="${r.uid}" type="button">거절</button></div></div>`).join(""):`<p class="note">새 신청이 없습니다.</p>`;
+    $("#rqList").querySelectorAll("button").forEach(b=>b.addEventListener("click",async()=>{const r=rows.find(x=>x.uid===b.dataset.u);
+      try{ if(b.dataset.a!=="no"){ await setDoc(doc(db,"passes",r.uid),{via:"approve",ref:r.email.slice(0,40),name:r.name.slice(0,20),until:Timestamp.fromDate(new Date(Date.now()+(+b.dataset.a)*864e5)),at:serverTimestamp()}); }
+        await deleteDoc(doc(db,"requests",r.uid)); toast(b.dataset.a==="no"?"거절했습니다":"승인했습니다"); psReq(); }catch(e){ toast("처리하지 못했습니다"); }}));
+  }catch(e){ if($("#rqList")) $("#rqList").innerHTML=`<p class="err">목록을 불러오지 못했습니다.</p>`; }
+}
+async function psList(){
+  const B=$("#psBody"); B.innerHTML=`<p class="note">지금 열람권을 가진 사람들입니다. ‘회수’하면 바로 닫힙니다.</p><div class="mlist" id="paList"><p class="note">불러오는 중…</p></div>`;
+  const VIA={room:"모임방",invite:"초대 링크",approve:"신청 승인",admin:"관리자"};
+  try{
+    const s=await getDocs(collection(db,"passes")); const now=new Date();
+    const rows=s.docs.map(x=>({uid:x.id,...x.data(),u:x.data().until?.toDate()})).sort((a,b)=>(b.u||0)-(a.u||0));
+    if(!$("#paList")) return;
+    $("#paList").innerHTML=rows.length?rows.map(r=>{const live=r.u&&r.u>now;return `<div class="mi frame"><span>${esc(r.name||"(이름 없음)")}<small>${VIA[r.via]||r.via}</small><span class="sc">${r.u?fmtDate(r.u)+"까지":""}${r.via==="approve"?" · "+esc(r.ref):""}</span></span>${live?`<button class="btn small ghost" data-u="${r.uid}" type="button">회수</button>`:`<span class="pill ing">끝남</span>`}</div>`}).join(""):`<p class="note">아직 열람권을 받은 사람이 없습니다.</p>`;
+    $("#paList").querySelectorAll("button").forEach(b=>b.addEventListener("click",async()=>{ if(!confirmTwice("pa"+b.dataset.u)) return; try{await deleteDoc(doc(db,"passes",b.dataset.u));toast("회수했습니다");psList();}catch(e){toast("회수하지 못했습니다");} }));
+  }catch(e){ if($("#paList")) $("#paList").innerHTML=`<p class="err">목록을 불러오지 못했습니다.</p>`; }
+}
+async function psUpload(){
+  const B=$("#psBody");
+  B.innerHTML=`<div class="frame card"><p style="font-weight:700">전시 내용 올리기</p>
+    <p class="note">받은 압축 파일의 <b>content_gijil.json</b>을 골라 올리면 전시관 내용이 바뀝니다. 이 파일은 깃허브에 올리지 마세요. (깃허브는 누구나 볼 수 있습니다)</p>
+    <p class="note" id="upNow">지금 올라가 있는 내용: 확인 중…</p>
+    <input type="file" id="upFile" accept=".json,application/json"><p class="err" id="upErr" hidden></p><button class="btn" id="upBtn" type="button" disabled>올리기</button></div>`;
+  getDoc(doc(db,"content","core")).then(s=>{$("#upNow").textContent="지금 올라가 있는 내용: "+(s.exists()?s.data().ver:"아직 없음");}).catch(()=>{$("#upNow").textContent="지금 올라가 있는 내용: 아직 없음";});
+  let parsed=null;
+  $("#upFile").addEventListener("change",async e=>{ $("#upErr").hidden=true; parsed=null; $("#upBtn").disabled=true;
+    try{ const j=JSON.parse(await e.target.files[0].text()); if(!j.parts||!["core","blends","detail","fruits"].every(k=>j.parts[k])) throw 0; parsed=j; $("#upBtn").disabled=false; $("#upBtn").textContent=`올리기 (${j.ver})`; }
+    catch(err){ $("#upErr").textContent="content_gijil.json 파일이 아닙니다."; $("#upErr").hidden=false; } });
+  $("#upBtn").addEventListener("click",async()=>{ if(!parsed) return; $("#upBtn").disabled=true;
+    try{ const b=writeBatch(db); for(const k of ["core","blends","detail","fruits"]) b.set(doc(db,"content",k),{data:JSON.stringify(parsed.parts[k]),ver:parsed.ver,updatedAt:serverTimestamp()}); await b.commit();
+      toast("전시 내용을 올렸습니다"); psUpload(); }catch(e){ $("#upErr").textContent="올리지 못했습니다. 관리자 계정인지 확인해 주세요."; $("#upErr").hidden=false; $("#upBtn").disabled=false; } });
+}
+
+/* ---------- 운영자: 모임 진행 ---------- */
 let A = {members:[], results:{}, preview:false, confirm:null};
-function adminRoom(){
-  stopAll(); show("admin"); $("#topRight").textContent="운영자";
-  unsub.push(onSnapshot(doc(db,"rooms",roomId), s=>{ if(!s.exists()){ msg("방이 없습니다","지워졌거나 잘못된 링크입니다."); return; } room={id:s.id,...s.data()}; renderAdmin(); }, ()=>msg("방을 열 수 없습니다","권한이 없거나 방이 지워졌습니다.")));
+async function adminRoom(){
+  if(!await needD()) return;
+  stopAll(); show("admin"); $("#topRight").textContent=isCouple()?"진행자":"운영자";
+  unsub.push(onSnapshot(doc(db,"rooms",roomId), s=>{ if(!s.exists()){ msg("모임이 없습니다","지워졌거나 잘못된 링크입니다."); return; } room={id:s.id,...s.data()}; renderAdmin(); }, ()=>msg("모임을 열 수 없습니다","권한이 없거나 모임이 지워졌습니다.")));
   unsub.push(onSnapshot(collection(db,"rooms",roomId,"members"), s=>{ A.members=s.docs.map(x=>({uid:x.id,...x.data()})).sort((a,b)=>(a.joinedAt?.seconds||0)-(b.joinedAt?.seconds||0)); renderAdmin(); }, ()=>{}));
   unsub.push(onSnapshot(collection(db,"rooms",roomId,"results"), s=>{ A.results={}; s.docs.forEach(x=>A.results[x.id]=x.data()); renderAdmin(); }, ()=>{}));
 }
 function renderAdmin(){
   if(!room) return;
-  const ms=A.members, done=ms.filter(m=>m.done).length, st=room.status;
+  const ms=A.members, done=ms.filter(m=>m.done).length, st=room.status, couple=isCouple();
   const num=room.code.split(" ")[1]||room.code;
-  const people=ms.filter(m=>A.results[m.uid]).map(m=>({name:m.name,code:A.results[m.uid].code,pct:A.results[m.uid].pct}));
+  const people=ms.filter(m=>A.results[m.uid]).map(m=>({name:m.name,code:A.results[m.uid].code,pct:A.results[m.uid].pct,me:m.uid===me.uid}));
   const groups={}; people.forEach(p=>{(groups[p.code]=groups[p.code]||[]).push(p.name)});
   const showCodes = st!=="open" || A.preview;
   const fresh = params.get("new")==="1" && !renderAdmin._done; renderAdmin._done=true;
-  const stepTxt={open:"입장과 검사가 진행 중입니다",revealed:"결과가 공개되었습니다",closed:"방이 닫혔습니다"}[st];
+  const mine = ms.find(m=>m.uid===me.uid);
+  const stepTxt={open:"입장과 검사가 진행 중입니다",revealed:"결과가 공개되었습니다",closed:"모임이 닫혔습니다"}[st];
+  const revealLbl = couple?"함께 열기":"결과 공개하기";
+  const meBtn = `<a class="btn ${mine?"ghost":""} block" href="?r=${room.id}&me=1">${mine?(mine.done?(st==="open"?"내 봉인 화면 보기":"내 결과 · 우리 둘 보기"):`내 검사 이어 하기 (${mine.progress||0}/${NQ})`):"나도 검사하기"}</a>`;
   $("#adminBox").innerHTML=`
     ${st==="open"?`<div class="door ${fresh?"":"still"}"><div class="lt"></div><div class="fr"><div class="lf"></div><div class="rf"></div></div></div>`:""}
-    <div style="text-align:center" class="stack"><p class="eyebrow">${esc(stepTxt)}</p><h1 style="font-size:28px">${esc(room.title)}</h1></div>
+    <div style="text-align:center" class="stack"><p class="eyebrow">${couple?"부부 · 가정 모임":"셀 모임"} · ${esc(stepTxt)}</p><h1 style="font-size:28px">${esc(room.title)}</h1></div>
     ${st!=="closed"?`<div class="frame card" style="align-items:center;text-align:center">
       <div class="qr" id="qrBox"></div>
       <p class="note">입장 코드</p><p class="code">${esc(room.code)}</p>
       <div class="row" style="justify-content:center"><button class="btn small" id="shareBtn" type="button">입장 링크 보내기</button><button class="btn small ghost" id="copyBtn" type="button">링크 복사</button></div>
       <p class="note" style="word-break:break-all;font-size:12.5px">${esc(link(room.id))}</p>
     </div>`:""}
-    <div class="row" style="justify-content:space-between"><h2 style="font-size:22px">${ms.length}명 중 ${done}명 완료</h2>${st==="open"?`<button class="btn small ghost" id="previewBtn" type="button">${A.preview?"결과 숨기기":"결과 미리 보기 (운영자만)"}</button>`:""}</div>
+    ${couple||mine?meBtn:`<details class="note"><summary>나도 함께 검사하기</summary><p style="margin:8px 0">셀리더도 이 휴대폰으로 함께 검사할 수 있습니다. 결과는 공개할 때 함께 열립니다.</p>${meBtn}</details>`}
+    <div class="row" style="justify-content:space-between"><h2 style="font-size:22px">${ms.length}명 중 ${done}명 완료</h2>${st==="open"&&!couple?`<button class="btn small ghost" id="previewBtn" type="button">${A.preview?"결과 숨기기":"결과 미리 보기 (운영자만)"}</button>`:""}</div>
     <div class="progress"><i style="width:${ms.length?done/ms.length*100:0}%"></i></div>
-    <div class="mlist">${ms.length?ms.map(m=>{const r=A.results[m.uid];return `<div class="mi frame"><span>${esc(m.name)}<small>${esc([m.age,m.gender].filter(Boolean).join(" · "))}</small></span>${m.done?(showCodes&&r?`<span class="pill done"><span class="dot" style="background:${COLOR[r.code[0]]}"></span>${D.BL[r.code].name}</span>`:`<span class="pill done">완료</span>`):`<span class="pill ing">검사 중 ${m.progress||0}/24</span>`}</div>`}).join(""):`<p class="note">아직 입장한 사람이 없습니다. 링크나 코드를 알려 주세요.</p>`}</div>
+    <div class="mlist">${ms.length?ms.map(m=>{const r=A.results[m.uid];return `<div class="mi frame"><span>${esc(m.name)}${m.uid===me.uid?" (나)":""}<small>${esc([m.age,m.gender].filter(Boolean).join(" · "))}</small>${showCodes&&r?`<span class="sc">${scoreLine(r.pct)}</span>${mini(r.pct)}`:""}</span>${m.done?(showCodes&&r?`<span class="pill done"><span class="dot" style="background:${COLOR[r.code[0]]}"></span>${D.BL[r.code].name}</span>`:`<span class="pill done">완료</span>`):`<span class="pill ing">검사 중 ${m.progress||0}/${NQ}</span>`}</div>`}).join(""):`<p class="note">아직 입장한 사람이 없습니다. 링크나 코드를 알려 주세요.</p>`}</div>
     ${st==="open"?`
-      ${A.confirm==="reveal"?`<div class="confirm"><p style="font-weight:700">결과를 공개할까요?</p><p class="note">${ms.length-done>0?`아직 검사 중인 사람이 ${ms.length-done}명 있습니다. 공개 후에도 끝나는 대로 바로 보입니다.`:"모두 검사를 마쳤습니다."} 공개하면 되돌릴 수 없습니다.</p><div class="row"><button class="btn red" id="revealYes" type="button">공개하기</button><button class="btn ghost" id="cancelBtn" type="button">취소</button></div></div>`
-      :`<button class="btn red block" id="revealBtn" type="button" ${done?"":"disabled"}>결과 공개하기</button>`}`:""}
-    ${showCodes&&people.length?`<section class="stack" style="gap:10px"><h2 style="font-size:22px;margin-top:8px">기질 카드 나눠 주기</h2>
+      ${A.confirm==="reveal"?`<div class="confirm"><p style="font-weight:700">${couple?"함께 열까요?":"결과를 공개할까요?"}</p><p class="note">${ms.length-done>0?`아직 검사 중인 사람이 ${ms.length-done}명 있습니다. 공개 후에도 끝나는 대로 바로 보입니다.`:"모두 검사를 마쳤습니다."} 공개하면 되돌릴 수 없습니다.</p><div class="row"><button class="btn red" id="revealYes" type="button">${couple?"함께 열기":"공개하기"}</button><button class="btn ghost" id="cancelBtn" type="button">취소</button></div></div>`
+      :`<button class="btn red block" id="revealBtn" type="button" ${done?"":"disabled"}>${revealLbl}</button>`}`:""}
+    ${showCodes&&people.length&&!couple?`<section class="stack" style="gap:10px"><h2 style="font-size:22px;margin-top:8px">기질 카드 나눠 주기</h2>
       <div class="groups">${Object.keys(groups).sort().map(c=>`<div class="grp frame"><span class="sw" style="background:linear-gradient(0deg,${COLOR[c[1]]} 0 30%,${COLOR[c[0]]} 30%)"></span><div><b>${D.BL[c].name}</b><p class="note">${groups[c].map(esc).join(", ")}</p></div><span class="pill ing">${groups[c].length}장</span></div>`).join("")}</div></section>`:""}
-    ${st!=="open"&&people.length?`<section class="stack" style="gap:10px"><div class="row" style="justify-content:space-between"><h2 style="font-size:22px">우리 셀 기질 지도</h2><button class="btn small" id="bigBtn" type="button">크게 보기</button></div><div class="mapbox"><svg viewBox="0 0 400 400" role="img" aria-label="우리 셀 기질 지도">${mapSVG(people)}</svg></div></section>`:""}
+    ${st!=="open"&&people.length?`<section class="stack" style="gap:10px"><div class="row" style="justify-content:space-between"><h2 style="font-size:22px">${couple?"우리 가정 기질 지도":"우리 셀 기질 지도"}</h2><button class="btn small" id="bigBtn" type="button">크게 보기</button></div><div class="mapbox"><svg viewBox="0 0 400 400" role="img" aria-label="기질 지도">${mapSVG(people)}</svg></div></section>`:""}
     <div class="stack" style="gap:8px;margin-top:10px">
-      ${st==="revealed"?(A.confirm==="close"?`<div class="confirm"><p style="font-weight:700">방을 닫을까요?</p><p class="note">닫으면 새로 들어올 수 없습니다. 이미 있는 사람은 결과와 지도를 계속 볼 수 있습니다.</p><div class="row"><button class="btn red" id="closeYes" type="button">닫기</button><button class="btn ghost" id="cancelBtn" type="button">취소</button></div></div>`:`<button class="btn ghost" id="closeBtn" type="button">방 닫기 (새 입장 막기)</button>`):""}
-      ${A.confirm==="delete"?`<div class="confirm"><p style="font-weight:700">방과 모든 결과를 지울까요?</p><p class="note">참석자 ${ms.length}명의 정보와 결과가 모두 지워지고 되돌릴 수 없습니다.</p><div class="row"><button class="btn red" id="delYes" type="button">모두 지우기</button><button class="btn ghost" id="cancelBtn" type="button">취소</button></div></div>`:`<button class="btn ghost small" id="delBtn" type="button" style="align-self:flex-start">방 지우기</button>`}
-      <a class="btn ghost small" href="room.html" style="align-self:flex-start">← 방 목록</a>
+      ${st==="revealed"?(A.confirm==="close"?`<div class="confirm"><p style="font-weight:700">모임을 닫을까요?</p><p class="note">닫으면 새로 들어올 수 없고 입장 코드도 지워집니다. 이미 있는 사람은 링크로 결과와 지도를 계속 볼 수 있습니다.</p><div class="row"><button class="btn red" id="closeYes" type="button">닫기</button><button class="btn ghost" id="cancelBtn" type="button">취소</button></div></div>`:`<button class="btn ghost" id="closeBtn" type="button">모임 닫기 (새 입장 막기)</button>`):""}
+      ${A.confirm==="delete"?`<div class="confirm"><p style="font-weight:700">모임과 모든 결과를 지울까요?</p><p class="note">참석자 ${ms.length}명의 정보와 결과가 모두 지워지고 되돌릴 수 없습니다.</p><div class="row"><button class="btn red" id="delYes" type="button">모두 지우기</button><button class="btn ghost" id="cancelBtn" type="button">취소</button></div></div>`:`<button class="btn ghost small" id="delBtn" type="button" style="align-self:flex-start">모임 지우기</button>`}
+      <a class="btn ghost small" href="room.html" style="align-self:flex-start">← 모임 목록</a>
     </div>`;
   const qb=$("#qrBox"); if(qb&&window.qrcode){ const qr=qrcode(0,"M"); qr.addData(link(room.id)); qr.make(); qb.innerHTML=qr.createSvgTag({cellSize:4,margin:2,scalable:true}); }
   const on=(id,fn)=>{const e=$("#"+id); if(e) e.addEventListener("click",fn);};
   on("copyBtn",()=>copy(link(room.id)));
-  on("shareBtn",async()=>{const text=`[빚으신 나] ${room.title} 모임방입니다. 링크를 눌러 들어오세요. (입장 코드 ${num})`; if(navigator.share){try{await navigator.share({title:"빚으신 나 모임방",text,url:link(room.id)})}catch(e){}} else copy(text+"\n"+link(room.id));});
+  on("shareBtn",async()=>{const text=couple?`[빚으신 나] ${room.title} — 링크를 눌러 36문항 기질 검사를 해 주세요. 둘 다 끝나면 함께 열어 봐요. (입장 코드 ${num})`:`[빚으신 나] ${room.title} 모임방입니다. 링크를 눌러 들어오세요. (입장 코드 ${num})`; if(navigator.share){try{await navigator.share({title:"빚으신 나 모임",text,url:link(room.id)})}catch(e){}} else copy(text+"\n"+link(room.id));});
   on("previewBtn",()=>{A.preview=!A.preview;renderAdmin();});
   on("revealBtn",()=>{A.confirm="reveal";renderAdmin();});
   on("closeBtn",()=>{A.confirm="close";renderAdmin();});
   on("delBtn",()=>{A.confirm="delete";renderAdmin();});
   on("cancelBtn",()=>{A.confirm=null;renderAdmin();});
-  on("revealYes",async()=>{A.confirm=null;try{await updateDoc(doc(db,"rooms",roomId),{status:"revealed",revealedAt:serverTimestamp()});toast("결과를 공개했습니다");}catch(e){toast("공개하지 못했습니다. 다시 눌러 주세요");}});
-  on("closeYes",async()=>{A.confirm=null;try{await updateDoc(doc(db,"rooms",roomId),{status:"closed",closedAt:serverTimestamp()});toast("방을 닫았습니다");}catch(e){toast("닫지 못했습니다");}});
+  on("revealYes",async()=>{A.confirm=null;try{await updateDoc(doc(db,"rooms",roomId),{status:"revealed",revealedAt:serverTimestamp()});toast(couple?"함께 열었습니다":"결과를 공개했습니다");}catch(e){toast("공개하지 못했습니다. 다시 눌러 주세요");}});
+  on("closeYes",async()=>{A.confirm=null;try{const b=writeBatch(db);b.update(doc(db,"rooms",roomId),{status:"closed",closedAt:serverTimestamp()});if(/^\d{4}$/.test(num))b.delete(doc(db,"codes",num));await b.commit();toast("모임을 닫았습니다");}catch(e){try{await updateDoc(doc(db,"rooms",roomId),{status:"closed",closedAt:serverTimestamp()});toast("모임을 닫았습니다");}catch(e2){toast("닫지 못했습니다");}}});
   on("delYes",deleteRoom);
   on("bigBtn",()=>openBig(room.title,people));
 }
@@ -383,7 +658,7 @@ async function deleteRoom(){
     const b=writeBatch(db);
     rs.docs.forEach(d=>b.delete(d.ref)); ms.docs.forEach(d=>b.delete(d.ref));
     const num=(room.code.split(" ")[1]||"");
-    if(num) b.delete(doc(db,"codes",num));
+    if(num && room.status!=="closed") b.delete(doc(db,"codes",num));
     b.delete(doc(db,"rooms",roomId));
     await b.commit();
     location.href="room.html";
@@ -392,20 +667,45 @@ async function deleteRoom(){
 function copy(text){ try{ navigator.clipboard.writeText(text).then(()=>toast("복사했습니다"),()=>toast("복사하지 못했습니다. 길게 눌러 복사해 주세요")); }catch(e){ toast("복사하지 못했습니다"); } }
 
 /* ---------- 참석자 ---------- */
-const AKEY=()=>"bn_room_"+roomId;
+const AKEY=()=>"bn_room_"+roomId, MEKEY=()=>"bn_me_"+roomId, GKEY=()=>"bn_guess_"+roomId;
+let viewUid=null;   // 결과 화면에서 ‘나’로 볼 사람 (다른 기기에서 이름을 골라 다시 볼 때)
+function ownerLinks(){
+  const show_=isOwnerNow(); const a=$("#toAdmin1"); a.hidden=!show_; a.href="?r="+roomId;
+  $("#topRight").innerHTML=show_?`<a href="?r=${roomId}">운영 화면 ›</a>`:esc(room.title);
+}
 async function participant(){
-  stopAll(); $("#topRight").textContent=room.title;
+  stopAll(); ownerLinks();
+  const memberSnap=await getDoc(doc(db,"rooms",roomId,"members",me.uid)).catch(()=>null);
+  if(memberSnap&&memberSnap.exists()&&!await needD()) return;
   let mine=null;
   try{ const s=await getDoc(doc(db,"rooms",roomId,"members",me.uid)); if(s.exists()) mine=s.data(); }catch(e){ mine=null; }
   if(!mine){
-    if(room.status==="closed"){ msg("이 모임방은 닫혔습니다","새로 들어갈 수 없습니다. 셀리더에게 문의해 주세요."); return; }
-    profileView(); return;
+    if(room.status==="open"){ profileView(); return; }
+    // 결과가 공개된 모임인데 이 기기에 기록이 없음 → 이름으로 다시 찾기
+    const claimed=store.get(MEKEY(),null);
+    if(claimed){ viewUid=claimed; showResult(); return; }
+    findView(); return;
   }
-  if(!mine.done){ const sv=store.get(AKEY(),null); answers=sv&&sv.length===24?sv:new Array(24).fill(null); idx=Math.max(0,answers.findIndex(a=>!a)); if(idx<0) idx=23; show("quiz"); renderQ(); return; }
+  store.set(MEKEY(),me.uid);
+  if(!mine.done){ const sv=store.get(AKEY(),null); answers=sv&&sv.length===NQ?sv:new Array(NQ).fill(null); idx=Math.max(0,answers.findIndex(a=>!a)); if(idx<0) idx=NQ-1; show("quiz"); renderQ(); return; }
   waitOrReveal(false);
 }
+async function findView(){
+  show("find"); $("#fdRoom").textContent=room.title;
+  $("#findNew").hidden=room.status!=="revealed";
+  try{
+    const [ms,rs]=await Promise.all([getDocs(collection(db,"rooms",roomId,"members")),getDocs(collection(db,"rooms",roomId,"results"))]);
+    const res={}; rs.docs.forEach(x=>res[x.id]=x.data());
+    const list=ms.docs.map(x=>({uid:x.id,...x.data()})).filter(m=>res[m.uid]);
+    $("#findList").innerHTML=list.length?list.map(m=>`<button class="mi frame" type="button" data-u="${m.uid}" style="border:0;text-align:left;width:100%"><span>${esc(m.name)}<small>${esc([m.age,m.gender].filter(Boolean).join(" · "))}</small></span><span class="note">내 이름이에요 ›</span></button>`).join(""):`<p class="note">아직 결과를 낸 사람이 없습니다.</p>`;
+    $("#findList").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ viewUid=b.dataset.u; store.set(MEKEY(),viewUid); showResult(); }));
+  }catch(e){ $("#findList").innerHTML=`<p class="err">목록을 불러오지 못했습니다. 인터넷 연결을 확인해 주세요.</p>`; }
+}
+$("#findMap").addEventListener("click",()=>{ viewUid=null; showResult(); });
+$("#findNew").addEventListener("click",()=>profileView());
 function profileView(){
   show("profile"); $("#pfRoom").textContent=room.title;
+  if(isOwnerNow()&&me.displayName&&!$("#nameInput").value) $("#nameInput").value=me.displayName.slice(0,12);
   const seg=(el,list,key)=>{ el.innerHTML=list.map(v=>`<button type="button" aria-pressed="${profile[key]===v}">${v}</button>`).join(""); el.querySelectorAll("button").forEach((b,i)=>b.addEventListener("click",()=>{profile[key]=profile[key]===list[i]?"":list[i]; seg(el,list,key);})); };
   seg($("#ageSeg"),AGES,"age"); seg($("#genSeg"),GENS,"gender");
 }
@@ -415,14 +715,16 @@ $("#joinBtn").addEventListener("click", async ()=>{
   $("#joinBtn").disabled=true;
   try{
     await setDoc(doc(db,"rooms",roomId,"members",me.uid),{name,age:profile.age,gender:profile.gender,progress:0,done:false,joinedAt:serverTimestamp(),updatedAt:serverTimestamp()});
-    answers=new Array(24).fill(null); idx=0; store.set(AKEY(),answers); show("quiz"); renderQ();
-  }catch(e){ $("#joinBtn").disabled=false; $("#pfErr").textContent="들어가지 못했습니다. 방이 닫혔을 수 있습니다."; $("#pfErr").hidden=false; }
+    store.set(MEKEY(),me.uid);
+    if(!await needD()){ $("#joinBtn").disabled=false; return; }
+    answers=new Array(NQ).fill(null); idx=0; store.set(AKEY(),answers); show("quiz"); renderQ();
+  }catch(e){ $("#joinBtn").disabled=false; $("#pfErr").textContent="들어가지 못했습니다. 모임이 닫혔을 수 있습니다."; $("#pfErr").hidden=false; }
 });
 let lastSent=0;
 function renderQ(){
   const q=D.Q[idx];
-  $("#prog").style.width=(idx/24*100)+"%";
-  $("#qPart").textContent=PART_LABEL[q.part]; $("#qNum").textContent=(idx+1)+" / 24";
+  $("#prog").style.width=(idx/NQ*100)+"%";
+  $("#qPart").textContent=PART_LABEL[q.part]; $("#qNum").textContent=(idx+1)+" / "+NQ;
   $("#qTitle").textContent=q.t; $("#qHint").textContent=PART_HINT[q.part];
   const box=$("#opts"); box.innerHTML="";
   shuffled(idx).forEach(k=>{
@@ -430,8 +732,8 @@ function renderQ(){
     b.setAttribute("aria-pressed",answers[idx]===k?"true":"false");
     b.addEventListener("click",()=>{ answers[idx]=k; store.set(AKEY(),answers); b.setAttribute("aria-pressed","true");
       const n=answers.filter(Boolean).length;
-      if(n-lastSent>=3 && n<24){ lastSent=n; updateDoc(doc(db,"rooms",roomId,"members",me.uid),{progress:n,updatedAt:serverTimestamp()}).catch(()=>{}); }
-      setTimeout(()=>{ if(idx<23){idx++;renderQ()} else finish(); },160); });
+      if(n-lastSent>=3 && n<NQ){ lastSent=n; updateDoc(doc(db,"rooms",roomId,"members",me.uid),{progress:n,updatedAt:serverTimestamp()}).catch(()=>{}); }
+      setTimeout(()=>{ if(idx<NQ-1){idx++;renderQ()} else finish(); },160); });
     box.appendChild(b);
   });
   $("#backBtn").style.visibility=idx===0?"hidden":"visible";
@@ -443,15 +745,26 @@ async function finish(){
   try{
     await setDoc(doc(db,"rooms",roomId,"results",me.uid),{code:r.code,pct:r.pct,createdAt:serverTimestamp()});
   }catch(e){ /* 이미 냈으면 그대로 진행 */ }
-  try{ await updateDoc(doc(db,"rooms",roomId,"members",me.uid),{progress:24,done:true,updatedAt:serverTimestamp()}); }catch(e){}
+  try{ await updateDoc(doc(db,"rooms",roomId,"members",me.uid),{progress:NQ,done:true,updatedAt:serverTimestamp()}); }catch(e){}
   store.del(AKEY());
   waitOrReveal(true);
 }
+/* 봉인 화면에서: 함께한 사람의 주 기질 맞혀 보기 (부부 · 가정 모임) */
+function guessBox(){
+  const box=$("#guessBox");
+  if(isCouple()) $("#sealNote").innerHTML="함께한 사람도 검사를 마치면<br>모임을 연 사람이 ‘함께 열기’를 누릅니다.";
+  if(!isCouple()){ box.innerHTML=""; return; }
+  const g=store.get(GKEY(),null);
+  box.innerHTML=`<div class="frame card" style="text-align:left"><p style="font-weight:700">기다리는 동안 맞혀 보기</p><p class="note">함께한 사람(배우자)의 주 기질은 무엇일까요? 열고 나서 맞혔는지 알려 드립니다.</p>
+    <div class="guess">${K.map(k=>`<button class="btn ${g===k?"":"ghost"} small" data-k="${k}" type="button"><span class="dot" style="background:${COLOR[k]}"></span>${NAME[k]}질</button>`).join("")}</div></div>`;
+  box.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{ store.set(GKEY(),b.dataset.k); guessBox(); }));
+}
 function waitOrReveal(justFinished){
+  viewUid=me.uid;
   unsub.push(onSnapshot(doc(db,"rooms",roomId), async s=>{
-    if(!s.exists()){ msg("방이 지워졌습니다","셀리더가 방을 정리했습니다."); return; }
-    room={id:s.id,...s.data()};
-    if(room.status==="open"){ show("sealed"); return; }
+    if(!s.exists()){ msg("모임이 지워졌습니다","진행자가 모임을 정리했습니다."); return; }
+    room={id:s.id,...s.data()}; ownerLinks();
+    if(room.status==="open"){ show("sealed"); guessBox(); return; }
     if(!$("#v-sealed").hidden){ const sl=$("#seal"); sl.classList.add("break"); await new Promise(r=>setTimeout(r,850)); sl.classList.remove("break"); }
     showResult();
   }, ()=>{}));
@@ -459,28 +772,86 @@ function waitOrReveal(justFinished){
 let resultShown=false;
 async function showResult(){
   if(resultShown) return; resultShown=true;
-  let mine;
-  try{ const s=await getDoc(doc(db,"rooms",roomId,"results",me.uid)); mine=s.data(); }catch(e){ resultShown=false; toast("결과를 불러오지 못했습니다"); return; }
-  const b=D.BL[mine.code], p=mine.code[0], q=mine.code[1];
+  if(!await needD()){ resultShown=false; return; }
   show("result");
-  $("#resultBox").innerHTML=`
-    <section class="band reveal-in" style="background:linear-gradient(0deg,${COLOR[q]} 0 14px,${COLOR[p]} 14px)"><div class="in">
-      <span class="k">봉인이 열렸습니다 · 주 ${NAME[p]} + 보조 ${NAME[q]}</span><h1>${b.name}</h1><span class="nick">${esc(b.tagline)} · 성경 인물 ${esc(b.bible)}</span></div></section>
-    <p style="font-size:15.5px">셀리더에게 <b>${b.name} 카드</b>를 받아 주세요. 카드 뒷면 QR로 언제든 이 내용을 다시 볼 수 있습니다.</p>
-    <div class="chips">${b.st.map(x=>`<span>강점 · ${esc(x)}</span>`).join("")}${b.wk.map(x=>`<span>약점 · ${esc(x)}</span>`).join("")}</div>
-    <a class="btn ghost block" href="index.html#blend-${mine.code.toLowerCase()}" target="_blank" rel="noopener">내 조합 전시실 자세히 보기</a>
-    <section class="stack" style="gap:10px;margin-top:6px"><div class="row" style="justify-content:space-between"><h2 style="font-size:22px">우리 셀 기질 지도</h2><button class="btn small" id="pBig" type="button">크게 보기</button></div>
-      <div class="mapbox"><svg viewBox="0 0 400 400" id="pMap" role="img" aria-label="우리 셀 기질 지도"></svg></div>
-      <p class="note">이름을 누르면 그 형제의 조합 전시실이 열립니다.</p><div class="groups" id="pGroups"></div></section>`;
-  let ms=[], rs={};
-  const draw=()=>{ const people=ms.filter(m=>rs[m.uid]).map(m=>({name:m.name,code:rs[m.uid].code,pct:rs[m.uid].pct,me:m.uid===me.uid}));
+  const meId=viewUid;
+  $("#resultBox").innerHTML=`<div id="myBlock" class="stack"></div>
+    <section class="stack" style="gap:10px;margin-top:6px"><div class="row" style="justify-content:space-between"><h2 style="font-size:22px">${isCouple()?"우리 가정 기질 지도":"우리 셀 기질 지도"}</h2><button class="btn small" id="pBig" type="button">크게 보기</button></div>
+      <div class="mapbox"><svg viewBox="0 0 400 400" id="pMap" role="img" aria-label="기질 지도"></svg></div>
+      <p class="note">이름을 누르면 그 사람의 조합 전시실이 열립니다.</p><div class="groups" id="pGroups"></div></section>
+    <div id="pairBox" class="stack"></div>
+    ${meId?"":`<button class="btn ghost" id="pickMe" type="button">내 이름 골라 내 결과 보기</button>`}
+    ${isOwnerNow()?`<a class="btn ghost" href="?r=${roomId}">운영 화면으로</a>`:""}`;
+  const pm=$("#pickMe"); if(pm) pm.addEventListener("click",()=>{ resultShown=false; stopAll(); findView(); });
+  let ms=[], rs={}, drawnMine=null;
+  const draw=()=>{
+    const people=ms.filter(m=>rs[m.uid]).map(m=>({uid:m.uid,name:m.name,code:rs[m.uid].code,pct:rs[m.uid].pct,me:m.uid===meId}));
     $("#pMap").innerHTML=mapSVG(people);
-    const g={}; people.forEach(x=>{(g[x.code]=g[x.code]||[]).push(x.name)});
-    $("#pGroups").innerHTML=Object.keys(g).sort().map(c=>`<a class="grp frame" style="text-decoration:none" href="index.html#blend-${c.toLowerCase()}" target="_blank"><span class="sw" style="background:linear-gradient(0deg,${COLOR[c[1]]} 0 30%,${COLOR[c[0]]} 30%)"></span><div><b>${D.BL[c].name}</b><p class="note">${g[c].map(esc).join(", ")}</p></div><span class="note">›</span></a>`).join("");
-    const pb=$("#pBig"); if(pb) pb.onclick=()=>openBig(room.title,people); };
+    const g={}; people.forEach(x=>{(g[x.code]=g[x.code]||[]).push(x)});
+    $("#pGroups").innerHTML=Object.keys(g).sort().map(c=>`<a class="grp frame" style="text-decoration:none" href="index.html#blend-${c.toLowerCase()}" target="_blank"><span class="sw" style="background:linear-gradient(0deg,${COLOR[c[1]]} 0 30%,${COLOR[c[0]]} 30%)"></span><div><b>${D.BL[c].name}</b><p class="note">${g[c].map(x=>`${esc(x.name)}${x.me?" (나)":""}`).join(", ")}</p></div><span class="note">›</span></a>`).join("");
+    const pb=$("#pBig"); if(pb) pb.onclick=()=>openBig(room.title,people);
+    const mine=people.find(x=>x.uid===meId);
+    if(mine && drawnMine!==mine.code){ drawnMine=mine.code; myBlock(mine); }
+    if(isCouple()) pairBlock(people, meId);
+  };
   unsub.push(onSnapshot(collection(db,"rooms",roomId,"members"),s=>{ms=s.docs.map(x=>({uid:x.id,...x.data()}));draw();},()=>{}));
-  unsub.push(onSnapshot(collection(db,"rooms",roomId,"results"),s=>{rs={};s.docs.forEach(x=>rs[x.id]=x.data());draw();},()=>{}));
+  unsub.push(onSnapshot(collection(db,"rooms",roomId,"results"),s=>{rs={};s.docs.forEach(x=>rs[x.id]=x.data());draw();},()=>toast("결과를 불러오지 못했습니다")));
 }
+function myBlock(mine){
+  const b=D.BL[mine.code], p=mine.code[0], q=mine.code[1];
+  $("#myBlock").innerHTML=`
+    <section class="band reveal-in" style="background:linear-gradient(0deg,${COLOR[q]} 0 14px,${COLOR[p]} 14px)"><div class="in">
+      <span class="k">${esc(mine.name)} · 주 ${NAME[p]} + 보조 ${NAME[q]}</span><h1>${b.name}</h1><span class="nick">${esc(b.tagline)} · 성경 인물 ${esc(b.bible)}</span></div></section>
+    <section class="frame card"><p style="font-weight:700">네 기질 점수</p>${bars(mine.pct,mine.code)}<p class="note">문항 가운데 각 기질을 고른 비율입니다. 가장 높은 기질이 주 기질, 두 번째가 보조 기질입니다. 점수 차이가 작으면 두 기질을 모두 살펴보세요.</p></section>
+    ${isCouple()?"":`<p style="font-size:15.5px">셀리더에게 <b>${b.name} 카드</b>를 받아 주세요. 카드 뒷면 QR로 언제든 이 내용을 다시 볼 수 있습니다.</p>`}
+    <div class="chips">${b.st.map(x=>`<span>강점 · ${esc(x)}</span>`).join("")}${b.wk.map(x=>`<span>약점 · ${esc(x)}</span>`).join("")}</div>
+    <a class="btn ghost block" href="index.html#blend-${mine.code.toLowerCase()}" target="_blank" rel="noopener">내 조합 전시실 자세히 보기</a>`;
+}
+/* 우리 둘: 나와 함께한 사람마다 비교 + 대화 카드 */
+let pairKey="";
+function pairBlock(people, meId){
+  const mine=people.find(x=>x.uid===meId), others=people.filter(x=>x.uid!==meId);
+  const key=JSON.stringify(people.map(x=>[x.uid,x.code]))+meId; if(key===pairKey) return; pairKey=key;
+  if(!mine||!others.length){ $("#pairBox").innerHTML=mine?`<p class="note">함께한 사람이 검사를 마치면 ‘우리 둘’ 비교가 여기에 나타납니다.</p>`:""; return; }
+  const g=store.get(GKEY(),null);
+  const card=o=>{
+    const a=mine.code[0], b=o.code[0], pk=[a,b].sort((x,y)=>K.indexOf(x)-K.indexOf(y)).join(""), P=PAIR[pk];
+    const same=a===b, ext=x=>"SC".includes(x);
+    const guess=others.length===1&&g?`<p style="font-weight:700">${g===b?"🎯 맞혔어요!":"이번엔 빗나갔어요"} <span class="note" style="font-weight:400">내 예상 ${NAME[g]}질 → 실제 ${NAME[b]}질</span></p>`:"";
+    return `<section class="frame pair"><p class="eyebrow">우리 둘 · ${esc(mine.name)} × ${esc(o.name)}</p>
+      <div class="duo">${[mine,o].map(x=>`<div style="background:${SOFT[x.code[0]]}"><span class="lbl">${esc(x.name)}${x.uid===meId?" (나)":""}</span><b style="color:${COLOR[x.code[0]]}">${D.BL[x.code].name}</b>${bars(x.pct,x.code)}</div>`).join("")}</div>
+      ${guess}
+      <div><p class="lbl">${same?"닮은 점":"서로 끌리는 점"}</p><p>${P.like}</p></div>
+      <div><p class="lbl">자주 부딪히는 장면</p><p>${P.clash}</p></div>
+      <div><p class="lbl">화가 날 때</p><p>${esc(mine.name)}: ${ANGER[a]}<br>${esc(o.name)}: ${ANGER[b]}${ext(a)!==ext(b)?"<br><span class='note'>터뜨리는 쪽은 한 템포 늦추고, 삼키는 쪽은 그날 안에 말로 꺼내 주세요.</span>":""}</p></div>
+      <div><p class="lbl">서로를 위해</p><p>${P.tip}</p></div>
+      <div><p class="lbl">${esc(o.name)}에게는 이렇게 해 주세요</p><ul style="margin:4px 0 0;padding-left:20px">${D.EX[b].treat.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>
+      <div><p class="lbl">${esc(o.name)}이(가) 나에게 해 주면 좋은 것</p><ul style="margin:4px 0 0;padding-left:20px">${D.EX[a].treat.map(t=>`<li>${esc(t)}</li>`).join("")}</ul></div>
+      <p class="src">두 사람의 주 기질을 바탕으로 책의 강점 · 약점, ‘정반대 기질끼리 끌린다’(5장), 분노 다루기(9장)를 참고해 정리했습니다. 책이 두 기질의 만남을 직접 다룬 부분은 많지 않습니다.</p></section>`;
+  };
+  $("#pairBox").innerHTML=`<h2 style="font-size:22px;margin-top:8px">우리 둘</h2>${others.slice(0,6).map(card).join("")}
+    <h2 style="font-size:22px;margin-top:8px">대화 카드</h2><p class="note">옆으로 넘기며 둘이 번갈아 답해 보세요.</p>
+    <div class="talk">${TALK.map((t,i)=>`<div class="frame"><span class="eyebrow">${i+1} / ${TALK.length}</span><b>${t}</b></div>`).join("")}</div>`;
+}
+
+/* ---------- 내용 받아 오기 (열람권) ---------- */
+// 모임방에 들어온 사람은 '모임방 열람권'(30일)을 받고, 그 열람권으로 문항과 조합 정보를 받아 옵니다.
+async function loadD(){
+  if(D) return true;
+  const get=async()=>{
+    const [c,b]=await Promise.all([getDoc(doc(db,"content","core")),getDoc(doc(db,"content","blends"))]);
+    if(!c.exists()||!b.exists()) throw new Error("empty");
+    const core=JSON.parse(c.data().data), bl=JSON.parse(b.data().data).BL, BLm={};
+    Object.keys(bl).forEach(k=>{ if(k.length!==2) return; const v=bl[k]; BLm[k]={name:v.name,tagline:v.tagline,bible:v.bible.name,st:v.strengths.slice(0,3).map(x=>x.title),wk:v.weaknesses.slice(0,3).map(x=>x.title)}; });
+    D={Q:core.Q.map(q=>({t:q.t,o:q.o,part:q.part})),BL:BLm,EX:core.EXTRA}; NQ=D.Q.length;
+  };
+  try{ await get(); return true; }catch(e){}
+  try{
+    await setDoc(doc(db,"passes",me.uid),{via:"room",ref:roomId,name:"",until:Timestamp.fromDate(new Date(Date.now()+30*864e5-60000)),at:serverTimestamp()});
+    await get(); return true;
+  }catch(e){ return false; }
+}
+async function needD(){ if(await loadD()) return true; msg("내용을 불러오지 못했습니다","관리자가 아직 전시 내용을 올리지 않았거나 인터넷 연결이 불안정합니다. 잠시 후 다시 열어 주세요."); return false; }
 
 /* ---------- 시작 ---------- */
 getRedirectResult(auth).catch(()=>{});
@@ -488,17 +859,24 @@ let booted=false;
 onAuthStateChanged(auth, async u=>{
   me=u;
   if(!roomId){
-    if(isAdminUser(u)){ adminHome(); } else { show("start"); }
-    return;
+    if(isGoogle(u)){
+      await loadRole(u);
+      if(role.super && params.get("admin")==="1"){ hostsView(); return; }
+      if(role.host && params.get("admin")==="passes"){ passesView(); return; }
+      if(role.host){ adminHome(); return; }
+      $("#niEmail").textContent=u.email; $("#niBody").textContent=role.until?`초대 기간(${fmtDate(role.until)})이 끝났습니다.`:"모임을 열려면 셀리더의 초대가 필요합니다.";
+      show("noinvite"); return;
+    }
+    show("start"); return;
   }
   if(!u){ try{ await signInAnonymously(auth); }catch(e){ msg("연결할 수 없습니다","인터넷 연결을 확인하고 다시 열어 주세요."); } return; }
   if(booted) return; booted=true;
   try{
     const s=await getDoc(doc(db,"rooms",roomId));
-    if(!s.exists()){ msg("방을 찾을 수 없습니다","링크가 잘못되었거나 방이 지워졌습니다."); return; }
+    if(!s.exists()){ msg("모임을 찾을 수 없습니다","링크가 잘못되었거나 모임이 지워졌습니다."); return; }
     room={id:s.id,...s.data()};
-    if(!u.isAnonymous && room.ownerUid===u.uid) adminRoom(); else participant();
-  }catch(e){ msg("방을 열 수 없습니다","인터넷 연결을 확인하고 다시 열어 주세요."); }
+    if(isOwnerNow() && params.get("me")!=="1") adminRoom(); else participant();
+  }catch(e){ msg("모임을 열 수 없습니다","인터넷 연결을 확인하고 다시 열어 주세요."); }
 });
 </script>
 </body>
