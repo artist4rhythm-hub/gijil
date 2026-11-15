@@ -144,6 +144,22 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .startPic{margin:0 calc(-1*max(16px,env(safe-area-inset-left,0px)));aspect-ratio:16/9;overflow:hidden;border-radius:0 0 18px 18px}
 .startPic img{width:100%;height:100%;object-fit:cover;display:block}
+/* ===== v13 검사 ===== */
+#psTabs{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}#psTabs button{white-space:nowrap;flex:none}
+.skipq{width:100%;margin-top:4px;border:1.5px dashed var(--line);background:transparent;border-radius:12px;padding:13px;font-size:14px;color:var(--muted);font-weight:700;cursor:pointer}
+.skipq:hover{border-color:var(--muted)}
+.lk{background:var(--frame);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:8px}
+.lk p{font-size:15.5px;font-weight:600;margin-bottom:10px}
+.dots{display:flex;justify-content:space-between;padding:0 4px}
+.dots button{width:36px;height:36px;border-radius:50%;border:2px solid var(--line);background:var(--wall);padding:0;cursor:pointer}
+.dots button[aria-pressed="true"]{background:var(--clay,#B25C36);border-color:var(--clay,#B25C36)}
+.lab{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:6px}
+.lknext{margin-top:6px}.lknext:disabled{opacity:.4;cursor:default}
+.clar{padding:14px 16px;border-left:4px solid var(--clay,#B25C36);display:flex;flex-direction:column;gap:6px}
+.clar .meter{display:flex;gap:4px}.clar .meter i{flex:1;height:8px;border-radius:4px;background:var(--line)}.clar .meter i.on{background:var(--clay,#B25C36)}
+.clar ul{margin:0;padding-left:18px;font-size:13.5px;color:var(--muted);line-height:1.6}
+.agree{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:var(--muted);line-height:1.5}
+.agree input{margin-top:3px;width:18px;height:18px;flex:none}
 </style>
 </head>
 <body>
@@ -257,7 +273,9 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
   <div class="field"><span>성별 (선택)</span><div class="seg" id="genSeg" role="group" aria-label="성별"></div></div>
   <p class="note">결과는 이 방에 함께 있는 사람들과 셀리더만 봅니다. 생년월일이나 연락처는 받지 않습니다.</p>
   <p class="err" id="pfErr" hidden></p>
-  <button class="btn block" id="joinBtn" type="button">검사 시작하기 (36문항)</button>
+  <label class="agree"><input type="checkbox" id="statOk" checked> 이름 없이 내 답을 문항 개선에 보탭니다. (이 모임의 결과와는 따로, 이름 없이 저장)</label>
+  <p class="note">맞는 보기가 없으면 ‘넘어가기’를 누르세요. 마지막엔 문장 16개에 다섯 칸으로 답합니다. 약 10분.</p>
+  <button class="btn block" id="joinBtn" type="button">검사 시작하기</button>
 </div></main>
 
 <!-- 참석자: 검사 -->
@@ -267,6 +285,7 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
   <h2 class="qtitle" id="qTitle"></h2>
   <p class="note" id="qHint"></p>
   <div class="opts" id="opts" role="group" aria-labelledby="qTitle"></div>
+  <button class="skipq" id="skipBtn" type="button" hidden></button>
   <div class="row"><button class="btn ghost small" id="backBtn" type="button">이전 문항</button></div>
 </div></main>
 
@@ -294,17 +313,16 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
 import { firebaseConfig } from "./firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signInAnonymously, signInWithPopup, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut, connectAuthEmulator, signInWithCredential } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, query, where, getDocs, onSnapshot, serverTimestamp, writeBatch, connectFirestoreEmulator, Timestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, collection, query, where, getDocs, onSnapshot, serverTimestamp, writeBatch, connectFirestoreEmulator, Timestamp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 let D = null;   // 문항 · 조합 이름 · 대하는 법: 열람권으로 파이어베이스에서 받아 옴 (loadD)
 const K = ["S","C","M","P"];
-let NQ = 36;    // 문항 수 (내용을 받은 뒤 다시 맞춤)
+let NQ = 42;    // 핵심 고르기 문항 수 (내용을 받은 뒤 다시 맞춤)
+let QB = null, qst = null;
 const NAME = {S:"다혈",C:"담즙",M:"우울",P:"점액"};
 const COLOR = {S:"var(--s)",C:"var(--c)",M:"var(--m)",P:"var(--p)"};
 const SOFT = {S:"var(--s-soft)",C:"var(--c-soft)",M:"var(--m-soft)",P:"var(--p-soft)"};
 const AGES = ["20대","30대","40대","50대","60대 이상"], GENS = ["남","여"];
-const PART_LABEL = {1:"1부 · 나의 강점",2:"2부 · 나의 약점",3:"3부 · 이런 상황에서"};
-const PART_HINT = {1:"가장 가까운 하나만 고르세요.",2:"좋은 모습이 아니어도 괜찮습니다. 솔직할수록 정확합니다.",3:"실제로 내가 할 법한 반응을 고르세요."};
 const CODE_WORDS = ["토기","그릇","항아리","물병"];
 const SUPER = ["artist4rhythm@gmail.com"];   // 화면 표시용. 실제 권한은 보안 규칙이 정합니다.
 const KINDS = {cell:{label:"셀 모임",note:"셀리더가 진행하고, 셀원들이 각자 휴대폰으로 검사합니다. 결과는 셀리더가 공개합니다.",title:d=>`${d.getMonth()+1}월 ${d.getDate()}일 셀모임`},
@@ -357,14 +375,102 @@ const isOwnerNow = () => me && room && room.ownerUid===me.uid;
 const isCouple = () => room && room.kind==="couple";
 
 /* ---------- 점수 (index.html과 같은 방식) ---------- */
-function shuffled(i){const a=[...K];let s=(i+3)*2654435761>>>0;for(let j=a.length-1;j>0;j--){s=(s*1103515245+12345)>>>0;const r=s%(j+1);[a[j],a[r]]=[a[r],a[j]]}return a}
-function score(ans){
-  const tot={S:0,C:0,M:0,P:0}, sit={S:0,C:0,M:0,P:0};
-  ans.forEach((k,i)=>{ if(!k) return; tot[k]++; if(D.Q[i].part===3) sit[k]++; });
-  const n=ans.filter(Boolean).length||1, pct={}; K.forEach(k=>pct[k]=Math.round(tot[k]/n*100));
-  const rank=[...K].sort((a,b)=>tot[b]-tot[a]||sit[b]-sit[a]||K.indexOf(a)-K.indexOf(b));
-  return {code:rank[0]+rank[1], pct};
-}
+/* ===== 검사 엔진 v13 — 고르기(넘기기·예비 문항) + 얼마나 맞나요 + 결정 문항 + 선명도 ===== */
+const QZ=(()=>{
+  const KS=["S","C","M","P"];
+  const PL={1:"1부 · 나의 강점",2:"2부 · 나의 약점",3:"3부 · 이런 상황에서"};
+  const PH={1:"가장 가까운 하나를 고르세요. 맞는 게 없으면 넘어가도 됩니다.",2:"좋은 모습이 아니어도 괜찮습니다. 솔직할수록 정확합니다.",3:"실제로 내가 할 법한 반응을 고르세요. 겪어 보지 않은 상황이면 넘어가세요."};
+  const LL=["전혀 아니다","아닌 편","보통","그런 편","매우 그렇다"];
+  function hash(s){let h=2166136261;for(const c of s){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
+  function order(id,keys){const a=[...keys];let s=hash(id);for(let j=a.length-1;j>0;j--){s=(Math.imul(s,1103515245)+12345)>>>0;const r=s%(j+1);[a[j],a[r]]=[a[r],a[j]]}return a}
+  function byId(B){if(!B._m){B._m={};B.fc.forEach(q=>B._m[q.id]=q);B.lik.forEach(q=>B._m[q.id]=q);B.tie.forEach(q=>B._m[q.id]=q)}return B._m}
+  function make(B){
+    const fc=B.fc.filter(q=>q.core).map(q=>({t:"fc",id:q.id}));
+    const L=order("lik",B.lik.map(q=>q.id)),lk=[];for(let i=0;i<L.length;i+=4)lk.push({t:"lik",ids:L.slice(i,i+4)});
+    return {v:13,seq:[...fc,...lk],i:0,a:{},tie:false};
+  }
+  const ok=st=>st&&st.v===13&&Array.isArray(st.seq)&&st.a;
+  // 넘기기: 같은 부의 예비 문항을 바로 뒤에 넣는다
+  function skip(B,st){
+    const s=st.seq[st.i],q=byId(B)[s.id];st.a[s.id]="x";
+    const inSeq=new Set(st.seq.map(x=>x.id).filter(Boolean));
+    const sp=B.fc.find(x=>!x.core&&x.part===q.part&&!inSeq.has(x.id));
+    if(sp)st.seq.splice(st.i+1,0,{t:"fc",id:sp.id,rep:1});
+  }
+  function score(B,st){
+    const m=byId(B),tot={S:0,C:0,M:0,P:0},sit={S:0,C:0,M:0,P:0};let n=0,sk=0,shown=0;
+    for(const [id,v] of Object.entries(st.a)){const q=m[id];if(!q||q.k)continue;
+      if(q.a){if(v&&v!=="x"){tot[v]++;n++}continue}
+      shown++;if(v==="x"){sk++;continue}if(v){tot[v]++;n++;if(q.part===3)sit[v]++}}
+    const lk={S:[],C:[],M:[],P:[]};B.lik.forEach(q=>{const v=st.a[q.id];if(v)lk[q.k].push(v)});
+    const ln={};KS.forEach(k=>{const a=lk[k];ln[k]=a.length?(a.reduce((x,y)=>x+y,0)/a.length-1)/4:0});
+    const ls=KS.reduce((x,k)=>x+ln[k],0),raw={};
+    KS.forEach(k=>raw[k]=0.8*(n?tot[k]/n:.25)+0.2*(ls?ln[k]/ls:.25));
+    const pct={},rem=[];let sum=0;KS.forEach(k=>{const x=raw[k]*100;pct[k]=Math.floor(x);sum+=pct[k];rem.push([k,x-pct[k]])});
+    rem.sort((a,b)=>b[1]-a[1]);for(let i=0;i<100-sum;i++)pct[rem[i%4][0]]++;
+    const rank=[...KS].sort((a,b)=>raw[b]-raw[a]||sit[b]-sit[a]||ln[b]-ln[a]||KS.indexOf(a)-KS.indexOf(b));
+    const fr=[...KS].sort((a,b)=>tot[b]-tot[a]),lr=[...KS].sort((a,b)=>ln[b]-ln[a]);
+    let pOk=0,pN=0;(B.pairs||[]).forEach(([x,y])=>{const u=st.a[x],w=st.a[y];if(u&&w&&u!=="x"&&w!=="x"){pN++;if(u===w)pOk++}});
+    const gap=pct[rank[0]]-pct[rank[1]],agree=lr.slice(0,2).includes(fr[0])&&fr.slice(0,2).includes(lr[0]);
+    const clar={skip:sk,shown,gap,pOk,pN,agree,tie:Object.keys(st.a).filter(id=>m[id]&&m[id].a).length};
+    clar.n=(shown&&sk/shown<=.1?1:0)+(gap>=8?1:0)+(agree?1:0)+(pN?(pOk/pN>=.75?1:0):1);
+    return {pct,code:rank[0]+rank[1],clar,raw};
+  }
+  // 결정 문항: 1·2위(또는 2·3위)가 비슷할 때만 두 기질을 맞붙여 묻는다
+  function addTie(B,st){
+    if(st.tie)return;st.tie=true;
+    const r=score(B,st),R=[...KS].sort((a,b)=>r.raw[b]-r.raw[a]);
+    const key=(x,y)=>KS.indexOf(x)<KS.indexOf(y)?x+y:y+x;
+    const add=(x,y,n)=>B.tie.filter(q=>q.a+q.b===key(x,y)).slice(0,n).forEach(q=>st.seq.push({t:"tie",id:q.id}));
+    if(r.pct[R[0]]-r.pct[R[1]]<8)add(R[0],R[1],4);
+    if(r.pct[R[1]]-r.pct[R[2]]<5)add(R[1],R[2],2);
+  }
+  function valid(B,st){const m=byId(B);return Object.entries(st.a).filter(([id,v])=>m[id]&&m[id].part&&v&&v!=="x").length}
+  function render(B,st,ui){
+    const $=ui.$,m=byId(B),s=st.seq[st.i],total=st.seq.length+(st.tie?0:2);
+    $("#prog").style.width=Math.min(100,st.i/total*100)+"%";$("#qNum").textContent=(st.i+1)+" / "+total;
+    const box=$("#opts"),sk=$("#skipBtn");box.innerHTML="";
+    const next=()=>{st.i++;if(st.i>=st.seq.length)addTie(B,st);ui.onStep(st);if(st.i>=st.seq.length)ui.onDone(st);else render(B,st,ui)};
+    if(s.t==="lik"){
+      $("#qPart").textContent="4부 · 나에게 얼마나 맞나요";$("#qTitle").textContent="얼마나 내 이야기 같나요?";
+      $("#qHint").textContent="하나씩 따로 답합니다. 여러 개가 다 맞아도, 다 안 맞아도 괜찮아요.";sk.hidden=true;
+      const nb=document.createElement("button");nb.className="btn block lknext";nb.type="button";nb.textContent="다음";
+      const can=()=>{nb.disabled=!s.ids.every(i=>st.a[i])};
+      s.ids.forEach(id=>{const q=m[id],d=document.createElement("div");d.className="lk";
+        d.innerHTML=`<p>${ui.esc(q.t)}</p><div class="dots" role="radiogroup" aria-label="${ui.esc(q.t)}">${[1,2,3,4,5].map(v=>`<button type="button" data-v="${v}" aria-label="${LL[v-1]}" aria-pressed="${st.a[id]===v}"></button>`).join("")}</div><div class="lab"><span>전혀 아니다</span><span>매우 그렇다</span></div>`;
+        d.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{st.a[id]=+b.dataset.v;d.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));ui.onStep(st);can()}));
+        box.appendChild(d)});
+      can();nb.addEventListener("click",next);box.appendChild(nb);
+    }else{
+      const q=m[s.id],tie=s.t==="tie";
+      $("#qPart").textContent=tie?"마지막 · 조금 더 정확하게":PL[q.part];$("#qTitle").textContent=q.t;
+      $("#qHint").textContent=tie?"두 그릇이 비슷하게 나왔어요. 평소의 나에 더 가까운 쪽을 고르세요.":(s.rep?"비슷한 내용을 다른 말로 물어볼게요. ":"")+PH[q.part];
+      (tie?order(s.id,[q.a,q.b]):order(s.id,KS)).forEach(k=>{const b=document.createElement("button");b.type="button";b.className="opt";b.textContent=q.o[k];
+        b.setAttribute("aria-pressed",st.a[s.id]===k?"true":"false");
+        b.addEventListener("click",()=>{st.a[s.id]=k;b.setAttribute("aria-pressed","true");setTimeout(next,160)});box.appendChild(b)});
+      sk.hidden=false;sk.textContent=tie?"둘 다 비슷해요 · 넘어가기 →":"이 중엔 내 모습이 없어요 · 넘어가기 →";
+      sk.onclick=()=>{if(tie)st.a[s.id]="x";else if(st.a[s.id]!=="x")skip(B,st);next()};
+    }
+    $("#backBtn").style.visibility=st.i===0?"hidden":"visible";
+  }
+  function back(B,st,ui){if(st.i>0){st.i--;render(B,st,ui)}}
+  function stat(B,st,r){const m=byId(B),f={},l={},t={};for(const [id,v] of Object.entries(st.a)){const q=m[id];if(!q||!v)continue;if(q.k)l[id]=v;else if(q.a)t[id]=v;else f[id]=v}return {v:"13",fc:f,lik:l,tie:t,code:r.code}}
+  // 결과 화면용 선명도 카드
+  function clarHTML(c,esc){
+    if(!c)return "";const n=c.n,lab=n>=4?"또렷해요":n===3?"또렷한 편":n===2?"보통":"두 그릇이 비슷해요";
+    const msg=n>=3?"주 그릇과 보조 그릇의 차이가 분명하고, 앞뒤 답이 잘 맞습니다.":n===2?"대체로 맞지만 비슷하게 나온 그릇도 함께 살펴보세요.":"점수가 고르게 나왔어요. 가까운 사람에게 ‘내가 어떻게 보이니?’ 하고 물어보면 도움이 됩니다.";
+    const li=[`넘긴 문항 ${c.skip}개 (${c.shown}개 중)`,`1위와 2위 차이 ${c.gap}점`,c.agree?"고르기 답과 4부 답의 1·2위가 같아요":"고르기 답과 4부 답이 조금 달라요"];
+    if(c.pN)li.push(`같은 내용을 다르게 물은 ${c.pN}쌍 중 ${c.pOk}쌍이 일치`);if(c.tie)li.push(`결정 문항 ${c.tie}개를 더 물었어요`);
+    return `<section class="frame clar"><p style="font-weight:700">결과 선명도</p><div class="meter" aria-label="선명도 4칸 중 ${n}칸">${[1,2,3,4].map(i=>`<i class="${i<=n?"on":""}"></i>`).join("")}</div><p><b>${lab}</b> · ${msg}</p><ul>${li.map(x=>`<li>${esc(x)}</li>`).join("")}</ul></section>`;
+  }
+  return {make,ok,render,back,score,valid,stat,clarHTML,byId};
+})();
+
+const CKEY=()=>"bn_clar_"+roomId;
+const QUI={$:s=>document.querySelector(s),esc:s=>esc(s),
+  onStep:st=>{store.set(AKEY(),st);const n=Math.min(NQ,QZ.valid(QB,st));if(n-lastSent>=3&&n<NQ){lastSent=n;updateDoc(doc(db,"rooms",roomId,"members",me.uid),{progress:n,updatedAt:serverTimestamp()}).catch(()=>{});}},
+  onDone:()=>finish()};
+function startQuiz(){const sv=store.get(AKEY(),null);qst=QZ.ok(sv)?sv:QZ.make(QB);store.set(AKEY(),qst);show("quiz");QZ.render(QB,qst,QUI);}
 /* 네 기질 점수 막대 */
 function bars(pct, code){
   return `<div class="bars">${K.map(k=>`<div class="bar ${code&&code.includes(k)?"on":""}"><span>${NAME[k]}</span><i><b style="width:${pct[k]||0}%;background:${COLOR[k]}"></b></i><em>${pct[k]||0}%</em></div>`).join("")}</div>`;
@@ -514,11 +620,47 @@ let psTab="invite", ivDays=30;
 function passesView(){
   stopAll(); show("passes"); $("#topRight").textContent=role.super?"관리자":"진행자";
   $("#psRole").textContent=(role.super?"관리자":"진행자")+" · "+me.email;
-  const tabs=[["invite","초대 링크"]].concat(role.super?[["req","열람 신청"],["list","열람 중"],["upload","내용 올리기"]]:[]);
+  const tabs=[["invite","초대 링크"]].concat(role.super?[["req","열람 신청"],["list","열람 중"],["upload","내용 올리기"],["stats","문항 통계"]]:[]);
   const draw=()=>{ $("#psTabs").innerHTML=tabs.map(([k,l])=>`<button type="button" role="tab" aria-pressed="${psTab===k}" data-k="${k}">${l}</button>`).join("");
     $("#psTabs").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{psTab=b.dataset.k;draw();}));
-    ({invite:psInvite,req:psReq,list:psList,upload:psUpload})[psTab](); };
+    ({invite:psInvite,req:psReq,list:psList,upload:psUpload,stats:psStats})[psTab](); };
   draw();
+}
+/* 문항 통계: 이름 없이 모은 답으로 문항의 성적을 봅니다 */
+async function psStats(){
+  const B=$("#psBody"); B.innerHTML=`<div class="frame card"><p class="note">불러오는 중…</p></div>`;
+  if(!await loadD()){ B.innerHTML=`<div class="frame card"><p class="err">전시 내용을 먼저 올려 주세요.</p></div>`; return; }
+  let rows=[]; try{ rows=(await getDocs(collection(db,"qstats"))).docs.map(d=>d.data()); }catch(e){ B.innerHTML=`<div class="frame card"><p class="err">통계를 불러오지 못했습니다.</p></div>`; return; }
+  const N=rows.length, pc=(a,b)=>b?Math.round(a/b*100):0;
+  const it={}; QB.fc.forEach(q=>it[q.id]={q,shown:0,skip:0,c:{S:0,C:0,M:0,P:0},hit:0});
+  rows.forEach(r=>{ for(const [id,v] of Object.entries(r.fc||{})){ const x=it[id]; if(!x) continue; x.shown++; if(v==="x") x.skip++; else if(x.c[v]!==undefined){ x.c[v]++; if(r.code&&r.code[0]===v) x.hit++; } } });
+  const alpha=k=>{ const ids=QB.lik.filter(q=>q.k===k).map(q=>q.id); const M=rows.map(r=>ids.map(i=>(r.lik||{})[i])).filter(a=>a.every(v=>typeof v==="number")); if(M.length<10) return null;
+    const vr=a=>{const mu=a.reduce((x,y)=>x+y,0)/a.length; return a.reduce((x,y)=>x+(y-mu)**2,0)/(a.length-1);};
+    const iv=ids.map((_,j)=>vr(M.map(r=>r[j]))).reduce((x,y)=>x+y,0), tv=vr(M.map(r=>r.reduce((x,y)=>x+y,0))); return tv?ids.length/(ids.length-1)*(1-iv/tv):null; };
+  const aLab=a=>a==null?"응답 10개부터":a>=.8?"좋음":a>=.7?"쓸 만함":a>=.6?"보통":"다듬기 필요";
+  let pN=0,pOk=0; rows.forEach(r=>(QB.pairs||[]).forEach(([a,b])=>{ const u=(r.fc||{})[a],w=(r.fc||{})[b]; if(u&&w&&u!=="x"&&w!=="x"){ pN++; if(u===w) pOk++; } }));
+  const list=Object.values(it).filter(x=>x.shown).map(x=>{ const ans=x.shown-x.skip, sk=pc(x.skip,x.shown), hit=pc(x.hit,ans); return {...x,ans,sk,hit,flag:x.shown>=10&&(sk>=25||hit<35)}; }).sort((a,b)=>b.flag-a.flag||b.sk-a.sk||a.hit-b.hit);
+  const dist={}; rows.forEach(r=>{ if(r.code) dist[r.code[0]]=(dist[r.code[0]]||0)+1; });
+  const row=x=>`<div class="mi frame" style="display:block"><p style="font-weight:700;font-size:14px">${x.flag?"⚠ ":""}${x.q.id} · ${x.q.part}부${x.q.core?"":" · 예비"} — ${esc(x.q.t)}</p>
+    ${mini(Object.fromEntries(K.map(k=>[k,pc(x.c[k],x.ans)])))}
+    <p class="note" style="margin-top:4px">${K.map(k=>`${NAME[k]} ${pc(x.c[k],x.ans)}%`).join(" · ")} · 넘김 ${x.sk}% · 주 기질과 일치 ${x.hit}% · 보인 횟수 ${x.shown}</p></div>`;
+  const fl=list.filter(x=>x.flag);
+  B.innerHTML=`<div class="frame card"><p style="font-weight:700">모인 응답 ${N}개</p>
+    <p class="note">이름 없이 모은 답입니다. 50개 이상 모이면 숫자를 믿을 만해집니다.</p>
+    <p class="note">주 기질 분포: ${K.map(k=>`${NAME[k]} ${pc(dist[k]||0,N)}%`).join(" · ")}</p></div>
+  <div class="frame card"><p style="font-weight:700">4부 ‘얼마나 맞나요’ 신뢰도 (크론바흐 알파)</p>
+    ${K.map(k=>{const a=alpha(k);return `<p class="note">${NAME[k]}: ${a==null?"-":a.toFixed(2)} · ${aLab(a)}</p>`}).join("")}
+    <p class="note">0.70 이상이면 쓸 만, 0.80 이상이면 좋음입니다.</p></div>
+  <div class="frame card"><p style="font-weight:700">일관성 (같은 내용을 다르게 물은 문항)</p><p class="note">${pN?`${pN}쌍 중 ${pc(pOk,pN)}% 일치`:"아직 없음"} · 70% 이상이면 좋음</p></div>
+  <div class="frame card"><p style="font-weight:700">살펴볼 문항 ${fl.length}개</p><p class="note">넘김이 25% 이상이거나, 고른 기질이 그 사람의 주 기질과 맞는 비율이 35% 아래인 문항입니다. (보인 횟수 10번 이상만) 일치 비율은 50% 이상이면 좋습니다.</p>
+    ${fl.length?fl.map(row).join(""):`<p class="note">아직 없습니다.</p>`}</div>
+  <details class="frame card"><summary style="font-weight:700;cursor:pointer">모든 문항 보기 (${list.length})</summary>${list.map(row).join("")}</details>
+  <button class="btn ghost block" id="csvBtn" type="button">CSV로 내려받기</button>`;
+  $("#csvBtn").addEventListener("click",()=>{
+    const ids=[...QB.fc.map(q=>q.id),...QB.lik.map(q=>q.id),...QB.tie.map(q=>q.id)];
+    const lines=[["code",...ids].join(",")].concat(rows.map(r=>[r.code||"",...ids.map(i=>{const v=(r.fc||{})[i]??(r.lik||{})[i]??(r.tie||{})[i];return v==null?"":v;})].join(",")));
+    const a=document.createElement("a"); a.href=URL.createObjectURL(new Blob(["\ufeff"+lines.join("\n")],{type:"text/csv"})); a.download="빚으신나_문항응답.csv"; a.click();
+  });
 }
 const rand=n=>{const a=new Uint8Array(n);crypto.getRandomValues(a);return [...a].map(x=>"abcdefghijkmnpqrstuvwxyz23456789"[x%32]).join("")};
 const ivLink=t=>SITE_INDEX+"?pass="+t;
@@ -691,7 +833,7 @@ async function participant(){
     findView(); return;
   }
   store.set(MEKEY(),me.uid);
-  if(!mine.done){ const sv=store.get(AKEY(),null); answers=sv&&sv.length===NQ?sv:new Array(NQ).fill(null); idx=Math.max(0,answers.findIndex(a=>!a)); if(idx<0) idx=NQ-1; show("quiz"); renderQ(); return; }
+  if(!mine.done){ startQuiz(); return; }
   waitOrReveal(false);
 }
 async function findView(){
@@ -721,31 +863,14 @@ $("#joinBtn").addEventListener("click", async ()=>{
     await setDoc(doc(db,"rooms",roomId,"members",me.uid),{name,age:profile.age,gender:profile.gender,progress:0,done:false,joinedAt:serverTimestamp(),updatedAt:serverTimestamp()});
     store.set(MEKEY(),me.uid);
     if(!await needD()){ $("#joinBtn").disabled=false; return; }
-    answers=new Array(NQ).fill(null); idx=0; store.set(AKEY(),answers); show("quiz"); renderQ();
+    store.del(AKEY()); startQuiz();
   }catch(e){ $("#joinBtn").disabled=false; $("#pfErr").textContent="들어가지 못했습니다. 모임이 닫혔을 수 있습니다."; $("#pfErr").hidden=false; }
 });
 let lastSent=0;
-function renderQ(){
-  const q=D.Q[idx];
-  $("#prog").style.width=(idx/NQ*100)+"%";
-  $("#qPart").textContent=PART_LABEL[q.part]; $("#qNum").textContent=(idx+1)+" / "+NQ;
-  $("#qTitle").textContent=q.t; $("#qHint").textContent=PART_HINT[q.part];
-  const box=$("#opts"); box.innerHTML="";
-  shuffled(idx).forEach(k=>{
-    const b=document.createElement("button"); b.type="button"; b.className="opt"; b.textContent=q.o[k];
-    b.setAttribute("aria-pressed",answers[idx]===k?"true":"false");
-    b.addEventListener("click",()=>{ answers[idx]=k; store.set(AKEY(),answers); b.setAttribute("aria-pressed","true");
-      const n=answers.filter(Boolean).length;
-      if(n-lastSent>=3 && n<NQ){ lastSent=n; updateDoc(doc(db,"rooms",roomId,"members",me.uid),{progress:n,updatedAt:serverTimestamp()}).catch(()=>{}); }
-      setTimeout(()=>{ if(idx<NQ-1){idx++;renderQ()} else finish(); },160); });
-    box.appendChild(b);
-  });
-  $("#backBtn").style.visibility=idx===0?"hidden":"visible";
-}
-$("#backBtn").addEventListener("click",()=>{ if(idx>0){idx--;renderQ()} });
+$("#backBtn").addEventListener("click",()=>QZ.back(QB,qst,QUI));
 async function finish(){
-  if(answers.some(a=>!a)){ idx=answers.findIndex(a=>!a); renderQ(); toast("빠진 문항이 있습니다"); return; }
-  const r=score(answers);
+  const r=QZ.score(QB,qst); store.set(CKEY(),r.clar);
+  if($("#statOk")&&$("#statOk").checked) addDoc(collection(db,"qstats"),{...QZ.stat(QB,qst,r),at:serverTimestamp()}).catch(()=>{});
   try{
     await setDoc(doc(db,"rooms",roomId,"results",me.uid),{code:r.code,pct:r.pct,createdAt:serverTimestamp()});
   }catch(e){ /* 이미 냈으면 그대로 진행 */ }
@@ -806,7 +931,7 @@ function myBlock(mine){
   $("#myBlock").innerHTML=`
     <section class="band reveal-in" style="background:linear-gradient(0deg,${COLOR[q]} 0 14px,${COLOR[p]} 14px)"><div class="in">
       <span class="k">${esc(mine.name)} · 주 그릇 ${esc(D.V[p])} + 보조 그릇 ${esc(D.V[q])}</span><h1>${b.name}</h1><span class="nick">${esc(b.tagline)} · 성경 인물 ${esc(b.bible)}</span></div></section>
-    <section class="frame card"><p style="font-weight:700">네 기질 점수</p>${bars(mine.pct,mine.code)}<p class="note">문항 가운데 각 기질을 고른 비율입니다. 가장 높은 기질이 주 기질, 두 번째가 보조 기질입니다. 점수 차이가 작으면 두 기질을 모두 살펴보세요.</p></section>
+    <section class="frame card"><p style="font-weight:700">네 기질 점수</p>${bars(mine.pct,mine.code)}<p class="note">고르기 답(80%)과 ‘얼마나 맞나요’ 답(20%)을 합친 비율입니다. 가장 높은 기질이 주 기질, 두 번째가 보조 기질입니다. 점수 차이가 작으면 두 기질을 모두 살펴보세요.</p></section>${viewUid===me.uid?QZ.clarHTML(store.get(CKEY(),null),esc):""}
     ${isCouple()?"":`<p style="font-size:15.5px">셀리더에게 <b>${NAME[p]}${NAME[q]}질 카드</b>를 받아 주세요. 카드 뒷면 QR로 언제든 이 내용을 다시 볼 수 있습니다.</p>`}
     <div class="chips">${b.st.map(x=>`<span>강점 · ${esc(x)}</span>`).join("")}${b.wk.map(x=>`<span>약점 · ${esc(x)}</span>`).join("")}</div>
     <a class="btn ghost block" href="index.html#blend-${mine.code.toLowerCase()}" target="_blank" rel="noopener">내 조합 전시실 자세히 보기</a>`;
@@ -847,7 +972,7 @@ async function loadD(){
     if(!c.exists()||!b.exists()) throw new Error("empty");
     const core=JSON.parse(c.data().data), bl=JSON.parse(b.data().data).BL, BLm={};
     Object.keys(bl).forEach(k=>{ if(k.length!==2) return; const v=bl[k]; BLm[k]={name:v.name,tagline:v.tagline,bible:v.bible.name,st:v.strengths.slice(0,3).map(x=>x.title),wk:v.weaknesses.slice(0,3).map(x=>x.title)}; });
-    D={Q:core.Q.map(q=>({t:q.t,o:q.o,part:q.part})),BL:BLm,EX:core.EXTRA,V:Object.fromEntries(Object.entries(core.T).map(([k,v])=>[k,v.vessel||NAME[k]+"질"]))}; NQ=D.Q.length;
+    QB=core.QZ; D={BL:BLm,EX:core.EXTRA,V:Object.fromEntries(Object.entries(core.T).map(([k,v])=>[k,v.vessel||NAME[k]+"질"]))}; NQ=QB.fc.filter(q=>q.core).length;
   };
   try{ await get(); return true; }catch(e){}
   try{
