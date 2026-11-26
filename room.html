@@ -83,7 +83,10 @@ input[type=text],input[type=tel]{font:inherit;color:var(--ink);background:var(--
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
 /* 문항 */
 .qmeta{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
-.qtitle{font-size:clamp(21px,5.6vw,26px)}
+.qtitle{font-size:clamp(24px,6.6vw,30px);line-height:1.35;margin:6px 0 2px;color:var(--ink)}
+.qhint{font-size:15px;color:var(--ink);opacity:.78}
+.amenu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.amenu a{min-height:92px;padding:14px;display:flex;flex-direction:column;gap:4px;text-decoration:none;color:var(--ink)}.amenu a b{font-size:15.5px}.amenu a span{font-size:13px;color:var(--muted);line-height:1.45}
+.steps{margin:0;padding-left:20px;font-size:14.5px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
 .opts{display:flex;flex-direction:column;gap:10px}
 .opt{text-align:left;background:var(--frame);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;font-size:17px;line-height:1.45}
 .opt[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
@@ -178,8 +181,8 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
   <p class="err" id="codeErr" hidden></p>
   <button class="btn block" id="codeBtn" type="button">입장하기</button>
   <div class="frame card" style="margin-top:20px">
-    <p style="font-weight:700">모임을 여는 분이신가요?</p>
-    <p class="note">셀리더나 초대받은 분은 구글 계정으로 로그인하면 모임을 열고 진행할 수 있습니다.</p>
+    <p style="font-weight:700">부부 · 가정 모임을 여시나요?</p>
+    <p class="note">셀리더에게 등록된 구글 계정으로 로그인하면 우리 가정 모임을 열 수 있어요. 셀리더(관리자)도 여기로 로그인합니다.</p>
     <button class="btn ghost" id="loginBtn" type="button">구글로 로그인</button>
     <p class="err" id="loginErr" hidden></p>
   </div>
@@ -188,7 +191,7 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
 <!-- 운영자: 내 방 목록 -->
 <main id="v-home" hidden><div class="wrap view">
   <p class="eyebrow"><span id="roleLbl">운영자</span> · <span id="adminEmail"></span></p>
-  <h1 style="font-size:30px">모임 열기</h1>
+  <h1 style="font-size:30px" id="homeTitle">모임 열기</h1>
   <p class="note" id="untilNote" hidden></p>
   <div class="frame card">
     <div class="field"><span>어떤 모임인가요?</span><div class="seg kindseg" id="kindSeg" role="group" aria-label="모임 종류"></div></div>
@@ -199,7 +202,15 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
     <button class="btn" id="openBtn" type="button">모임 열기</button>
     <p class="err" id="openErr" hidden></p>
   </div>
-  <a class="frame card" id="hostsLink" href="?admin=1" hidden style="text-decoration:none;flex-direction:row;justify-content:space-between;align-items:center"><span><b>진행자 초대 관리</b><br><span class="note">구글 계정을 등록해 기간 동안 모임을 열 수 있게 합니다</span></span><span>›</span></a>
+  <div id="hostsLink" hidden>
+    <p style="font-weight:700;margin:6px 0 10px">관리자 메뉴</p>
+    <div class="amenu">
+      <a class="frame" href="?admin=1"><b>부부 · 가정 등록</b><span>구글 메일을 등록하면 그 가정이 모임을 열어요</span></a>
+      <a class="frame" href="?admin=passes"><b>열람권 · 초대 링크</b><span>검사와 그릇 이야기를 열어 줄 링크</span></a>
+      <a class="frame" href="?admin=passes&tab=upload"><b>내용 올리기</b><span>앱에 보이는 글을 바꿔요</span></a>
+      <a class="frame" href="?admin=passes&tab=stats"><b>문항 통계</b><span>검사 문항이 잘 가르는지 봐요</span></a>
+    </div>
+  </div>
   <a class="frame card" id="passLink" href="?admin=passes" style="text-decoration:none;flex-direction:row;justify-content:space-between;align-items:center"><span><b>열람권 · 초대 링크</b><br><span class="note">배우자나 가족에게 검사와 그릇 이야기를 열어 줄 링크를 만듭니다</span></span><span>›</span></a>
   <p style="font-weight:700;margin-top:6px">지난 모임</p>
   <div class="mlist" id="roomList"></div>
@@ -209,8 +220,9 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
 <!-- 관리자: 진행자 초대 -->
 <main id="v-hosts" hidden><div class="wrap view">
   <p class="eyebrow">관리자</p>
-  <h1 style="font-size:30px">진행자 초대</h1>
-  <p class="note">셀원의 구글 계정을 등록하면 정한 기간 동안 모임(부부·가정 모임, 셀 모임)을 열 수 있습니다. 기간이 끝나면 새 모임은 못 열지만, 이미 연 모임은 계속 볼 수 있습니다.</p>
+  <h1 style="font-size:30px">부부 · 가정 등록</h1>
+  <p class="note">구글 메일 주소를 등록하면, 그분이 로그인해서 부부 · 가정 모임을 직접 열 수 있어요. 배우자와 가족은 로그인 없이 받은 링크로 들어와 함께 검사하고, 둘 다 끝나면 서로의 결과를 함께 엽니다. 기간이 끝나도 이미 연 모임은 계속 볼 수 있어요.</p>
+  <ol class="steps"><li>여기에 구글 메일을 등록하고 ‘안내 메시지 보내기’</li><li>그분이 로그인 → ‘모임 열기’ → 배우자에게 링크 보내기</li><li>둘 다 검사를 마치면 ‘함께 열기’로 서로 확인</li></ol>
   <div class="frame card">
     <label class="field" for="hEmail">구글 계정 (gmail)
       <input type="email" id="hEmail" placeholder="example@gmail.com" autocomplete="off" autocapitalize="off">
@@ -220,9 +232,9 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
     </label>
     <div class="field"><span>사용 기간</span><div class="seg" id="hDays" role="group" aria-label="사용 기간"></div></div>
     <p class="err" id="hErr" hidden></p>
-    <button class="btn" id="hAdd" type="button">초대하기</button>
+    <button class="btn" id="hAdd" type="button">등록하기</button>
   </div>
-  <p style="font-weight:700;margin-top:6px">초대한 진행자</p>
+  <p style="font-weight:700;margin-top:6px">등록한 가정</p>
   <div class="mlist" id="hostList"></div>
   <a class="btn ghost small" href="room.html" style="align-self:flex-start">← 모임 열기</a>
 </div></main>
@@ -283,7 +295,7 @@ input[type=email]{font:inherit;color:var(--ink);background:var(--frame);border:1
   <div class="progress" aria-hidden="true"><i id="prog"></i></div>
   <div class="qmeta"><span id="qPart"></span><span id="qNum"></span></div>
   <h2 class="qtitle" id="qTitle"></h2>
-  <p class="note" id="qHint"></p>
+  <p class="qhint" id="qHint"></p>
   <div class="opts" id="opts" role="group" aria-labelledby="qTitle"></div>
   <button class="skipq" id="skipBtn" type="button" hidden></button>
   <div class="row"><button class="btn ghost small" id="backBtn" type="button">이전 문항</button></div>
@@ -546,7 +558,7 @@ async function adminHome(){
   stopAll(); show("home");
   $("#adminEmail").textContent=me.email;
   $("#roleLbl").textContent=role.super?"관리자":"진행자";
-  $("#hostsLink").hidden=!role.super;
+  $("#hostsLink").hidden=!role.super; $("#passLink").hidden=role.super; $("#homeTitle").textContent=role.super?"모임 열기":"우리 부부 · 가정 모임 열기";
   if(!role.super && role.until){ $("#untilNote").textContent=`${fmtDate(role.until)}까지 모임을 열 수 있습니다.`; $("#untilNote").hidden=false; }
   if(!role.super) kind="couple";
   kindSeg(); $("#titleInput").value=KINDS[kind].title(new Date());
@@ -588,7 +600,7 @@ async function loadHosts(){
     const s=await getDocs(collection(db,"hosts")); const now=new Date();
     const rows=s.docs.map(x=>({email:x.id,...x.data(),until:x.data().expiresAt?.toDate?.()})).sort((a,b)=>(b.until||0)-(a.until||0));
     $("#hostList").innerHTML=rows.length?rows.map(h=>{const live=h.until&&h.until>now;return `<div class="mi frame" style="grid-template-columns:minmax(0,1fr)"><div><b>${esc(h.name||"(이름 없음)")}</b><span class="pill ${live?"done":"ing"}" style="margin-left:8px">${live?"사용 중":"기간 끝남"}</span><span class="sc" style="word-break:break-all">${esc(h.email)}</span><span class="sc">${h.until?fmtDate(h.until)+"까지":""}</span></div>
-      <div class="row"><button class="btn small" data-act="share" data-e="${esc(h.email)}" type="button">초대 메시지 보내기</button><button class="btn small ghost" data-act="ext" data-e="${esc(h.email)}" type="button">2주 연장</button><button class="btn small ghost" data-act="del" data-e="${esc(h.email)}" type="button">초대 취소</button></div></div>`}).join(""):`<p class="note">아직 초대한 진행자가 없습니다.</p>`;
+      <div class="row"><button class="btn small" data-act="share" data-e="${esc(h.email)}" type="button">안내 메시지 보내기</button><button class="btn small ghost" data-act="ext" data-e="${esc(h.email)}" type="button">2주 연장</button><button class="btn small ghost" data-act="del" data-e="${esc(h.email)}" type="button">초대 취소</button></div></div>`}).join(""):`<p class="note">아직 등록한 가정이 없습니다.</p>`;
     $("#hostList").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>hostAct(b.dataset.act,b.dataset.e,rows.find(r=>r.email===b.dataset.e))));
   }catch(e){ $("#hostList").innerHTML=`<p class="err">목록을 불러오지 못했습니다.</p>`; }
 }
@@ -624,6 +636,7 @@ function passesView(){
   const draw=()=>{ $("#psTabs").innerHTML=tabs.map(([k,l])=>`<button type="button" role="tab" aria-pressed="${psTab===k}" data-k="${k}">${l}</button>`).join("");
     $("#psTabs").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{psTab=b.dataset.k;draw();}));
     ({invite:psInvite,req:psReq,list:psList,upload:psUpload,stats:psStats})[psTab](); };
+  if(role.super && tabs.some(t=>t[0]===params.get("tab"))) psTab=params.get("tab");
   draw();
 }
 /* 문항 통계: 이름 없이 모은 답으로 문항의 성적을 봅니다 */
@@ -728,7 +741,7 @@ async function psUpload(){
     <p class="note">받은 압축 파일의 <b>content_gijil.json</b>을 골라 올리면 앱 내용이 바뀝니다. 이 파일은 깃허브에 올리지 마세요. (깃허브는 누구나 볼 수 있습니다)</p>
     <p class="note" id="upNow">지금 올라가 있는 내용: 확인 중…</p>
     <input type="file" id="upFile" accept=".json,application/json"><p class="err" id="upErr" hidden></p><button class="btn" id="upBtn" type="button" disabled>올리기</button></div>`;
-  getDoc(doc(db,"content","core")).then(s=>{$("#upNow").textContent="지금 올라가 있는 내용: "+(s.exists()?s.data().ver:"아직 없음");}).catch(()=>{$("#upNow").textContent="지금 올라가 있는 내용: 아직 없음";});
+  getDoc(doc(db,"content","core")).then(s=>{($("#upNow")||{}).textContent="지금 올라가 있는 내용: "+(s.exists()?s.data().ver:"아직 없음");}).catch(()=>{($("#upNow")||{}).textContent="지금 올라가 있는 내용: 아직 없음";});
   let parsed=null;
   $("#upFile").addEventListener("change",async e=>{ $("#upErr").hidden=true; parsed=null; $("#upBtn").disabled=true;
     try{ const j=JSON.parse(await e.target.files[0].text()); if(!j.parts||!["core","blends","detail","fruits"].every(k=>j.parts[k])) throw 0; parsed=j; $("#upBtn").disabled=false; $("#upBtn").textContent=`올리기 (${j.ver})`; }
@@ -980,7 +993,7 @@ async function loadD(){
     await get(); return true;
   }catch(e){ return false; }
 }
-async function needD(){ if(await loadD()) return true; msg("내용을 불러오지 못했습니다","관리자가 아직 전시 내용을 올리지 않았거나 인터넷 연결이 불안정합니다. 잠시 후 다시 열어 주세요."); return false; }
+async function needD(){ if(await loadD()) return true; msg("내용을 불러오지 못했습니다","관리자가 아직 앱 내용을 올리지 않았거나 인터넷 연결이 불안정합니다. 잠시 후 다시 열어 주세요."); return false; }
 
 /* ---------- 시작 ---------- */
 getRedirectResult(auth).catch(()=>{});

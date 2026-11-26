@@ -75,6 +75,10 @@ ul.clean{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 
 /* ---- 검사 ---- */
 .hero h1{font-size:clamp(30px,8vw,42px)}
+/* v16 — 검사 안내: 빈 자리를 없애 시작 버튼이 한 화면에 들어오게 */
+#v-intro .hero{height:auto;min-height:0;padding:24px 20px 26px;border-radius:16px;gap:10px}
+#v-intro .hero .verse{color:#D9C9B6;border-left-color:rgba(255,255,255,.28)}
+#v-intro .how p{color:var(--ink);opacity:.8}
 .verse{font-family:var(--display);color:var(--muted);font-size:15px;border-left:3px solid var(--line);padding-left:12px}
 .glazes{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .glaze{padding:16px 14px;display:flex;flex-direction:column;gap:2px;color:var(--on-band)}
@@ -87,8 +91,8 @@ textarea{min-height:110px;resize:vertical;font-size:14px}
 .progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden}
 .progress i{display:block;height:100%;background:var(--ink);transition:width .25s}
 .qmeta{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
-.qtitle{font-size:clamp(21px,5.6vw,26px)}
-.qhint{font-size:14px;color:var(--muted)}
+.qtitle{font-size:clamp(24px,6.6vw,30px);line-height:1.35;margin:6px 0 2px;color:var(--ink)}
+.qhint{font-size:15px;color:var(--ink);opacity:.78}
 .opts{display:flex;flex-direction:column;gap:10px}
 .opt{text-align:left;background:var(--frame);border:1.5px solid var(--line);border-radius:14px;padding:16px 18px;font-size:17px;line-height:1.45;transition:border-color .15s}
 .opt:hover{border-color:var(--muted)}
@@ -221,6 +225,9 @@ details.more[open] summary::after{content:" ▴"}
 /* ===== v10 · 토기장이의 집 ===== */
 body{background-color:var(--wall)}
 body.tex{background-image:var(--tex);background-size:420px}
+/* v16 — 어두운 화면에서는 밝은 벽 무늬가 글자를 가리지 않게 벽 색에 눌러 섞는다 */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) body.tex{background-blend-mode:multiply}}
+:root[data-theme="dark"] body.tex{background-blend-mode:multiply}
 .eyebrow.light{color:#F2E6D6}
 .big{font-size:clamp(28px,7.6vw,38px)}
 .mut{color:var(--muted)}
@@ -702,7 +709,7 @@ function copyText(text){
 function renderBlends(){
   const codes=BLEND_ORDER.filter(c=>blendFilter==="all"||c[0]===blendFilter);
   $("#v-blends").innerHTML=`
-  <section class="band" style="background:var(--ink);color:var(--wall)"><div class="wrap">
+  <section class="band" style="background:var(--walnut);color:#F4EDE3"><div class="wrap">
     <p class="room-no">빚으신 나</p>
     <h1 style="font-size:clamp(36px,10vw,52px)">열두 가지<br>그릇 조합</h1>
     <p class="quote" style="font-size:17px">${esc(BL.intro)}</p>
